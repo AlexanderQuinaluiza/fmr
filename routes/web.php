@@ -105,8 +105,6 @@ Route::post('cajas/desactivar', 'CajasController@desactivar');
 Route::post('cajas/activar', 'CajasController@activar');
 Route::post('cajas/actualizar', 'CajasController@update');
 /** ROUTES DESCUENTOS */
-
-
-
+/** es necesario comentar las nuevas routas para no confudirse */
 Route::get('descuentos', 'DescuentosController@index');
 Route::post('descuentos/registrar', 'DescuentosController@store');

@@ -106,5 +106,7 @@ Route::post('cajas/activar', 'CajasController@activar');
 Route::post('cajas/actualizar', 'CajasController@update');
 /** ROUTES DESCUENTOS */
 
+
+
 Route::get('descuentos', 'DescuentosController@index');
 Route::post('descuentos/registrar', 'DescuentosController@store');

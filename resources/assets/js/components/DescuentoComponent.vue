@@ -187,7 +187,7 @@
                                     <div class="form-group col-md-3">
                                             <!--ID_DESC, ID_PRO, PORCENTAJE_DESC, FECHA_INICIO_DESC, FECHA_FIN_DESC, ESTADO_DESC-->
                                             <label> %/100 descuento</label>
-                                            <input type="number" id="PORCENTAJE_DESC" data-toggle="tooltip"  title="El descuento por defecto es del 30%" required class="form-control" min="0.1" max="0.8" value="0.1" step="0.1">
+                                            <input type="number" id="PORCENTAJE_DESC" data-toggle="tooltip"  title="El descuento por defecto es del 30%" required class="form-control" min="0.01" max="0.80" value="0.10" step="0.01">
                                         </div>
 
                                         <div class="form-group col-md-12">
@@ -215,7 +215,8 @@
                                     <div class="row clearfix div-error">
                                             <ul id="lstErrores"></ul>
                                     </div> 
-                                    <hr>                                                            
+                                    <hr> 
+                                     <input type="button" value="nada" onclick="sacar()" >                                                           
                                      <button type="button" id="btnGuardarCategoria" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
                                     <button type="button" id="btnCancelarActualizar" class="btn btn-warning"><i class="fa fa-times"></i> Cancelar</button>
                                 </form>

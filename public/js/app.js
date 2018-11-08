@@ -39614,6 +39614,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -39781,6 +39782,14 @@ var render = function() {
                         _vm._m(8),
                         _vm._v(" "),
                         _c("hr"),
+                        _vm._v(" "),
+                        _c("input", {
+                          attrs: {
+                            type: "button",
+                            value: "nada",
+                            onclick: "sacar()"
+                          }
+                        }),
                         _vm._v(" "),
                         _vm._m(9),
                         _vm._v(" "),
@@ -40256,10 +40265,10 @@ var staticRenderFns = [
           "data-toggle": "tooltip",
           title: "El descuento por defecto es del 30%",
           required: "",
-          min: "0.1",
-          max: "0.8",
-          value: "0.1",
-          step: "0.1"
+          min: "0.01",
+          max: "0.80",
+          value: "0.10",
+          step: "0.01"
         }
       })
     ])

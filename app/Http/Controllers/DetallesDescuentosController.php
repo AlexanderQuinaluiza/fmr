@@ -58,17 +58,26 @@ class DetallesDescuentosController extends Controller
             $detalleDescuento->save();
         }
     }
+    
+    public function getDetallesById(){
+        $id = (int) $_GET['ID_DESC'];
+       $detalles  = DB::table('DETALLES_DESCUENTOS')->select('ID_PRO')
+      ->where('ID_DESC', '=',$id)
+      ->get();
+      return response()->json($detalles,200);
+     // return $detalles;
 
+    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\DetallesDescuentos  $detallesDescuentos
-     * @return \Illuminate\Http\Response
-     */
-    public function show(DetallesDescuentos $detallesDescuentos)
-    {
-        //
+    function delete($data,$id){
+        $cantidad = count($data);
+        for ($i=0; $i < $cantidad ; $i++) { 
+           // spDeleteDetalles(in id_desc_p bigint,in id_pro_p bigint)
+            $ID_PRO = $data[$i]['ID_PRO'];
+            $descuento = DB::select('call spDeleteDetalles('.$id.','.$ID_PRO.')');
+           // ->where('ID_DESC','=',$id);
+            
+        }
     }
 
     /**

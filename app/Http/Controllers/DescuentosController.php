@@ -63,8 +63,8 @@ class DescuentosController extends Controller
         DB::beginTransaction();
         try {
             /** arrays con datos de los productos id para borrarlos y ingresarlos */
-            $dataInsert = json_decode($request->datosInsert, true);
-            $dataDelete = json_decode($request->datosDelete, true);
+            $dataInsert = json_decode($request->datos_insert, true);
+            $dataDelete = json_decode($request->datos_delete, true);
 
             $descuentos = Descuentos::findOrFail($request->ID_DESC);
             $descuentos->DESCRIPCION_DESC = $request->DESCRIPCION_DESC;
@@ -92,8 +92,24 @@ class DescuentosController extends Controller
      * @param  \App\Descuentos  $descuentos
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Descuentos $descuentos)
+    public function desactivar(Request $request)
     {
-        //
+     $descuento = Descuentos::findOrFail($request->ID_DESC);
+     $descuento->ESTADO_DESC = 0;
+     $descuento->save();
+     //Productos::find($request->ID_PRO)->delete();
+    }
+    public function activar(Request $request)
+    {
+     $descuento = Descuentos::findOrFail($request->ID_DESC);
+     $descuento->ESTADO_DESC = 1;
+     $descuento->save();
+    }
+    public function getDescuentoById(){
+        $id = (int) $_GET['ID_DESC'];
+        $descuento = DB::select('call spGetDescuentoId('.$id.')');
+       // ->where('ID_DESC','=',$id);
+        return response()->json($descuento,200);
+       //return $descuento;
     }
 }

@@ -108,3 +108,10 @@ Route::post('cajas/actualizar', 'CajasController@update');
 /** es necesario comentar las nuevas routas para no confudirse */
 Route::get('descuentos', 'DescuentosController@index');
 Route::post('descuentos/registrar', 'DescuentosController@store');
+Route::get('descuentos/detalles', 'DetallesDescuentosController@getDetallesById');
+Route::get('descuentos/productos', 'ProductoController@productosActivos');
+Route::post('descuentos/desactivar', 'DescuentosController@desactivar');
+Route::post('descuentos/activar', 'DescuentosController@activar');
+Route::get('descuentos/byid','DescuentosController@getDescuentoById');
+Route::post('descuentos/actualizar','DescuentosController@update');
+//getDetallesById()

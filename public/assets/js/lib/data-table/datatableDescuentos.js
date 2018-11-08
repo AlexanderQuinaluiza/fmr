@@ -11,37 +11,127 @@
 }
 */
 /** Variables fechas */
-var f_inicio='',f_fin='';
+var f_inicio="",f_fin="";
+var eliminar = [];
+var insertar=[];
+var viejos=[];
+
+
+cargarDatepicker("11/02/2018","11/08/2018");
+/** cargar los detalles de un descuento  */
+function cargarDetalles(actual){
+    //var arrayproductos = new Array();
+    //var cont=0;
+    var table = document.getElementById('table_productos');
+    checkboxes = document.getElementsByName('sld');
+     
+    //checkboxes.checked=false;
+    //alert(actual[0].ID_PRO);
+    //alert(cargarDetalles);
+     
+
+      console.log("entro a cargar los detalles");
+   try {
+
+     for(var a=0;actual.length;a++){
+          for( var i=0 ,r=1, n=checkboxes.length;i<n;i++,r++){
+            var id_prod= table.rows[r].cells[1].innerHTML;
+            if(id_prod== actual[a].ID_PRO){
+                checkboxes[i].checked=true;
+                //alert("entro al if");
+                console.log('comparando:' +id_prod +"  producto actual"+ actual[a].ID_PRO);
+             } 
+          }
+     }
+     /*
+    for(var i=0 ,r=1, n=checkboxes.length;i<n;i++,r++) {
+        var id_prod= table.rows[r].cells[1].innerHTML;
+          console.log('comparando:' +id_prod +"  producto actual"+ actual[i].ID_PRO);
+         if(id_prod== actual[i].ID_PRO){
+            checkboxes[i].checked=true;
+            //alert("entro al if");
+         } 
+        }
+       */
+   } catch (error) {
+      
+   }
+       
+}
+
 /** sacar los arrays necesarios para ingresar y eliminar */
+//
 //sacar();
+
 function sacar(){
-var actual = [1,2,4].sort;
-var nuevo = [1,5,6,4].sort;
-var borrar= actual.sort;
-var insertar= nuevo.sort;
-//var indices=[];
- for(var i=0; i< nuevo.length; i++){
-    var idx = actual.indexOf(nuevo[i]);
-    while (idx != -1) {
-//      indices.push(idx);
-      borrar.splice(idx,1);
-      idx = actual.indexOf(nuevo[i], idx + 1);
-    }    
- }
- 
- for(var i=0; i< actual.length; i++){
-    var idx = nuevo.indexOf(actual[i]);
-    while (idx != -1) {
-//      indices.push(idx);
-      insertar.splice(idx,1);
-      idx = nuevo.indexOf(actual[i], idx + 1);
-    }    
- }
-//console.log(borrar);
-//console.log(insertar);
-//console.log(insertar);
+           
+      var nuevo=productosSeleccionados(); 
+      var actual= viejos;
+      eliminar = [];
+      insertar=[];
+      for (var i = 0; i < actual.length; i++) {
+          var igual=false;
+           for (var j = 0; j < nuevo.length & !igual; j++) {
+               if(actual[i].ID_PRO == nuevo[j].ID_PRO) 
+                       igual=true;
+           }
+          if(!igual)  var item={}; item.ID_PRO=actual[i].ID_PRO;
+          eliminar.push(item);
+          //else insertar.push(nuevo[j]);
+      }
+
+      for (var i = 0; i < nuevo.length; i++) {
+        var igual=false;
+         for (var j = 0; j < actual.length & !igual; j++) {
+             if(nuevo[i].ID_PRO == actual[j].ID_PRO) 
+                     igual=true;
+         }
+        if(!igual) var item={}; item.ID_PRO=nuevo[i].ID_PRO;
+        insertar.push(item);
+        //else insertar.push(nuevo[j]);
+    }
+
+
+      console.log("array para eliminar "+JSON.stringify(eliminar));
+      console.log("array para insertar "+JSON.stringify(insertar));
 
 }
+
+function removeDuplicates(originalArray, prop) {
+    var newArray = [];
+    var lookupObject  = {};
+
+    for(var i in originalArray) {
+       lookupObject[originalArray[i][prop]] = originalArray[i];
+    }
+
+    for(i in lookupObject) {
+        newArray.push(lookupObject[i]);
+    }
+     return newArray;
+}
+
+
+
+/** funcion para obtener los detalles de un descuento, 
+ * es decir la lista de productos al que se aplican actualmente
+ */
+function getDetalles(idRegistro){
+    var url = '/descuentos/detalles';
+     axios.get(url, { params: { ID_DESC: idRegistro } }).then(function (response){
+           var actual= response.data;
+           viejos=actual;
+           console.log('entro a descuentos detalles')
+           //console.log(actual[0].ID_PRO);
+           //tabladescuentos.ajax.reload();
+           cargarDetalles(actual);
+           
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 /** funcion recalculo de los elementos seleccionados para descuntos */
 function calcular(){
   var num=  productosSeleccionados().length;
@@ -82,28 +172,46 @@ function toggle(source) {
 
 
 /** funcion rango de fechas para aplicar los descuentos */
+/*
 $(function() {
     $('input[name="daterange"]').daterangepicker({
-      opens: 'left'
+      opens: 'left',
+      //"startDate": f_inicio,
+     // "endDate":f_fin,
     }, function(start, end, label) {
         f_inicio=start.format('YYYY-MM-DD');
         f_fin=end.format('YYYY-MM-DD');
       console.log("Nueva fecha: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
     });
   });
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1; //January is 0!
+
+*/
+function cargarDatepicker(inicio,fin){
+    $('#fechas').daterangepicker({
+        "startDate": inicio,
+        "endDate": fin
+    }, function(start, end, label) {
+        f_inicio=start.format('YYYY-MM-DD');
+        f_fin=end.format('YYYY-MM-DD');
+      console.log('New date range selected: ' + start + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+    });
+}
+
+ // var today = new Date();
+ // var dd = today.getDate();
+ // var mm = today.getMonth()+1; //January is 0!
   
-  var yyyy = today.getFullYear();
-  if(dd<10){
-      dd='0'+dd;
-  } 
-  if(mm<10){
-      mm='0'+mm;
-  } 
-  var today = mm+'/'+dd+'/'+yyyy;
-  document.getElementById('fechas').value = today +'-'+ today;
+ // var yyyy = today.getFullYear();
+ // if(dd<10){
+ //     dd='0'+dd;
+ // } 
+ // if(mm<10){
+ //     mm='0'+mm;
+ // } 
+ // var today = mm+'/'+dd+'/'+yyyy;
+ // f_inicio= today;
+  //f_fin= today;
+  //document.getElementById('fechas').value = today +' - '+ today;
 
   /** crud descuentos */
 
@@ -123,6 +231,7 @@ $(function() {
      if(!$('#DESCRIPCION_DESC').val().trim()) errorMostrarMsj.push("La descripcion del descuento no puede estar vacío");
      if(!$('#PORCENTAJE_DESC').val().trim()) errorMostrarMsj.push("El porcentaje del descuento no puede estar vacío");
      if(!$('#fechas').val().trim()) errorMostrarMsj.push("El rango de fechas al que se aplica el descuento no puede estar vacío");
+     if(!(f_fin && f_inicio)) errorMostrarMsj.push("Las fechas deben ser seleccionadas nuevamente.");
      if(selecionados==0) errorMostrarMsj.push("Debe seleccionar al menos un producto");
     // if(!$('#DESCRIPCION_DESC').val().trim()) errorMostrarMsj.push("El nombre de la categoria no puede estar vacío");
    
@@ -205,18 +314,32 @@ $(function() {
  {
      if(validarDatos(2)){
         return;
-    }                   
-    axios.post('/categorias/actualizar',{
-        'ID_CAT': $('#id').val().trim(),
-        'NOMBRE_CAT':$('#NOMBRE_CAT').val().trim(),
-        //'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim()
-    }).then(function (response){
-    tabla.ajax.reload();
-    toastr.info('Actualizado correctamente!')
+    }  
+    sacar();
+    var data = new FormData();
+        
+    data.append('datos_insert',JSON.stringify(insertar));
+    data.append('datos_delete',JSON.stringify(eliminar));
+    data.append('ID_DESC',$('#id').val().trim());
+    data.append('DESCRIPCION_DESC',$('#DESCRIPCION_DESC').val().trim());
+    data.append('PORCENTAJE_DESC',$('#PORCENTAJE_DESC').val().trim());
+    data.append('FECHA_INICIO_DESC',f_inicio);
+    data.append('FECHA_FIN_DESC',f_fin);                 
+    axios.post('/descuentos/actualizar',data).then(function (response){
+
+        alert(response.data);
+     if(response.data==1){
+        tabladescuentos.ajax.reload();
+        toastr.info('Actualizado correctamente!');
+        limpiarDatos();
+     } else{
+        toastr.error('No se ha podido actualizar el registro.', 'Error!'); 
+     }   
+   
     })
     .catch(function (error) {
      console.log(error);
-     toastr.error('No se ha podido actualizar el registro.', 'Error!')
+     toastr.error('No se ha podido actualizar el registro.', 'Error!');
     });
  }
  
@@ -233,7 +356,7 @@ $(function() {
      })
  
      swalWithBootstrapButtons({
-     title: 'Esta seguro de desactivar esta caegoria?',
+     title: 'Esta seguro de desactivar el descuento ?',
      type: 'warning',
      showCancelButton: true,
      confirmButtonText: 'Aceptar!',
@@ -241,8 +364,8 @@ $(function() {
      reverseButtons: true
      }).then((result) => {
      if (result.value) {
-         axios.post('/categorias/desactivar',{
-         'ID_CAT':idRegistro
+         axios.post('/descuentos/desactivar',{
+         'ID_DESC':idRegistro
          }).then(function (response){
             tabladescuentos.ajax.reload();
          toastr.warning('El registro ha sido desactivado con éxito!')
@@ -260,10 +383,10 @@ $(function() {
   */
  function activar(idRegistro)
  {
-     axios.post('/categorias/activar',{
-     'ID_CAT':idRegistro
+     axios.post('/descuentos/activar',{
+     'ID_DESC':idRegistro
      }).then(function (response){
-     tabla.ajax.reload();
+        tabladescuentos.ajax.reload();
      })
      .catch(function (error) {
          console.log(error);
@@ -274,13 +397,30 @@ $(function() {
   * permite obtener un rol dado su id
   * @param {int} idRegistro - id de rol
   */
- function getRegistroById(idRegistro){
-     var url = '/categorias/byid';
-     axios.get(url, { params: { ID_CAT: idRegistro } }).then(function (response){
-         $('#id').val(response.data.ID_CAT);
-         $('#NOMBRE_CAT').val(response.data.NOMBRE_CAT);
-        // $('#DESCRIPCION_ROL').val(response.data.DESCRIPCION_ROL);
-         $('#btnCancelarActualizar').show();                                                                                                                      
+ function getRegistroDescuento(idRegistro){
+    limpiarDatos();
+     var url = '/descuentos/byid';
+     axios.get(url, { params: { ID_DESC: idRegistro } }).then(function (response){
+         //ID_DESC, PORCENTAJE_DESC, FECHAS, ESTADO_DESC, DESCRIPCION_DESC
+         var res= response.data; 
+        // alert(res[0]);
+        
+         $('#id').val(res[0].ID_DESC);
+        $('#DESCRIPCION_DESC').val(res[0].DESCRIPCION_DESC);
+        $('#fechas').val(res[0].FECHAS);
+        $('#PORCENTAJE_DESC').val(res[0].PORCENTAJE_DESC);
+         
+        
+        //  cargar los registros los detalles de los checksbox de los detalles 
+         
+         var str = res[0].FECHAS;
+         var mr= str.split(' - ');
+        cargarDatepicker(mr[0],mr[1]);
+
+         getDetalles(idRegistro);
+
+         $('#btnCancelarActualizar').show();
+      // console.log(res[0]);                                                                                                                      
      })
      .catch(function (error) {
          console.log(error);
@@ -326,7 +466,7 @@ $(function() {
              cambiarTabActivo('#editar','active show');
              cambiarTabActivo('#listado','');
              $('#editar-tab').html('<i class="fa fa-edit"></i>'+' Editar');
-             getRegistroById(idRegistro);
+             getRegistroDescuento(idRegistro);
              $('#lstErrores').empty();
              break;
          }
@@ -481,7 +621,7 @@ $(function() {
   {
         'ajax'       : {
          "type"   : "GET",
-         "url"    : "productos",
+         "url"    : "/descuentos/productos",
          "dataSrc": function (json) {
            var return_data = new Array();
             var buttons = '';       
@@ -609,11 +749,11 @@ $(function() {
  * @param {int} idRegistro - id de producto
  * @param {int} opcion - opciones 1=ver detalles 2=editar
  */
-function getRegistroById(idRegistro,opcion){
+function getRegistroProductos(idRegistro,opcion){
     var url = '/productos/byid';
     axios.get(url, { params: { ID_PRO: idRegistro } }).then(function (response){
         try {
-        if(opcion==1) //detalles de producto
+        if(opcion==1) //detalles de los descuentos
         {
             $('#lblNOMBRE_PRO').text(response.data[0].NOMBRE_PRO);
             $('#lblDESCRIPCION_PRO').text(response.data[0].DESCRIPCION_PRO);
@@ -649,65 +789,9 @@ function getRegistroById(idRegistro,opcion){
             if(response.data[0].VENTA_CON_RECETA==0)$('#lblVENTA_CON_RECETA').text('No');
             else $('#lblVENTA_CON_RECETA').text('Si');
             $('#lblUSU_REGISTRO').text(response.data[0].NOMBRE_USU+" "+response.data[0].APELLIDO_USU);
-        }
-        else //editar
-        {
-            $('#id').val(response.data[0].ID_PRO);
-            $('#NOMBRE_PRO').val(response.data[0].NOMBRE_PRO);
-            $('#DESCRIPCION_PRO').val(response.data[0].DESCRIPCION_PRO);
-            $('#ETIQUETAS_PRO').val(response.data[0].ETIQUETAS_PRO);
-            $('#UBICACION_PRO').val(response.data[0].UBICACION_PRO);
-            $('#LOTE_PRO').val(response.data[0].LOTE_PRO);
-            $('#COSTO_PRO').val(response.data[0].COSTO_PRO);
-            $('#GANANCIA_PRO').val(response.data[0].GANANCIA_PRO);
-            $('#PRECIO_VENTA_PRO').val(response.data[0].PRECIO_VENTA_PRO);
-            $('#EXISTENCIA_MIN_PRO').val(response.data[0].EXISTENCIA_MIN_PRO);
-            $('#EXISTENCIA_MAX_PRO').val(response.data[0].EXISTENCIA_MAX_PRO);
-            $('#STOCK_PRO').val(response.data[0].STOCK_PRO);
-            $('#LABORATORIO_PRO').val(response.data[0].LABORATORIO_PRO);
-            $('#PRECIO_PROMOCIONAL_PRO').val(response.data[0].PRECIO_PROMOCIONAL_PRO);        
-            $('#btnCancelarActualizar').show();
-
-            //marcar radio button IVA
-            $('#ivas').prop('checked',false);
-            $('#ivan').prop('checked',false);
-            if(response.data[0].APLICA_IVA_PRO==0)
-                $('#ivan').prop('checked',true);
-            else
-                $('#ivas').prop('checked',true);
-
-            //marcar radio button tipo de producto
-            $('#tipoo').prop('checked',false);
-            $('#tipog').prop('checked',false);
-            if( (response.data[0].TIPO_PRO).toLowerCase()=='original')
-                $('#tipoo').prop('checked',true);
-            else
-                $('#tipog').prop('checked',true);
-
-             //marcar radio button venta con receta
-             $('#recetan').prop('checked',false);
-             $('#recetas').prop('checked',false);
-             if(response.data[0].VENTA_CON_RECETA==0)
-                 $('#recetan').prop('checked',true);
-             else
-                 $('#recetas').prop('checked',true);
             
-            //marcar opcion lista desplegable categoria
-            $('#ddlCategoria > option').each(function(){
-                if(this.value==response.data[0].ID_CAT)
-                $(this).prop('selected',true);
-            });
-            //marcar opcion lista desplegable presentación
-            $('#ddlPresentacion > option').each(function(){
-                if(this.value==response.data[0].ID_PRS)
-                $(this).prop('selected',true);
-            });
-            //marcar opcion lista desplegable marca
-            $('#ddlMarca > option').each(function(){
-                if(this.value==response.data[0].ID_MAR)
-                $(this).prop('selected',true);
-            });
         }
+      
     } catch (error) {       
     }
     })
@@ -718,5 +802,5 @@ function getRegistroById(idRegistro,opcion){
 
 function detalles(idRegistro)
 {
-   getRegistroById(idRegistro,1);
+    getRegistroProductos(idRegistro,1);
 }

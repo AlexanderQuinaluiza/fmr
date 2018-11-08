@@ -20,6 +20,12 @@ class ProductoController extends Controller
         $productos = Productos::All();    
         return response()->json(['data'=>$productos],200);
     }
+    /** funcion agregada para usar en los detalles de descuentos */
+    public function productosActivos(){
+        $productos = Productos::All()
+        ->where('ESTADO_PRO', '=', 1);    
+        return response()->json(['data'=>$productos],200);
+    }
 
     public function productoById()
     {

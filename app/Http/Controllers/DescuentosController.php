@@ -109,7 +109,10 @@ class DescuentosController extends Controller
         $id = (int) $_GET['ID_DESC'];
         $descuento = DB::select('call spGetDescuentoId('.$id.')');
        // ->where('ID_DESC','=',$id);
+       //return response()->json(['data'=>$descuento],200);
         return response()->json($descuento,200);
        //return $descuento;
     }
+
+   
 }

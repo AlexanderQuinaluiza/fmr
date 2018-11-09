@@ -39615,12 +39615,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            cabeceras: ["Id", "Descripción", "Fecha Inicio", "Fecha Fin", "Porcentaje", "Estado", "Acciones"],
-            cabeceras_prod: ["Id", "Nombre", "Descripción", "Stock", "Estado", "Acciones"]
+            cabeceras: ["Id", "Descripción", "Fecha Inicio", "Fecha Fin", "%/100 Des.", "Estado", "Acciones"],
+            cabeceras_prod: ["Id", "Nombre", "Descripción", "Stock", "Estado", "Acciones"],
+            cabeceras_prod_desc: ["Id", "Nombre", "Descripción", "Presentación", "Marca", "Precio", "Stock"]
         };
     },
     mounted: function mounted() {
@@ -39644,10 +39675,78 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
-          _vm._m(1),
+          _c(
+            "div",
+            {
+              staticClass: "modal fade",
+              attrs: {
+                id: "modalDescuentoDetalles",
+                tabindex: "-1",
+                role: "dialog",
+                "aria-labelledby": "mediumModalLabel",
+                "aria-hidden": "true"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog modal-lg modal-primary",
+                  attrs: { role: "document" }
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", { staticClass: "table-responsive" }, [
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-bordered table-striped table-hover dataTable js-exportable",
+                            attrs: { id: "tabladescuentos_productos" }
+                          },
+                          [
+                            _c(
+                              "thead",
+                              {
+                                staticStyle: {
+                                  color: "#fff",
+                                  background: "#546e7a"
+                                }
+                              },
+                              [
+                                _c(
+                                  "tr",
+                                  _vm._l(_vm.cabeceras_prod_desc, function(
+                                    cabecera
+                                  ) {
+                                    return _c("th", { key: cabecera }, [
+                                      _vm._v(_vm._s(cabecera))
+                                    ])
+                                  })
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("tbody")
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _vm._m(3),
           _vm._v(" "),
           _c("div", { staticClass: "custom-tab" }, [
-            _vm._m(2),
+            _vm._m(4),
             _vm._v(" "),
             _c(
               "div",
@@ -39727,14 +39826,14 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-row" }, [
-                          _vm._m(3),
-                          _vm._v(" "),
-                          _vm._m(4),
-                          _vm._v(" "),
                           _vm._m(5),
                           _vm._v(" "),
+                          _vm._m(6),
+                          _vm._v(" "),
+                          _vm._m(7),
+                          _vm._v(" "),
                           _c("div", { staticClass: "form-group col-md-12" }, [
-                            _vm._m(6),
+                            _vm._m(8),
                             _vm._v(" "),
                             _c("div", { staticClass: "table-responsive" }, [
                               _c(
@@ -39757,7 +39856,7 @@ var render = function() {
                                       _c(
                                         "tr",
                                         [
-                                          _vm._m(7),
+                                          _vm._m(9),
                                           _vm._v(" "),
                                           _vm._l(_vm.cabeceras_prod, function(
                                             cabecera
@@ -39779,21 +39878,13 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _vm._m(8),
+                        _vm._m(10),
                         _vm._v(" "),
                         _c("hr"),
                         _vm._v(" "),
-                        _c("input", {
-                          attrs: {
-                            type: "button",
-                            value: "nada",
-                            onclick: "sacar()"
-                          }
-                        }),
+                        _vm._m(11),
                         _vm._v(" "),
-                        _vm._m(9),
-                        _vm._v(" "),
-                        _vm._m(10)
+                        _vm._m(12)
                       ]
                     )
                   ]
@@ -39816,6 +39907,46 @@ var staticRenderFns = [
         _c("i", { staticClass: "fa fa-users" }),
         _vm._v(" Descuentos ")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header modal-header-primary" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "titulodescuento" } },
+        [_vm._v(" Productos Selecionados")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-info",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Cerrar")]
+      )
     ])
   },
   function() {

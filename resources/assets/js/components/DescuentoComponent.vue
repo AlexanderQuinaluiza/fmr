@@ -6,6 +6,36 @@
                     <h4 id="titulo"><i class="fa fa-users"></i> Descuentos </h4>
                 </div>
                 <div class="card-body">
+                       <!--Inicio modal productos seleccionados para descuentos-->
+                    <div class="modal fade" id="modalDescuentoDetalles" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-primary" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header modal-header-primary">
+                                    <h5 class="modal-title" id="titulodescuento"> Productos Selecionados</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                      <div class="table-responsive">
+                            <table id="tabladescuentos_productos" class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <thead style="color:#fff;background:#546e7a">
+                                    <tr>
+                                        <th v-for="cabecera in cabeceras_prod_desc" :key="cabecera">{{ cabecera }}</th>                                      
+                                    </tr>
+                                </thead>
+                                <tbody>                                                
+                                </tbody>
+                             </table>
+                            </div> 
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--Fin modal productos selecionados descuentos -->
 
    <!--Inicio modal detalle producto -->
                     <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
@@ -216,7 +246,7 @@
                                             <ul id="lstErrores"></ul>
                                     </div> 
                                     <hr> 
-                                     <input type="button" value="nada" onclick="sacar()" >                                                           
+                                     <!--<input type="button" value="nada" onclick="sacar()" > -->                                                           
                                      <button type="button" id="btnGuardarCategoria" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
                                     <button type="button" id="btnCancelarActualizar" class="btn btn-warning"><i class="fa fa-times"></i> Cancelar</button>
                                 </form>
@@ -233,8 +263,9 @@
         export default {
             data(){
                 return{
-                   cabeceras : ["Id","Descripción","Fecha Inicio","Fecha Fin","Porcentaje","Estado","Acciones"],
-                   cabeceras_prod:["Id","Nombre","Descripción","Stock","Estado","Acciones"]
+                   cabeceras : ["Id","Descripción","Fecha Inicio","Fecha Fin","%/100 Des.","Estado","Acciones"],
+                   cabeceras_prod:["Id","Nombre","Descripción","Stock","Estado","Acciones"],
+                   cabeceras_prod_desc:["Id","Nombre","Descripción","Presentación","Marca","Precio","Stock"]
                 }
             },
             mounted() {              

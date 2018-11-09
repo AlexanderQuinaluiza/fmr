@@ -35,11 +35,11 @@ class DetallesDescuentosController extends Controller
      */
     public function store($data,$id)
     {
-        $ID_PRO=0;
+       /* $ID_PRO=0;
         $ID_MAR=0;
         $ID_PRS=0;
         $ID_PROV=0;
-        $CANTIDAD_PRO=0;
+        $CANTIDAD_PRO=0;*/
         $cantidad = count($data);
         for ($i=0; $i < $cantidad ; $i++) { 
             $detalleDescuento = new DetallesDescuentos;
@@ -80,37 +80,9 @@ class DetallesDescuentosController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\DetallesDescuentos  $detallesDescuentos
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(DetallesDescuentos $detallesDescuentos)
-    {
-        //
-    }
+   
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DetallesDescuentos  $detallesDescuentos
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, DetallesDescuentos $detallesDescuentos)
-    {
-        //
-    }
+  
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\DetallesDescuentos  $detallesDescuentos
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(DetallesDescuentos $detallesDescuentos)
-    {
-        //
-    }
+   
 }

@@ -75,8 +75,11 @@ function sacar(){
                if(actual[i].ID_PRO == nuevo[j].ID_PRO) 
                        igual=true;
            }
-          if(!igual)  var item={}; item.ID_PRO=actual[i].ID_PRO;
+          if(!igual) {
+            var item={}; 
+            item.ID_PRO=actual[i].ID_PRO;
           eliminar.push(item);
+          } 
           //else insertar.push(nuevo[j]);
       }
 
@@ -86,17 +89,22 @@ function sacar(){
              if(nuevo[i].ID_PRO == actual[j].ID_PRO) 
                      igual=true;
          }
-        if(!igual) var item={}; item.ID_PRO=nuevo[i].ID_PRO;
-        insertar.push(item);
+        if(!igual){
+            var item={}; 
+            item.ID_PRO=nuevo[i].ID_PRO;
+            insertar.push(item);
+        } 
         //else insertar.push(nuevo[j]);
     }
 
+      eliminar=removeDuplicates(eliminar,"ID_PRO");
+      insertar=removeDuplicates(insertar,"ID_PRO");
 
       console.log("array para eliminar "+JSON.stringify(eliminar));
       console.log("array para insertar "+JSON.stringify(insertar));
 
 }
-
+/** eliminar los duplicados de un array */
 function removeDuplicates(originalArray, prop) {
     var newArray = [];
     var lookupObject  = {};
@@ -327,11 +335,12 @@ function cargarDatepicker(inicio,fin){
     data.append('FECHA_FIN_DESC',f_fin);                 
     axios.post('/descuentos/actualizar',data).then(function (response){
 
-        alert(response.data);
+        //alert(response.data);
      if(response.data==1){
         tabladescuentos.ajax.reload();
+     
         toastr.info('Actualizado correctamente!');
-        limpiarDatos();
+        //limpiarDatos();
      } else{
         toastr.error('No se ha podido actualizar el registro.', 'Error!'); 
      }   
@@ -504,9 +513,10 @@ function cargarDatepicker(inicio,fin){
            var buttons = '';       
            var btn = '';
            var labelEstado = '';
-           var btnVer = '<button type="button" data-toggle="modal" data-target="#mediumModal" onclick="detallesdesc('+ID_DESC+');" class="btn btn-info btn-sm"><span class="fa fa-info-circle"></span></button>';
           for(var i=0;i< json.data.length; i++){
            var ID_DESC = json.data[i].ID_DESC;
+           var NOMBRE= json.data[i].DESCRIPCION_DESC;
+          
             if(json.data[i].ESTADO_DESC>0)
             {
               btn = '<button type="button" onclick="desactivar('+ID_DESC+');" class="btn btn-danger"><span class="fa fa-trash"></span> Desactivar</button>';
@@ -516,7 +526,9 @@ function cargarDatepicker(inicio,fin){
              //var saludo = new Saludar();
               btn = '<button type="button" onclick="activar('+ID_DESC+')" class="btn btn-success"><span class="fa fa-check"></span> Activar</button>';
               labelEstado = '<span  class="badge badge-danger">Inactivo</span>';
-            }          
+            }
+            var btnVer = "<button type='button' data-toggle='modal' data-target='#modalDescuentoDetalles' onclick='detallesdesc("+ID_DESC+");'  class='btn btn-info btn-sm'><span class='fa fa-info-circle'></span></button>";
+          
             buttons = '<div class="btn-group btn-group-sm">'+
             '<button class="btn btn-primary" onclick="cambiarTab(1,'+ID_DESC+');"><span class="fa fa-pencil-square-o"></span> Editar</button>'+btnVer+btn+'</div>';
             //console.log("jaja"); 
@@ -618,7 +630,7 @@ function cargarDatepicker(inicio,fin){
  });
 
  var tablaproductos =   $('#table_productos').DataTable(
-  {
+  { 
         'ajax'       : {
          "type"   : "GET",
          "url"    : "/descuentos/productos",
@@ -804,3 +816,154 @@ function detalles(idRegistro)
 {
     getRegistroProductos(idRegistro,1);
 }
+
+/** detalles de los productos aplicados un descuento  descuentos/productosDescontados*/
+
+function llenarDetallesDescuento(id){
+   // alert(id);
+   // $('#tabladescuentos_productos').html='';
+   
+     $('#tabladescuentos_productos').DataTable(
+        { 
+            destroy: true,    
+            
+              'ajax': {
+               "type"   : "GET",
+               "data": { 
+                "ID_DESC": id
+                },
+                "url"    : "descuentos/productosDescontados",
+                "dataSrc": function (json) {
+                 var return_data = new Array();
+                 // alert(json.data);
+                 for(var i=0;i< json.data.length; i++){
+                  // var ID_PRO = json.data[i].ID_PRO;
+                 // var NOMBRE_PRO = '"'+String(json.data[i].NOMBRE_PRO)+'"';
+                  
+               /*   var checkbox=' <div class="form-check">   <label class="form-check-label"> <input type="checkbox" name="sld" onchange="calcular();" class="form-check-input" value="" data-toggle="tooltip"  title="Seleciona todos los productos"></label> </div>';
+                  var btnVerDetalles = '<button type="button" data-toggle="modal" data-target="#modalDescuentoDetalles" onclick="detallandoDescuentos('+ID_PRO+');" class="btn btn-info btn-sm"><span class="fa fa-info-circle"></span> Detalles </button>';
+                  var btnAgregarEjemplar = "<button type='button' data-toggle='modal' data-target='#addEjemplarModal' onclick='mostrarModalEjemplar("+ID_PRO+","+NOMBRE_PRO+");' class='btn btn-success'><span class='fa fa-plus'></span> </button>";
+                  */ /*
+                 if(json.data[i].ESTADO_PRO>0)
+                   {
+                    // btn = '<button type="button" onclick="desactivar('+ID_PRO+');" class="btn btn-danger"><span class="fa fa-trash"></span> Desactivar</button>';
+                     labelEstado =  '<span  class="badge badge-success">Activo</span>';
+                   }
+                   else {
+                     //btn = '<button type="button" onclick="activar('+ID_PRO+')" class="btn btn-success"><span class="fa fa-check"></span> Activar</button>';
+                     labelEstado = '<span  class="badge badge-danger">Inactivo</span>';
+                   }   
+                   */       
+                   /*buttons = '<div class="btn-group btn-group-sm">'+
+                   '<button class="btn btn-primary" onclick="cambiarTab(1,'+ID_PRO+');"><span class="fa fa-pencil-square-o"></span> Editar</button>'+btnVerDetalles+btnAgregarEjemplar+btn+'</div>';
+                   */
+                   return_data.push({
+                     'ID_PRO': json.data[i].ID_PRO,
+                     'NOMBRE_PRO'  : json.data[i].NOMBRE_PRO,
+                     'DESCRIPCION_PRO'  : json.data[i].DESCRIPCION_PRO,
+                     'PRESENTACION_PRO'  : json.data[i].PRESENTACION_PRO,
+                     'MARCA_PRO'  : json.data[i].MARCA_PRO,
+                     'PRECIO_VENTA_PRO': json.data[i].PRECIO_VENTA_PRO,
+                     'STOCK_PRO'  : json.data[i].STOCK_PRO,
+                     //'ESTADO_PRO' : labelEstado,
+                     //'ACCIONES_PRO' : btnVerDetalles,
+                     //'SELECCIONAR': checkbox
+                   })
+                 }
+                 return return_data;
+               }
+             },
+             "columns"    : [
+              // {'data':'SELECCIONAR'},
+               {'data': 'ID_PRO'},
+               {'data': 'NOMBRE_PRO'},
+               {'data': 'DESCRIPCION_PRO'},
+               {'data': 'PRESENTACION_PRO'},
+               {'data': 'MARCA_PRO'},
+               {'data': 'PRECIO_VENTA_PRO'},
+               {'data': 'STOCK_PRO'},
+              
+               //{'data': 'ACCIONES_PRO'}
+             ],
+                dom: 'lBfrtip',
+                lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "Todo"]],
+                buttons: [
+                  {
+                        extend:    'copyHtml5',
+                        text:      '<i class="fa fa-files-o"></i> Copiar',
+                        titleAttr: 'Copiar',
+                        exportOptions: {
+                          columns: 'th:not(:last-child)'
+                      }
+                    },
+                    {
+                        extend:    'excelHtml5',
+                        text:      '<i class="fa fa-file-excel-o"></i> Excel',
+                        titleAttr: 'Excel',
+                        exportOptions: {
+                          columns: 'th:not(:last-child)'
+                      }
+                    },
+                    {
+                        extend:    'csvHtml5',
+                        text:      '<i class="fa fa-file-text-o"></i> CSV',
+                        titleAttr: 'CSV',
+                        exportOptions: {
+                          columns: 'th:not(:last-child)'
+                      }
+                    },
+                    {
+                        extend:    'pdfHtml5',
+                        text:      '<i class="fa fa-file-pdf-o"></i> PDF',
+                        titleAttr: 'PDF',
+                        title: 'Listado de'+$('#titulo').text(),
+                        exportOptions: {
+                          columns: 'th:not(:last-child)'
+                      }
+                    },
+                    {
+                        extend:    'print',
+                        text:      '<i class="fa fa-print"></i> Imprimir',
+                        titleAttr: 'Imprimir',
+                        title: 'Listado de'+$('#titulo').text(),
+                        className: 'btn btn-info btn-xs',
+                        exportOptions: {
+                          columns: 'th:not(:last-child)'
+                      }
+                    }
+                ],
+                "language": {
+                    
+                    "sProcessing":    "Procesando...",
+                    "sLengthMenu":    "Mostrar _MENU_ registros",
+                    "sZeroRecords":   "No se encontraron resultados",
+                    "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                    "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":   "",
+                    "sSearch":        "Buscar:",
+                    "sUrl":           "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":    "Último",
+                        "sNext":    "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+        });
+        
+}
+
+   function detallesdesc(iddesc){
+     // alert(titulomodal);
+    document.getElementById("titulodescuento").innerHTML = "Productos seleccionados del descuento con ID: ["+iddesc+"]"; 
+   // document.getElementById('titulodescuento').innerHTML= '> '+ nombre;   
+    llenarDetallesDescuento(iddesc);
+   }

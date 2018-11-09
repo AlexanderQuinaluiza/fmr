@@ -114,4 +114,6 @@ Route::post('descuentos/desactivar', 'DescuentosController@desactivar');
 Route::post('descuentos/activar', 'DescuentosController@activar');
 Route::get('descuentos/byid','DescuentosController@getDescuentoById');
 Route::post('descuentos/actualizar','DescuentosController@update');
+Route::get('descuentos/productosDescontados','ProductoController@productoDescuentos');
+
 //getDetallesById()

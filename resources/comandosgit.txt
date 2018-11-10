@@ -1,0 +1,112 @@
+
+/**************************************************
+*  COMANDOS BASICOS PARA GIT      *****************
+***************************************************
+
+/** configuraciones globales para iniciar git **/
+git cofig --global user.name "AlexQ"
+git config --global user.email "alexanderquinaluiza2b@gmail.com"
+
+/** inicializa un repositorio en local */
+git init 
+
+/** clonar un reporsitorio **/
+git clone  url
+
+git init --bar  ubicacion local
+
+/** añadir nuevos archivos **/
+
+git add nameFile
+--añadir todos los archivos 
+git add .
+
+/** commits **/
+
+git commit 
+/** eliminar archivos ***/
+
+git rm nameFile
+
+git commit
+
+/** mover archivos **/ 
+
+hay que usar el sistema operativo
+mv, cp etc.
+
+git commit 
+
+/*** deshacer cambios ***/
+git status
+
+git reset HEAD nameFile
+
+--olvidar todos cambios 
+
+git checkout -- nameFile
+
+/***logs ***/ 
+git log
+
+git log --oneline 
+
+/** creando ramas **/ 
+crear ramas para trbajar en tareas distitntas
+
+git branch nombre
+
+git branch
+
+--cambiar de ramas 
+git checkout namebranch 
+
+--crear otra rama y incluir el checkout 
+git checkout -b  namebranch
+
+-- borrar rama 
+git branch -d namebranch
+
+/*** fusionar ramas **/
+revisar todas las ramas 
+git branch
+seleccinar la rama principal 
+git checkout master 
+
+fucionar una rama a la rama principal
+git merge namebranch
+
+--da errores cuando dos colaboradores editan una misma linea.
+cualquiera de los colaboradores puede elegir cual correccion se presenta
+ luego hay que añadir otra vez el archivo 
+ git add --oneline --decorate
+
+
+ /*** regresar a un commit  **/
+
+git checkout codigocommits
+
+/********** tags ************/
+git tag v1.0 
+
+git tag v0.1 codigocommit 
+git checkout  nameTag
+
+/** push repositorios **/ 
+
+añadir repositorio remoto 
+
+git remote add origin url 
+
+git push origin namebranch
+/****pull repositorios ***/ 
+
+git branch --all
+
+git pull origin master
+/** no pierde los cambios de tus archivos **/
+git pull --rebase 
+
+
+
+

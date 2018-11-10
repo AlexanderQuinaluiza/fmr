@@ -77,7 +77,6 @@ fucionar una rama a la rama principal
 git merge namebranch
 
 --da errores cuando dos colaboradores editan una misma linea.
-cualquiera de los colaboradores puede elegir cual correccion se presenta
  luego hay que añadir otra vez el archivo 
  git add --oneline --decorate
 
@@ -106,7 +105,6 @@ git branch --all
 git pull origin master
 /** no pierde los cambios de tus archivos **/
 git pull --rebase 
-
 
 
 

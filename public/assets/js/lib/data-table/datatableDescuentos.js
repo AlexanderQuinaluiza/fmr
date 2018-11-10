@@ -877,7 +877,7 @@ function llenarDetallesDescuento(id){
               // {'data':'SELECCIONAR'},
                {'data': 'ID_PRO'},
                {'data': 'NOMBRE_PRO'},
-               {'data': 'DESCRIPCION_PRO'},
+               {'data': 'DESCRIPCION_PRO' },
                {'data': 'PRESENTACION_PRO'},
                {'data': 'MARCA_PRO'},
                {'data': 'PRECIO_VENTA_PRO'},

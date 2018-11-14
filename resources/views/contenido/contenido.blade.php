@@ -51,6 +51,9 @@
         <template v-if="menu==17">
         <cliente_comp></cliente_comp>
         </template>
+        <template v-if="menu==16">
+        <ventas_comp></ventas_comp>
+        </template>
 
  
 

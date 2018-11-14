@@ -116,4 +116,5 @@ Route::get('descuentos/byid','DescuentosController@getDescuentoById');
 Route::post('descuentos/actualizar','DescuentosController@update');
 Route::get('descuentos/productosDescontados','ProductoController@productoDescuentos');
 
-//getDetallesById()
+// ROUTES VENTAS 
+Route::get('ventas/productosventas', 'ProductoController@productosVentas');

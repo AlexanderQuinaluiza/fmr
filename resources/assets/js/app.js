@@ -29,11 +29,12 @@ Vue.component('categoria_comp', require('./components/CategoriaComponent.vue'));
 Vue.component('agencia_comp', require('./components/AgenciaComponent.vue'));
 Vue.component('caja_comp', require('./components/CajaComponent.vue'));
 Vue.component('descuento_comp', require('./components/DescuentoComponent.vue'));
+Vue.component('ventas_comp', require('./components/VentasComponent.vue'));
 
 
 const app = new Vue({
     el: '#app',
     data:{
-        menu:2
+        menu:16
     }
 });

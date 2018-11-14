@@ -40,8 +40,58 @@
 <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 <!-- style datepiker -->
 <!--fin-->
+<style>
+.container .details-row td {
+  padding: 0;
+  margin: 0;
+}
+
+.details-container {
+  width: 100%;
+  height: 100%;
+  background-color: #556e7a;
+  padding-top: 5px;
+}
+
+.details-table {
+  width: 100%;
+  background-color: #fff;
+  margin: 5px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.iconSettings, td.details-control:before, tr.shown td.details-control:before {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: "Glyphicons Halflings";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+td.details-control {
+  cursor: pointer;
+  text-align: center;
+}
+td.details-control:before {
+  content: "\2b";
+}
+
+tr.shown td.details-control:before {
+  content: "\2212";
+}
+
+     </style>
 </head>
-<body>
+<body class="open">
  <div id="app">
         <!-- Left Panel -->
     @include('plantilla.sidebar')

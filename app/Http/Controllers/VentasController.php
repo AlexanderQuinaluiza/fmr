@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Ventas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class ControllerVentas extends Controller
+class VentasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +19,23 @@ class ControllerVentas extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * el metodo retorna  0 si no se encuentra abierta la caja aun,.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function getApertura()
     {
-        //
+        $id_caja = (int) $_GET['ID_CAJA'];
+        $id_user= (int) $_GET['ID_USER'];
+        $apertura = DB::select('call spGetApertura("'.$id_caja.'","'.$id_user.'")');
+        return $apertura;
+        //call spGetApertura(1,1);
+    }
+
+    public function getCabeceraFAC(){
+        $id_user= (int) $_GET['ID_USER'];
+        $apertura = DB::select('call spGetApertura("'.$id_caja.'","'.$id_user.'")');
+        return $apertura;
     }
 
     /**

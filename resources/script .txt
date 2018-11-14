@@ -23,3 +23,22 @@ AND d.ESTADO_DESC=1
 and dt.ID_DESC=d.ID_DESC
 limit 1;
 END
+
+/** procedimiento para verificar si la caja esta aperturada*/
+
+drop procedure if exists spGetApertura;
+create procedure spGetApertura(in caja int, in usuario int)
+select count(ID_CCJ) as resultado from CIERRE_CAJA 
+where date_format(FECHA_APERTUTA_CCJ,'%d-%m-%Y') = date_format(sysdate(),'%d-%m-%Y')
+AND ID_CAJA=caja and ID_USU= usuario;
+
+/** procedimiento para sacar los datos de cabecera de factura ***/
+drop procedure if exists spGetCabeceraFac;
+
+create procedure spGetCabeceraFac(in usuario int)
+select g.ID_AGE, g.NOMBRE_AGE, g.DIRECCION_AGE, g.RUC_AGE, g.LOGO_AGE, c.DESCRIPCION_CAJA
+from AGENCIAS g, CAJAS c,USUARIOS u
+WHERE g.ID_AGE = c.ID_CAJA
+and c.ID_CAJA=u.ID_CAJA
+and g.ESTADO_AGE=1 and c.ESTADO=1
+and u.ID_USU=usuario;

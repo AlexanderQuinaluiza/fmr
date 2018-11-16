@@ -41,7 +41,7 @@
 <!-- style datepiker -->
 <!--fin-->
 </head>
-<body>
+<body class="open">
  <div id="app">
         <!-- Left Panel -->
     @include('plantilla.sidebar')
@@ -203,7 +203,7 @@
         </div>
           
         <div class="content mt-3">
-            <div class="animated">
+            <div class="animated" >
             @yield('contenido')
             </div>  <!-- .animated -->
         </div>     <!-- .content -->

@@ -34,6 +34,6 @@ Vue.component('descuento_comp', require('./components/DescuentoComponent.vue'));
 const app = new Vue({
     el: '#app',
     data:{
-        menu:2
+        menu:1
     }
 });

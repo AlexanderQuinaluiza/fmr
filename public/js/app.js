@@ -1421,7 +1421,7 @@ Vue.component('descuento_comp', __webpack_require__(91));
 var app = new Vue({
   el: '#app',
   data: {
-    menu: 2
+    menu: 1
   }
 });
 

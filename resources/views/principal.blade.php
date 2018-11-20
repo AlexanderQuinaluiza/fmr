@@ -41,6 +41,7 @@
 <!-- style datepiker -->
 <!--fin-->
 </head>
+
 <body class="open">
  <div id="app">
         <!-- Left Panel -->
@@ -203,7 +204,7 @@
         </div>
           
         <div class="content mt-3">
-            <div class="animated" >
+            <div class="animated"  >
             @yield('contenido')
             </div>  <!-- .animated -->
         </div>     <!-- .content -->

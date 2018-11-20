@@ -1,15 +1,15 @@
     @extends('principal')
     @section('contenido')
        
-    <template v-if="menu==0">
+   <template v-if="menu==0">
         <h3>Contenido dashboard, summary</h3>
        </template>
-        <!-- Start almacen menu -->
-          <template v-if="menu==1">
+        Start almacen menu 
+          <template v-if="menu==1"> 
             
         <categoria_comp></categoria_comp> 
 
-        </template>
+       </template>
         <template v-if="menu==2">
         <descuento_comp></descuento_comp>
         </template>
@@ -34,7 +34,7 @@
         <caja_comp></caja_comp>
         </template>
       <!-- Fin almacen menu -->
-       <!-- Inicio seguridad -->
+       
        <template v-if="menu==8">
         <h3> Modulos</h3>
         </template>
@@ -47,10 +47,10 @@
         <template v-if="menu==11">
         <usuario_comp></usuario_comp>
         </template>
-        <!-- Fin seguridad-->
+        
         <template v-if="menu==17">
         <cliente_comp></cliente_comp>
-        </template>
+        </template> 
 
  
 

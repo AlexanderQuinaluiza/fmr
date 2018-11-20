@@ -10,10 +10,9 @@ class Pedidos extends Model
     protected  $primaryKey = 'ID_PED';
     public $timestamps = false;
     protected $fillable = [
-    'ID_PRO',
-    'ID_PROV',
     'FECHA_PED',
     'OBSERVACION_PED',
-    'ESTADO'
+    'ESTADO',
+    'ID_PROV'
     ];
 }

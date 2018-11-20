@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Configuraciones;
-class ConfiguracionController extends Controller
+use App\Documentos;
+use Illuminate\Support\Facades\DB;
+class DocumentoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,6 +15,13 @@ class ConfiguracionController extends Controller
     public function index()
     {
         //
+    }
+
+    public function getNumeroActualByIdDoc($ID_DOC)
+    {
+        //$ID_DOC = $_GET['DOC'];
+        $numeroDoc =  DB::select("SELECT getNumeroDoc('$ID_DOC') as numero");
+        return $numeroDoc[0]->numero;
     }
 
     /**
@@ -80,21 +88,5 @@ class ConfiguracionController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function getSetting()
-    {   
-        $valueReturn = '';
-        try
-        {
-            $clave = $_GET['setting'];
-            $configuracion = Configuraciones::where('NOMBRE_CONF','=', $clave)
-            ->take(1)
-            ->get();
-            $valueReturn = $configuracion[0]->VALOR_CONF;
-        }catch(\Exception $e)
-        {
-           $valueReturn = '';
-        }
-        return $valueReturn;
     }
 }

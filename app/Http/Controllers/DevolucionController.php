@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Configuraciones;
-class ConfiguracionController extends Controller
+use App\Devoluciones;
+use Illuminate\Support\Facades\DB;
+class DevolucionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,34 @@ class ConfiguracionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $success = 0;
+        DB::beginTransaction();
+        try {
+            $tipoDocumento = 'Nota de crédito';
+            $data = json_decode($request->datos, true);
+            $devolucion = new Devoluciones;
+            $devolucion->TIPO_DOC = $tipoDocumento;
+            $devolucion->ID_COMP = (int)$request->ID_COMP;
+            $devolucion->ID_USU = 1; //$request->ID_USU; //cambiar luego con Auth
+            $devolucion->TOTAL_DEV = $request->TOTAL_DEV;
+            $observacion = $request->OBSERVACION_DEV;
+            if(empty($observacion))//si observacion esta vacio
+            {
+                $observacion = 'Devolución de compra número '.$request->ID_COMP;
+            }
+            $devolucion->OBSERVACION_DEV = $observacion;
+            $devolucion->NUMERO_NC = (int)app('App\Http\Controllers\DocumentoController')->getNumeroActualByIdDoc($tipoDocumento);
+           
+            //$compra->DESCRIPCION_COMP = $request->DESCRIPCION_COMP;
+            $devolucion->save();
+            app('App\Http\Controllers\DetalleDevolucionController')->store($data,$devolucion->ID_DEV);
+        DB::commit();
+        $success = 1;
+        } catch (\Exception $e) {
+        $success = $e->getMessage();
+        DB::rollback();
+        }
+       return $success;
     }
 
     /**
@@ -80,21 +108,5 @@ class ConfiguracionController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function getSetting()
-    {   
-        $valueReturn = '';
-        try
-        {
-            $clave = $_GET['setting'];
-            $configuracion = Configuraciones::where('NOMBRE_CONF','=', $clave)
-            ->take(1)
-            ->get();
-            $valueReturn = $configuracion[0]->VALOR_CONF;
-        }catch(\Exception $e)
-        {
-           $valueReturn = '';
-        }
-        return $valueReturn;
     }
 }

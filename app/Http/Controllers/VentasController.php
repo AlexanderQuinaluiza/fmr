@@ -34,9 +34,24 @@ class VentasController extends Controller
 
     public function getCabeceraFAC(){
         $id_user= (int) $_GET['ID_USER'];
-        $apertura = DB::select('call spGetApertura("'.$id_caja.'","'.$id_user.'")');
-        return $apertura;
+        $cabecera = DB::select('call spGetCabeceraFac("'.$id_user.'")');
+        return $cabecera;
     }
+    
+      /** funcion que retorna el cliente segun el numero de cedula */
+      public function clienteFAC()
+      {
+          $id = (int) $_GET['CEDRUC'];
+          $cliente = DB::table('CLIENTES')
+           ->select('ID_CLI', 'CED_RUC_CLI', 'NOMBRE_CLI', 'APELLIDO_CLI','DIRECCION_CLI', 'TELEFONO_CLI', 'CORREO_CLI', 'ESTADO_CLI', 'FECHA_REG_CLI')
+           ->where('CED_RUC_CLI','=',$id)
+           ->get();
+          //return response()->json(['data'=>$cliente],200);
+          return $cliente;
+         
+      }
+
+      
 
     /**
      * Store a newly created resource in storage.

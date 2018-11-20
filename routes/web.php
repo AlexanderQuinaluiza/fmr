@@ -118,3 +118,8 @@ Route::get('descuentos/productosDescontados','ProductoController@productoDescuen
 
 // ROUTES VENTAS 
 Route::get('ventas/productosventas', 'ProductoController@productosVentas');
+Route::get('ventas/cabecera', 'VentasController@getCabeceraFAC');
+Route::get('ventas/apertura', 'VentasController@getApertura');
+Route::get('ventas/cliente', 'VentasController@clienteFAC');
+Route::get('ventas/ejemplares', 'ProductoController@productoEjemplar');
+

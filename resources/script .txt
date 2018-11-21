@@ -173,3 +173,26 @@ STOCK_PRO = CANTIDAD_EXISTENCIA,PRECIO_PROMOCIONAL_PRO = VALOR_EXISTENCIA/(1-POR
 
 END$$
 DELIMITER ;
+
+
+/*estructura tabla inventarios*/
+create table INVENTARIOS
+(
+   ID                   bigint not null auto_increment comment 'id item inventario',
+   ID_PRO               bigint comment 'id de producto',
+   ID_TIPO              bigint comment 'id compra,venta,devolucion-compra/venta',
+   DOC_REFERENCIA       varchar(200) comment 'documento de referencia factura/nota de crédito',
+   DESCRIPCION          varchar(200) comment 'descripcion item inventario',
+   FECHA_COM            timestamp default CURRENT_TIMESTAMP comment 'fecha de compra,venta,devolucion de producto',
+   CANTIDAD_PRO         int comment 'cantidad de producto comprado,vendido,devuelto',
+   VALOR                float comment 'valor costo producto',
+   TOTAL                float comment 'subtotal producto',
+   TIPO_ITEM            varchar(50) comment 'tipo :venta,compra,devolucion compra,devolucion venta',
+   CANTIDAD_EXIST       bigint comment 'cantidad real en stock',
+   VALOR_EXIST          float comment 'valor costo de producto',
+   TOTAL_EXIST          float comment 'total costo producto',
+   primary key (ID)
+)ENGINE=InnoDB;
+
+alter table INVENTARIOS add constraint FK_ESTA_EN_INVENTARIO foreign key (ID_PRO)
+      references PRODUCTOS (ID_PRO) ;

@@ -1,6 +1,6 @@
     @extends('principal')
     @section('contenido')
-   <!-- <template v-if="menu==0">
+    <template v-if="menu==0">
         <h3>Contenido dashboard, summary</h3>
        </template>
        
@@ -53,7 +53,7 @@
         <template v-if="menu==16">
         <ventas_comp></ventas_comp>
         </template>
-        </template>  -->
+        </template> 
 
 
   <!-- <pedido_comp></pedido_comp> -->

@@ -62,6 +62,26 @@ class VentasController extends Controller
     public function store(Request $request)
     {
         //
+
+        $success = 0;
+        $error = null;
+        DB::beginTransaction();
+        try {
+            $data = json_decode($request->detalles, true);
+            $ventas = new Ventas;
+            $ventas->ID_USU = $request->ID_USU;
+            $ventas->ID_CLI = $request->ID_CLI;
+            $ventas->ESTADO = "Facturado"; // facturado o anulado
+            $ventas->save();
+            app('App\Http\Controllers\DetalleVentasController')->store($data,$ventas->ID_VEN);
+        DB::commit();
+        $success = 1;
+        } catch (\Exception $e) {
+        $success = 0;
+        $error = $e->getMessage();
+        DB::rollback();
+        }
+       return $success;
     }
 
     /**

@@ -12,6 +12,7 @@ class Ejemplares extends Model
     protected $fillable = [
     'ID_PRO',
     'COD_BARRAS_EJM',
-    'FECHA_CADUCIDAD_EJM'
+    'FECHA_CADUCIDAD_EJM',
+    'ESTADO'
     ];
 }

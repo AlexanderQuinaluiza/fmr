@@ -175,7 +175,7 @@
                                 <thead style="color:#fff;background:#546e7a;">
                                     <tr>
                                         
-                                        <th v-for="cabecera in cabeceras_detalles" :key="cabecera" >{{ cabecera }} </th>                                      
+                                        <th v-for="cabecera in cabeceras_detalles" :key="cabecera" v-bind:style="[cabecera=='Código' || cabecera=='Precio prom'?{'display':'none'}:{ }]"> {{ cabecera }} </th>                                      
                                     </tr>
                                 </thead>
                                 <tbody id="table_detalles">                                                 
@@ -184,13 +184,22 @@
                             </div>  
  <!-- subtotales--> 
                             <hr>
-                          <div class="row">
+                          <div class="form-row">
                                <div class="col-md-6">
                                  <div class="row clearfix div-error">
                                             <ul id="lstErrores"></ul>
-                                    </div>               
-
-                               <button type="button" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button> 
+                                    </div>  
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                         <input type="text" class="form-control decimal" name="recibe" id="recibe" placeholder="Paga con" onkeyup="calculaCambio(this.value);">      
+                                        </div>
+                                           <div class="col-md-6">
+                                         <p class="form-control" id="cambio">Cambio: <b> 0.00 </b> </p>     
+                                        </div> 
+                                     
+                                    </div>   
+                                    <hr>
+                               <button type="button" class="btn btn-primary" id="btnGuardarVenta" ><i class="fa fa-floppy-o"></i> Guardar</button> 
                                 <button type="button" class="btn btn-primary">Imprimir</button>
                                  <button type="button" class="btn btn-primary">Finalizar</button>  
                                   <button type="button" id="btnCancelarActualizar" class="btn btn-warning"><i class="fa fa-times"></i> Cancelar</button>    
@@ -201,7 +210,7 @@
  <!-- <div class="card-body"> -->
        <table id="table_detalles" class="table table-bordered table-hover table-sm">
                                 <thead>
-                                    
+                                  
                                 </thead>
                                 <tbody> 
                                      <tr>
@@ -214,7 +223,7 @@
                                     </tr>
                                       <tr>
                                     <th style="color:#fff;background:#546e7a;">Subtotal 0%</th>
-                                     <th id="subtotalfac">0.00 </th>                                         
+                                     <th id="subtotalcerofac">0.00 </th>                                         
                                     </tr>   
                                      <tr>
                                     <th style="color:#fff;background:#546e7a;">Descuentos</th>
@@ -229,13 +238,10 @@
                                     <th style="color:#fff;background:#546e7a;">Tarifa 12%</th>
                                      <th id="sub12">0.00 </th>                                         
                                     </tr>
-                                    <tr>
-                                    <th style="color:#fff;background:#546e7a;"> 12% IVA</th>
-                                     <th id="iba">0.00 </th>                                         
-                                    </tr>   
+                                                          
                                     <tr>
                                     <th style="color:#fff;background:#546e7a;"> TOTAL</th>
-                                     <th id="total">0.00 </th>                                         
+                                     <th id="total" style="text-align: center;font-size: x-large;background-color: black;color: white;">0.00 </th>                                         
                                     </tr> 
                                 </tbody>
                              </table>
@@ -271,7 +277,7 @@
             data(){
                 return{
                  cabeceras : ["","Id","Imagen","Nombre","Descripción","Marca","Categoria","Presentación","Lab","Stock","Tipo","Venta","P. Normal","P. Desc","Ubicación","Trata"],
-                 cabeceras_detalles:["","Id","Código","Descripción","Cantidad","Precio c/u","Total"]
+                 cabeceras_detalles:["","Id","Código","Descripción","Cantidad","Precio c/u","IVA","Precio prom","Ahorro","Total"]
                   // cabeceras : ["Id","Imagen","Nombre","Presentación","Venta","Precio N","Precio P","Ubicación"]
                 }
             },

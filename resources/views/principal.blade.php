@@ -253,7 +253,7 @@ tr.shown td.details-control:before {
         </div>
           
         <div class="content mt-3">
-            <div class="animated">
+            <div class="animated" >
             @yield('contenido')
             </div>  <!-- .animated -->
         </div>     <!-- .content -->
@@ -290,7 +290,7 @@ tr.shown td.details-control:before {
     if (
     (charCode != 45 || $(element).val().indexOf('-') != -1) &&      // “-” CHECK MINUS, AND ONLY ONE.
     (charCode != 46 || $(element).val().indexOf('.') != -1) &&      // “.” CHECK DOT, AND ONLY ONE.
-    (charCode < 48 || charCode > 57))
+    (charCode < 48 || charCode > 57) )
     return false;
     return true;
     }

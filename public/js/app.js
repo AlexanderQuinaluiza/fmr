@@ -40843,12 +40843,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       cabeceras: ["", "Id", "Imagen", "Nombre", "Descripción", "Marca", "Categoria", "Presentación", "Lab", "Stock", "Tipo", "Venta", "P. Normal", "P. Desc", "Ubicación", "Trata"],
-      cabeceras_detalles: ["", "Id", "Código", "Descripción", "Cantidad", "Precio c/u", "Total"]
+      cabeceras_detalles: ["", "Id", "Código", "Descripción", "Cantidad", "Precio c/u", "IVA", "Precio prom", "Ahorro", "Total"]
       // cabeceras : ["Id","Imagen","Nombre","Presentación","Venta","Precio N","Precio P","Ubicación"]
     };
   },
@@ -40990,8 +41001,20 @@ var render = function() {
                                             function(cabecera) {
                                               return _c(
                                                 "th",
-                                                { key: cabecera },
-                                                [_vm._v(_vm._s(cabecera) + " ")]
+                                                {
+                                                  key: cabecera,
+                                                  style: [
+                                                    cabecera == "Código" ||
+                                                    cabecera == "Precio prom"
+                                                      ? { display: "none" }
+                                                      : {}
+                                                  ]
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    " " + _vm._s(cabecera) + " "
+                                                  )
+                                                ]
                                               )
                                             }
                                           )
@@ -41362,15 +41385,42 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
+    return _c("div", { staticClass: "form-row" }, [
       _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "row clearfix div-error" }, [
           _c("ul", { attrs: { id: "lstErrores" } })
         ]),
         _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control decimal",
+              attrs: {
+                type: "text",
+                name: "recibe",
+                id: "recibe",
+                placeholder: "Paga con",
+                onkeyup: "calculaCambio(this.value);"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("p", { staticClass: "form-control", attrs: { id: "cambio" } }, [
+              _vm._v("Cambio: "),
+              _c("b", [_vm._v(" 0.00 ")])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
         _c(
           "button",
-          { staticClass: "btn btn-primary", attrs: { type: "button" } },
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", id: "btnGuardarVenta" }
+          },
           [_c("i", { staticClass: "fa fa-floppy-o" }), _vm._v(" Guardar")]
         ),
         _vm._v(" "),
@@ -41421,20 +41471,32 @@ var staticRenderFns = [
                 _c(
                   "th",
                   { staticStyle: { color: "#fff", background: "#546e7a" } },
-                  [_vm._v("Descuentos")]
+                  [_vm._v("Subtotal IVA")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "descfac" } }, [_vm._v(" 0.00")])
+                _c("th", { attrs: { id: "subtotalivafac" } }, [_vm._v("0.00 ")])
               ]),
               _vm._v(" "),
               _c("tr", [
                 _c(
                   "th",
                   { staticStyle: { color: "#fff", background: "#546e7a" } },
-                  [_vm._v("Subtotal")]
+                  [_vm._v("Subtotal 0%")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "subtotalfac" } }, [_vm._v("0.00 ")])
+                _c("th", { attrs: { id: "subtotalcerofac" } }, [
+                  _vm._v("0.00 ")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c(
+                  "th",
+                  { staticStyle: { color: "#fff", background: "#546e7a" } },
+                  [_vm._v("Descuentos")]
+                ),
+                _vm._v(" "),
+                _c("th", { attrs: { id: "descfac" } }, [_vm._v(" 0.00")])
               ]),
               _vm._v(" "),
               _c("tr", [
@@ -41461,20 +41523,22 @@ var staticRenderFns = [
                 _c(
                   "th",
                   { staticStyle: { color: "#fff", background: "#546e7a" } },
-                  [_vm._v(" 12% IVA")]
-                ),
-                _vm._v(" "),
-                _c("th", { attrs: { id: "iba" } }, [_vm._v("0.00 ")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c(
-                  "th",
-                  { staticStyle: { color: "#fff", background: "#546e7a" } },
                   [_vm._v(" TOTAL")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "total" } }, [_vm._v("0.00 ")])
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "center",
+                      "font-size": "x-large",
+                      "background-color": "black",
+                      color: "white"
+                    },
+                    attrs: { id: "total" }
+                  },
+                  [_vm._v("0.00 ")]
+                )
               ])
             ])
           ]

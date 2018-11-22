@@ -129,6 +129,7 @@ public function productoEjemplar()
         ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
         ->join('EJEMPLARES as e', 'e.ID_PRO','=','p.ID_PRO')
         ->where('p.ESTADO_PRO', '=', 1)
+        ->where('e.ESTADO', '=', 1)
         ->where('e.COD_BARRAS_EJM','=',$id)
         ->get();
     

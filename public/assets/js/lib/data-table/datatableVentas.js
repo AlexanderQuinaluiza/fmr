@@ -16,10 +16,10 @@
      var errorMostrarMsj = [];
      if(!$('#NOMBRE_CAT').val().trim()) errorMostrarMsj.push("El nombre de la categoria no puede estar vacío");
      /*if(!$('#DESCRIPCION_ROL').val().trim()) errorMostrarMsj.push("La descripción de rol no puede estar vacío");*/
-     if(opcion==2) //opcion para editar
+    /* if(opcion==2) //opcion para editar
      {
          if(!$('#id').val().trim()) errorMostrarMsj.push("Escoja una categoria existente de la lista");
-     }
+     }*/
      if(errorMostrarMsj.length){
          $('#lstErrores').empty();
          error = 1;
@@ -48,49 +48,7 @@
      $('#lstErrores').empty();
  }
  
- /**
-  * permite registrar un rol
-  */
- function registrar()
- {
-     if(validarDatos(1)){
-         return;
-     }
-     axios.post('/categorias/registrar',{
-         'NOMBRE_CAT': $('#NOMBRE_CAT').val().trim(),
-         //'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim()
-     }).then(function (response){
-     tabla.ajax.reload();
-     limpiarDatos();
-     toastr.success('Registrado correctamente!')
-     })
-     .catch(function (error) {
-      //console.log(error);
-      toastr.error('No se ha podido guardar el registro.', 'Error!')
-     });
- }
- 
- /**
-  * permite actualizar un rol existente
-  */
- function actualizar()
- {
-     if(validarDatos(2)){
-        return;
-    }                   
-    axios.post('/categorias/actualizar',{
-        'ID_CAT': $('#id').val().trim(),
-        'NOMBRE_CAT':$('#NOMBRE_CAT').val().trim(),
-        //'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim()
-    }).then(function (response){
-    tabla.ajax.reload();
-    toastr.info('Actualizado correctamente!')
-    })
-    .catch(function (error) {
-     console.log(error);
-     toastr.error('No se ha podido actualizar el registro.', 'Error!')
-    });
- }
+
  
  /**
   * permite actualizar el estado de un rol de activo a inactivo
@@ -210,11 +168,9 @@
  //tab activo por defecto
  cambiarTab(0,0);
  
- $('#btnGuardarCategoria').click(function(){
-     var esEditar = $('#id').val().trim();
-     if(!esEditar)
-     registrar();
-     else actualizar();
+ $('#btnGuardarVenta').click(function(){
+   console.log(productosSeleccionados());
+    //registrarVenta();
  });
  
  $('#btnCancelarActualizar').click(function(){
@@ -617,7 +573,8 @@ return error_ruc;
                 var datos='<h5 class="card-title" id="nombrescl">'+midata[0].NOMBRE_CLI+' '+midata[0].APELLIDO_CLI+'</h5>'+
                 '<p class="card-text" id="cedcl">'+midata[0].CED_RUC_CLI+'</p>'+
                 '<p class="card-text" id="correocl">'+midata[0].CORREO_CLI+'</p>'+
-                '<p class="card-text" id="dirtel">'+midata[0].DIRECCION_CLI+', '+midata[0].TELEFONO_CLI+'</p>' ;
+                '<p class="card-text" id="dirtel">'+midata[0].DIRECCION_CLI+' // '+midata[0].TELEFONO_CLI+'</p>' +
+                '<p class="card-text" style="display:none;" id="id_cli">'+midata[0].ID_CLI+'</p>' ; ;
                 $('#carddatoscl').html(datos);
                 respuesta=1;
               
@@ -674,6 +631,33 @@ return error_ruc;
     return error;
 }
 
+     function validarDatosCabeceraFac(){
+        var error = 0;
+        var table = document.getElementById('table_detalles');
+    var errorMostrarMsj = [];
+    if(!$('#id_cli').html().trim()) errorMostrarMsj.push("La cédula o RUC de cliente no puede estar vacío.");
+    if(!$('#nombrescl').html().trim()) errorMostrarMsj.push("El nombre de cliente no puede estar vacío.");
+   if(table.rows.length==0) errorMostrarMsj.push("Debe ingresar al menos un item al detalle.");
+    if(!$('#dirtel').html().trim()) errorMostrarMsj.push("La dirección de cliente no puede estar vacío.");
+    if(aperturarCaja()==0) errorMostrarMsj.push("Debe solicitar que se aperture su caja para poder realizar la venta.")
+    //if(!$('#TELEFONO_CLI').val().trim()) errorMostrarMsj.push("El teléfono de cliente no puede estar vacío");
+   
+       if(errorMostrarMsj.length){
+        $('#lstErrores').empty();
+        error = 1;
+        var lista = '';
+        for(var i=0;i<errorMostrarMsj.length;i++)
+        {
+            lista+='<li style="color: red !important">'+errorMostrarMsj[i]+'</li>';
+        }
+        $('#lstErrores').append(lista);
+    }
+    else
+    {
+          $('#lstErrores').empty();
+    }
+    return error;
+     }
 /**
  * permite limpiar las entradas de texto
  */
@@ -689,6 +673,67 @@ function limpiarDatos()
     $('#lstErrores').empty();
 }
 
+function productosSeleccionados(){
+try {
+    var arrayproductos = new Array();
+    var cont=0;
+    var table = document.getElementById('table_detalles');
+    
+    
+    for(var i=0, n=table.rows.length;i<n ;i++) {
+        var item={};
+        var cantidad=0;
+        var stringCodes=table.rows[i].cells[2].innerHTML;
+         var res = stringCodes.split(",");
+         item.BARCODES=res;
+        var id_prod= table.rows[i].cells[1].innerHTML;
+        item.ID_PRO=id_prod;
+        //var nameinput= table.rows[i].cells[4].getElementsByTagName("input")[0].tagName;
+        var nameinput= table.rows[i].cells[4].children.length;
+         
+       // alert(nameinput);
+        if (nameinput>0){
+            cantidad=table.rows[i].cells[4].getElementsByTagName("input")[0].value;
+           
+        }else{
+            cantidad=table.rows[i].cells[4].innerHTML;
+        }
+        item.CANTIDAD=cantidad;
+           arrayproductos.push(item);
+                  
+           /* if(cantidad==undefined){
+             //cantidad=table.rows[i].cells[4].getElementsByTagName("input")[0].value;
+            }*/
+                 
+      }
+} catch (error) {
+    console.log(error);
+}
+
+ // alert(arrayproductos);
+return arrayproductos;
+}
+/** funcion para registrar una venta */
+function registrarVenta(){
+    if(this.validarDatosCabeceraFac()){
+        return;
+    }
+    var url='/ventas/registrar';
+    var data = new FormData();
+        
+        data.append('detalles',JSON.stringify(productosSeleccionados()));
+        data.append('DESCRIPCION_DESC',$('#DESCRIPCION_DESC').val().trim());
+        data.append('PORCENTAJE_DESC',$('#PORCENTAJE_DESC').val().trim());
+        data.append('FECHA_INICIO_DESC',f_inicio);
+        data.append('FECHA_FIN_DESC',f_fin);
+
+    axios.post(url,data).then(function(response){
+
+    }).catch(function (error) {
+        console.log(error);
+        toastr.error('No se ha podido guardar la venta.', 'Error!')
+       });
+}
 /**
  * permite registrar un cliente
  */
@@ -720,7 +765,7 @@ function registrar()
    
   
     function verificarEjemplar(){
-        codigosBar=[];
+       // codigosBar=[];
         try {
             var codigobar=document.getElementById('barcode').value;
             console.log(codigobar)
@@ -739,7 +784,7 @@ function registrar()
              
              //addRow(datin);
              /** hay que agregar los codigos de barra a borrar de los ejemplares, validar si es capsulas o pastillas, ya que el codigo no se eliminara hasta que el*/
-             codigosBar.push(codigobar);
+            // codigosBar.push(codigobar);
              document.getElementById('barcode').value="";
              document.getElementById('barcode').focus;
 
@@ -808,7 +853,7 @@ function registrar()
         
         // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
 
-        for(var i=0;i<7;i++){
+        for(var i=0;i<10;i++){
             var cell = row.insertCell(i);
             
             switch (i) {
@@ -819,7 +864,7 @@ function registrar()
                 cell.innerHTML=datos.data[0].ID_PRO;
                 break;
                 case 2:
-                //cell.style="display:none;";
+                cell.style="display:none;";
                 cell.innerHTML=datos.data[0].COD_BARRAS_EJM;
 
                 break;
@@ -832,16 +877,31 @@ function registrar()
                 
                    // cell.innerHTML=toFixedTrunc(1,2);
                    if(datos.data[0].ID_PRS==1 || datos.data[0].ID_PRS==3 || datos.data[0].ID_PRS==4  || datos.data[0].ID_PRS==5 || datos.data[0].ID_PRS==6)
-                    cell.innerHTML='<input class="form-control form-control-sm" required type="number" placeholder="" min="1.00" max="1000" step="1.00" value="1.00" onchange="recalcularFila('+datos.data[0].ID_PRO+');"></input>';
+                    cell.innerHTML='<input class="form-control form-control-sm" required type="number" placeholder="" min="1.00" max="'+datos.data[0].STOCK_PRO+'" step="1.00" value="1.00" onchange="recalcularFila('+datos.data[0].ID_PRO+');"></input>';
                    else
+                   //cell.name="simpecant"; 
                    cell.innerHTML=1;
                 break;
 
                 case 5:
+                
                 cell.innerHTML=toFixedTrunc(datos.data[0].PRECIO_VENTA_PRO,2);
                 break;
-
                 case 6:
+                if(datos.data[0].APLICA_IVA_PRO==1)
+                cell.innerHTML='<span class="badge badge-success">Si</span>';
+                else
+                cell.innerHTML='<span class="badge badge-danger">No</span>';
+                break;
+                case 7:
+                cell.style="display:none;";
+                cell.innerHTML=toFixedTrunc(datos.data[0].PRECIO_PROMOCIONAL_PRO*1,2);
+                break;
+                case 8:
+                cell.innerHTML=toFixedTrunc(datos.data[0].PRECIO_VENTA_PRO-datos.data[0].PRECIO_PROMOCIONAL_PRO,2);
+                break;
+                
+                case 9:
                 cell.innerHTML=toFixedTrunc(datos.data[0].PRECIO_VENTA_PRO * 1,2);
                 break;
                 default:
@@ -898,7 +958,12 @@ function VerificarProdExiste(datos){
          document.getElementById("table_detalles").rows[i].cells[2].append(","+datos.data[0].COD_BARRAS_EJM);
         
         
-
+         var preciopromo=table.rows[i].cells[7].innerHTML;
+         preciopromo=toFixedTrunc(preciopromo, 2);
+         //alert(p_uni);
+        // alert(toFixedTrunc(p_uni*(cantidad*1),2));
+        document.getElementById("table_detalles").rows[i].cells[8].innerHTML=toFixedTrunc(p_uni*(cantidad*1+1)-preciopromo*(cantidad*1+1),2);
+        
 
         // alert(table.rows[i].cells[4].getElementsByTagName("input")[0].value);
 
@@ -906,7 +971,7 @@ function VerificarProdExiste(datos){
         // var inputs = table.rows.item(i).getElementsByTagName("input");
         // inputs[i].value=toFixedTrunc(cantidad*1+1,2);
          
-          document.getElementById("table_detalles").rows[i].cells[6].innerHTML=toFixedTrunc(p_uni*(cantidad*1+1),2);
+          document.getElementById("table_detalles").rows[i].cells[9].innerHTML=toFixedTrunc(p_uni*(cantidad*1+1),2);
            /* var item={};
             item.ID_PRO=id_prod;
             arrayproductos.push(item);
@@ -949,11 +1014,14 @@ function toFixedTrunc(value, n) {
            // alert(cantidad);
            
             var p_uni=table.rows[i].cells[5].innerHTML;
-           
             p_uni=toFixedTrunc(p_uni, 2);
+            /** */
+            var preciopromo=table.rows[i].cells[7].innerHTML;
+            preciopromo=toFixedTrunc(preciopromo, 2);
             //alert(p_uni);
            // alert(toFixedTrunc(p_uni*(cantidad*1),2));
-            document.getElementById("table_detalles").rows[i].cells[6].innerHTML=toFixedTrunc(p_uni*(cantidad*1),2);
+           document.getElementById("table_detalles").rows[i].cells[8].innerHTML=toFixedTrunc(p_uni*(cantidad*1)-preciopromo*(cantidad*1),2);
+            document.getElementById("table_detalles").rows[i].cells[9].innerHTML=toFixedTrunc(p_uni*(cantidad*1),2);
             recalcularTotales();
             break;
         }
@@ -963,11 +1031,43 @@ function toFixedTrunc(value, n) {
 function recalcularTotales(){
     var table = document.getElementById('table_detalles');
     var valor_total=0;
+    var subtotaliva=0;
+    var subtotalcero=0;
+    var descuentos=0;
     for(var i=0, n=table.rows.length;i<n;i++){
-        var totalfila=table.rows[i].cells[6].innerHTML;
-        alert(totalfila);
+        var totalfila=table.rows[i].cells[9].innerHTML;
+        var ahorro=table.rows[i].cells[8].innerHTML;
+         descuentos+=toFixedTrunc(ahorro, 2)*1;
+        //alert(totalfila);
         valor_total+=toFixedTrunc(totalfila, 2)*1;
-       
+        var aplicaiva=table.rows[i].cells[6].getElementsByTagName("span")[0].innerHTML;
+        if(aplicaiva=="Si")
+        subtotaliva+=toFixedTrunc(totalfila, 2)*1;
+        else
+        subtotalcero+=toFixedTrunc(totalfila, 2)*1; 
     }
     document.getElementById("valorfac").innerHTML=toFixedTrunc(valor_total, 2);
+    document.getElementById("subtotalivafac").innerHTML=toFixedTrunc(subtotaliva, 2);
+    document.getElementById("subtotalcerofac").innerHTML=toFixedTrunc(subtotalcero, 2);
+    document.getElementById("descfac").innerHTML=toFixedTrunc(-descuentos, 2);
+    document.getElementById("subcero").innerHTML=toFixedTrunc(0, 2);
+    document.getElementById("sub12").innerHTML=toFixedTrunc(subtotaliva*0.12, 2);
+    document.getElementById("total").innerHTML=toFixedTrunc(subtotaliva*1+subtotalcero*1-descuentos+subtotaliva*0.12, 2);
+   
 }
+/** calcular el cambio */
+function calculaCambio(valor){
+  try {
+      //alert(valor);
+    var total= document.getElementById("total").innerHTML;
+    document.getElementById("cambio").innerHTML= 'Cambio: <b>'+toFixedTrunc(valor-total,2)+'</b>';
+  } catch (error) {
+      toastr.warning("No se puede efectuar la operación.!");
+      console.log(error);
+
+  }   
+
+   
+}
+
+

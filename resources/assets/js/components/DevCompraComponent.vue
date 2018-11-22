@@ -151,8 +151,9 @@
                                             </div>
                                             <div class="form-group col-md-4" style="padding-top:10px"><br>
                                                 <div class="btn-group btn-group-sm">
-                                                   <button type="button" id="inCantidad" class="btn btn-success btn-sm"><span class="fa fa-plus"></span></button> 
                                                    <button type="button" id="deCantidad" class="btn btn-danger btn-sm"><span class="fa fa-minus"></span></button>
+                                                    <button type="button" id="inCantidad" class="btn btn-success btn-sm"><span class="fa fa-plus"></span></button> 
+                                                   
                                                 </div>
                                             </div>                                           
                                         </div>                                      
@@ -249,12 +250,12 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-9">
-                                                <label>Nota de Crédito</label>
-                                                 <input type="text" id="NOTA_CREDITO_DEV" required class="form-control" placeholder="Número Nota de crédito proporcionado por proveedor" maxlength="120">
+                                                <label>Nota de Crédito (*)</label>
+                                                 <input type="text" id="NOTA_CREDITO_DEV" required class="form-control entero" placeholder="Número Nota de crédito proporcionado por proveedor" maxlength="120">
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label>Fecha</label>
-                                                 <input type="text" data-date-format="dd/mm/yyyy" id="FECHA_DEV" class="form-control" placeholder="Fecha devolución" maxlength="12">
+                                                <label>Fecha devolución (*)</label>
+                                                 <input type="text" data-date-format="yyyy/mm/dd" id="FECHA_DEV" class="form-control" placeholder="yyyy/mm/dd" maxlength="12">
                                              </div>                                                                                                                                 
                                         </div>
                                         <div class="form-row">                                         

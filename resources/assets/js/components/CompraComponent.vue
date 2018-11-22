@@ -155,8 +155,9 @@
                                             </div>
                                             <div class="form-group col-md-3" style="padding-top:10px"><br>
                                                 <div class="btn-group btn-group-sm">
-                                                   <button type="button" id="inCantidad" class="btn btn-success btn-sm"><span class="fa fa-plus"></span></button> 
-                                                   <button type="button" id="deCantidad" class="btn btn-danger btn-sm"><span class="fa fa-minus"></span></button>
+                                                  <button type="button" id="deCantidad" class="btn btn-danger btn-sm"><span class="fa fa-minus"></span></button>
+                                                  <button type="button" id="inCantidad" class="btn btn-success btn-sm"><span class="fa fa-plus"></span></button> 
+                                                   
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-3">                               

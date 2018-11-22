@@ -16,7 +16,7 @@ class CajasController extends Controller
     {
         $cajas = DB::table('CAJAS')
         ->join('AGENCIAS', 'CAJAS.ID_AGE' ,'=','AGENCIAS.ID_AGE' )                  
-       ->select('ID_CAJA', 'AGENCIAS.NOMBRE_AGE as AGENCIA', 'DESCRIPCION_CAJA', 'ESTADO')
+       ->select('ID_CAJA', 'CAJAS.ID_AGE','AGENCIAS.NOMBRE_AGE as AGENCIA', 'DESCRIPCION_CAJA', 'ESTADO')
        ->where( 'AGENCIAS.ESTADO_AGE','=',1)  
        ->orderBy('ID_CAJA','desc')
        ->get();
@@ -29,6 +29,17 @@ class CajasController extends Controller
        ->get();
        return response()->json(['data'=>$agencias],200);
 
+    }
+
+    public function getCajasParaApertura()
+    {
+       $cajas = DB::table('CAJAS')                
+       ->select('ID_CAJA', 'ID_AGE', 'DESCRIPCION_CAJA', 'ESTADO',
+       DB::raw("fGetDisponibleCajaAbrir(ID_CAJA) AS DISPONIBLE_ABRIR"))
+       ->where( 'ESTADO','=',1)  
+       ->orderBy('ID_CAJA','desc')
+       ->get();
+       return response()->json(['data'=>$cajas],200);
     }
 
     public function store(Request $request)

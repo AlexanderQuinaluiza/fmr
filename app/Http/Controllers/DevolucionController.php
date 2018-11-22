@@ -45,13 +45,15 @@ class DevolucionController extends Controller
             $devolucion->ID_COMP = (int)$request->ID_COMP;
             $devolucion->ID_USU = 1; //$request->ID_USU; //cambiar luego con Auth
             $devolucion->TOTAL_DEV = $request->TOTAL_DEV;
+            $devolucion->NUMERO_NC = $request->NUM_NOTA_CREDITO;
+            $devolucion->FECHA_DEV = $request->FECHA_DEV;
             $observacion = $request->OBSERVACION_DEV;
             if(empty($observacion))//si observacion esta vacio
             {
                 $observacion = 'Devolución de compra número '.$request->ID_COMP;
             }
             $devolucion->OBSERVACION_DEV = $observacion;
-            $devolucion->NUMERO_NC = (int)app('App\Http\Controllers\DocumentoController')->getNumeroActualByIdDoc($tipoDocumento);
+           // $devolucion->NUMERO_NC = (int)app('App\Http\Controllers\DocumentoController')->getNumeroActualByIdDoc($tipoDocumento);
            
             //$compra->DESCRIPCION_COMP = $request->DESCRIPCION_COMP;
             $devolucion->save();

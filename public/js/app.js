@@ -1422,6 +1422,8 @@ Vue.component('pedido_comp', __webpack_require__(96));
 Vue.component('modulo_comp', __webpack_require__(101));
 Vue.component('compra_comp', __webpack_require__(106));
 Vue.component('dev_compra_comp', __webpack_require__(111));
+Vue.component('apertura_caja_comp', __webpack_require__(116));
+Vue.component('cierre_caja_comp', __webpack_require__(121));
 
 var app = new Vue({
   el: '#app',
@@ -42289,6 +42291,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43030,19 +43033,19 @@ var staticRenderFns = [
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-success btn-sm",
-                              attrs: { type: "button", id: "inCantidad" }
+                              staticClass: "btn btn-danger btn-sm",
+                              attrs: { type: "button", id: "deCantidad" }
                             },
-                            [_c("span", { staticClass: "fa fa-plus" })]
+                            [_c("span", { staticClass: "fa fa-minus" })]
                           ),
                           _vm._v(" "),
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-danger btn-sm",
-                              attrs: { type: "button", id: "deCantidad" }
+                              staticClass: "btn btn-success btn-sm",
+                              attrs: { type: "button", id: "inCantidad" }
                             },
-                            [_c("span", { staticClass: "fa fa-minus" })]
+                            [_c("span", { staticClass: "fa fa-plus" })]
                           )
                         ])
                       ]
@@ -43639,6 +43642,7 @@ exports.push([module.i, "\n.div-error {\n  display: flex;\n  justify-content: ce
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -44644,19 +44648,19 @@ var staticRenderFns = [
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-success btn-sm",
-                              attrs: { type: "button", id: "inCantidad" }
+                              staticClass: "btn btn-danger btn-sm",
+                              attrs: { type: "button", id: "deCantidad" }
                             },
-                            [_c("span", { staticClass: "fa fa-plus" })]
+                            [_c("span", { staticClass: "fa fa-minus" })]
                           ),
                           _vm._v(" "),
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-danger btn-sm",
-                              attrs: { type: "button", id: "deCantidad" }
+                              staticClass: "btn btn-success btn-sm",
+                              attrs: { type: "button", id: "inCantidad" }
                             },
-                            [_c("span", { staticClass: "fa fa-minus" })]
+                            [_c("span", { staticClass: "fa fa-plus" })]
                           )
                         ])
                       ]
@@ -44893,10 +44897,10 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "form-row" }, [
         _c("div", { staticClass: "form-group col-md-9" }, [
-          _c("label", [_vm._v("Nota de Crédito")]),
+          _c("label", [_vm._v("Nota de Crédito (*)")]),
           _vm._v(" "),
           _c("input", {
-            staticClass: "form-control",
+            staticClass: "form-control entero",
             attrs: {
               type: "text",
               id: "NOTA_CREDITO_DEV",
@@ -44908,15 +44912,15 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group col-md-3" }, [
-          _c("label", [_vm._v("Fecha")]),
+          _c("label", [_vm._v("Fecha devolución (*)")]),
           _vm._v(" "),
           _c("input", {
             staticClass: "form-control",
             attrs: {
               type: "text",
-              "data-date-format": "dd/mm/yyyy",
+              "data-date-format": "yyyy/mm/dd",
               id: "FECHA_DEV",
-              placeholder: "Fecha devolución",
+              placeholder: "yyyy/mm/dd",
               maxlength: "12"
             }
           })
@@ -44951,6 +44955,894 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-c45ff47e", module.exports)
+  }
+}
+
+/***/ }),
+/* 116 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(117)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(119)
+/* template */
+var __vue_template__ = __webpack_require__(120)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AperturaCajaComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-02b6aad6", Component.options)
+  } else {
+    hotAPI.reload("data-v-02b6aad6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 117 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(118);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(1)("1b248adf", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02b6aad6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AperturaCajaComponent.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02b6aad6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AperturaCajaComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 119 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      cabeceras: ["Id", "Descripción", "Agencia", "Estado", "Acciones"]
+    };
+  },
+  mounted: function mounted() {
+    var datatable = document.createElement("script");
+    datatable.setAttribute("src", "assets/js/lib/data-table/aperturaCaja.js");
+    document.head.appendChild(datatable);
+  }
+});
+
+/***/ }),
+/* 120 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-lg-6 offset-3" }, [
+        _c("div", { staticClass: "card", staticStyle: { width: "100%" } }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v(" \n                        ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { attrs: { id: "pay-invoice" } }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-title" }, [
+                  _c("h3", { staticClass: "text-center" }, [
+                    _vm._v("Apertura de Caja")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    attrs: { id: "formAperturaCaja", novalidate: "novalidate" }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "control-label mb-1",
+                          attrs: { for: "cc-payment" }
+                        },
+                        [_vm._v("Agencia")]
+                      ),
+                      _vm._v(" "),
+                      _c("select", {
+                        staticClass: "form-control",
+                        attrs: {
+                          name: "selector",
+                          id: "ddlAgencia",
+                          required: ""
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group has-success" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "control-label mb-1",
+                          attrs: { for: "cc-name" }
+                        },
+                        [_vm._v("Caja")]
+                      ),
+                      _vm._v(" "),
+                      _c("select", {
+                        staticClass: "form-control",
+                        attrs: {
+                          name: "selector",
+                          id: "ddlCajas",
+                          required: ""
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "control-label mb-1",
+                          attrs: { for: "cc-number" }
+                        },
+                        [_vm._v("Depósito")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control decimal",
+                        attrs: {
+                          id: "DEPOSITO",
+                          name: "DEPOSITO",
+                          type: "text",
+                          value: "0.00",
+                          placeholder: "Dinero para cambio o depósito"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row  div-error" }, [
+                      _c("ul", { attrs: { id: "lstErrores" } })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-lg btn-info btn-block",
+                          attrs: { id: "btnAbrirCaja", type: "button" }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-unlock fa-lg" }),
+                          _vm._v(
+                            " \n                                          "
+                          ),
+                          _c(
+                            "span",
+                            { attrs: { id: "payment-button-amount" } },
+                            [_vm._v("Aceptar")]
+                          )
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-02b6aad6", module.exports)
+  }
+}
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(122)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(124)
+/* template */
+var __vue_template__ = __webpack_require__(125)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/CierreCajaComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0f6c4eca", Component.options)
+  } else {
+    hotAPI.reload("data-v-0f6c4eca", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 122 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(123);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(1)("5b465ec9", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0f6c4eca\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CierreCajaComponent.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0f6c4eca\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CierreCajaComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n.modal-header-primary {\n\tcolor:#fff;\n    padding:9px 15px;\n    border-bottom:1px solid #eee;\n    background-color: #17a2b8;\n    -webkit-border-top-left-radius: 5px;\n    -webkit-border-top-right-radius: 5px;\n    -moz-border-radius-topleft: 5px;\n    -moz-border-radius-topright: 5px;\n     border-top-left-radius: 5px;\n     border-top-right-radius: 5px;\n}\n.lblDenominacion{\n    font-weight:bold;\n    margin-top:6px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 124 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      cabeceras: ["Id", "Descripción", "Agencia", "Estado", "Acciones"]
+    };
+  },
+  mounted: function mounted() {
+    var datatable = document.createElement("script");
+    datatable.setAttribute("src", "assets/js/lib/data-table/aperturaCaja.js");
+    document.head.appendChild(datatable);
+  }
+});
+
+/***/ }),
+/* 125 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-lg-8 offset-2" }, [
+        _c("div", { staticClass: "card", staticStyle: { width: "100%" } }, [
+          _c("div", { staticClass: "card-header" }, [
+            _vm._v(" \n                        ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "div",
+              {
+                staticClass: "modal fade",
+                attrs: {
+                  id: "denominacionEfectivoModal",
+                  tabindex: "-1",
+                  role: "dialog",
+                  "aria-labelledby": "denominacionEfectivoModalLabel",
+                  "aria-hidden": "true"
+                }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "modal-dialog modal-lg modal-primary",
+                    attrs: { role: "document" }
+                  },
+                  [
+                    _c("div", { staticClass: "modal-content" }, [
+                      _c(
+                        "div",
+                        { staticClass: "modal-header modal-header-primary" },
+                        [
+                          _c(
+                            "h5",
+                            {
+                              staticClass: "modal-title",
+                              attrs: { id: "denominacionEfectivoModalLabel" }
+                            },
+                            [_vm._v("CONTADOR DE EFECTIVO")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "close",
+                              attrs: {
+                                type: "button",
+                                "data-dismiss": "modal",
+                                "aria-label": "Close"
+                              }
+                            },
+                            [
+                              _c("span", { attrs: { "aria-hidden": "true" } }, [
+                                _vm._v("×")
+                              ])
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-body" }, [
+                        _c("form", { attrs: { id: "formDenominaciones" } }, [
+                          _c("div", { staticClass: "form-row" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-group col-lg-5",
+                                attrs: { id: "divCantidades" }
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "lblDenominacion",
+                                    staticStyle: { "padding-left": "100px" }
+                                  },
+                                  [_vm._v("CANTIDAD ")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-group col-lg-2 text-center",
+                                attrs: { id: "divDenominaciones" }
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  { staticClass: "lblDenominacion" },
+                                  [_vm._v("DENOMINACIÓN ")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-group col-lg-5",
+                                attrs: { id: "divTotales" }
+                              },
+                              [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "lblDenominacion",
+                                    staticStyle: { "padding-left": "100px" }
+                                  },
+                                  [_vm._v("TOTAL ")]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-row" }, [
+                            _c("div", { staticClass: "form-group col-lg-5" }, [
+                              _vm._v(" \n                                    ")
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group col-lg-2" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "lblProducto",
+                                  staticStyle: { "font-weight": "bold" }
+                                },
+                                [_vm._v("TOTAL: ")]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-group col-lg-5",
+                                attrs: { id: "divTotal" }
+                              },
+                              [
+                                _c("input", {
+                                  staticClass: "form-control text-center",
+                                  attrs: {
+                                    type: "text",
+                                    disabled: "",
+                                    id: "totalContado",
+                                    maxlength: "13",
+                                    placeholder: "0.00",
+                                    value: "0.00"
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "modal-footer" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            attrs: { type: "button", "data-dismiss": "modal" }
+                          },
+                          [
+                            _c("span", { staticClass: "fa fa-times" }),
+                            _vm._v(" Cerrar")
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { type: "button", id: "btnOK" }
+                          },
+                          [
+                            _c("span", { staticClass: "fa fa-check" }),
+                            _vm._v(" Aceptar")
+                          ]
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { attrs: { id: "pay-invoice" } }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-title" }, [
+                  _c("h3", { staticClass: "text-center" }, [
+                    _vm._v("Cierre de Caja")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  { attrs: { id: "formCierreCaja", novalidate: "novalidate" } },
+                  [
+                    _c("div", { staticClass: "form-row" }, [
+                      _c("div", { staticClass: "form-group col-lg-4" }, [
+                        _c("label", [_vm._v("Contado")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "form-group col-lg-2" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-info",
+                                attrs: {
+                                  type: "button",
+                                  "data-toggle": "modal",
+                                  "data-target": "#denominacionEfectivoModal"
+                                }
+                              },
+                              [_c("span", { staticClass: "fa fa-calculator" })]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group col-lg-10" }, [
+                            _c("input", {
+                              staticClass: "form-control decimal inputcaja",
+                              attrs: {
+                                type: "text",
+                                id: "CONTADO",
+                                maxlength: "13",
+                                placeholder: "0.00",
+                                value: "0.00"
+                              }
+                            })
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-lg-4" }, [
+                        _c("label", [_vm._v("Calculado")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "form-group col-lg-12" }, [
+                            _c("input", {
+                              staticClass: "form-control decimal inputcaja",
+                              attrs: {
+                                type: "text",
+                                id: "CALCULADO",
+                                maxlength: "13",
+                                placeholder: "0.00",
+                                value: "0.00"
+                              }
+                            })
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-lg-4" }, [
+                        _c("label", [_vm._v("Diferencia")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "form-group col-lg-12" }, [
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "text",
+                                id: "DIFERENCIA",
+                                maxlength: "13",
+                                placeholder: "0.00"
+                              }
+                            })
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row  div-error" }, [
+                      _c("ul", { attrs: { id: "lstErrores" } })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-lg btn-info btn-block",
+                          attrs: { id: "btnAbrirCaja", type: "button" }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-lock fa-lg" }),
+                          _vm._v(
+                            " \n                                          "
+                          ),
+                          _c(
+                            "span",
+                            { attrs: { id: "payment-button-amount" } },
+                            [_vm._v("Aceptar")]
+                          )
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0f6c4eca", module.exports)
   }
 }
 

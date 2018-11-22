@@ -55,8 +55,10 @@
   <!-- <pedido_comp></pedido_comp> -->
   <!-- <compra_comp></compra_comp>   -->
   <!-- <producto_comp></producto_comp>  -->
-  <dev_compra_comp></dev_compra_comp> 
-
+  <!-- <dev_compra_comp></dev_compra_comp>  -->
+  <!-- <caja_comp></caja_comp> -->
+  <!-- <apertura_caja_comp></apertura_caja_comp> -->
+  <cierre_caja_comp></cierre_caja_comp>
     
     @endsection
  

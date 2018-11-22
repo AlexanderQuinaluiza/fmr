@@ -660,7 +660,7 @@ function cambiarTab(indice, idRegistro) {
 //----------------------------------INICIALIZACIÓN DE MÉTODOS-------------------------
 $('#btnCancelarActualizar').hide();
 //tab activo por defecto
-cambiarTab(2, 0);
+cambiarTab(0, 0);
 
 loadDataDropDownList();
 

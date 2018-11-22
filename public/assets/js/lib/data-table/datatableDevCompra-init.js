@@ -89,53 +89,63 @@ function guardarDevolucionCompra() {
     for (var index = 0; index < arrayItemsSelected.length; index++) {
         var idFila = arrayItemsSelected[index].ID_ROW;
         $.each(dataItems, function (key, value) {
-            if(key == idFila)
+            if(key == idFila && value.DEVUELTO>0 && value.SUBTOTAL>0)
             {
+                
                 arreglo.push(value);
             }
         });
     }
-// console.log(arreglo);
+    if(arrayItemsSelected.length==0)
+    {
+        toastr.warning('Marque al menos un item de la tabla');
+    }
+    else
+    {
+ //console.log();
     if(arreglo.length>0)
     {
         var OBSERVACION_DEV = $('#OBSERVACION_DEV').val().trim();
         var FECHA_DEV = $('#FECHA_DEV').val().trim();
-        var data = new FormData();
-        data.append('datos', JSON.stringify(arreglo));
-        data.append('ID_COMP', $('#lblID_COMP').text());
-        data.append('NUM_NOTA_CREDITO', $('#NOTA_CREDITO_DEV').text().trim());
-        data.append('OBSERVACION_DEV', OBSERVACION_DEV);
-        data.append('FECHA_DEV', FECHA_DEV);
-        data.append('SUBTOTAL_DEV', getSubTotales(1));
-        data.append('IVA_DEV', getSubTotales(2));
-        data.append('TOTAL_DEV', getSubTotales(3));
-        axios.post('/devolucion-compra/registrar', data).then(function (response) {
-            if (response.data > 0) {
-                toastr.success('Devolución registrado correctamente!');
-                $('#secondFormDevolucion')[0].reset();
-                tablaDetalleCompra.clear().draw();
-                jsonItemsDevolver = {};
-            }
-            else {
-                console.log(response.data);
-                toastr.error('No se ha podido guardar el registro.', 'Error!')
-            }
-        })
-            .catch(function (error) {
-                console.log(error);
-                toastr.error('No se ha podido guardar el registro.', 'Error!')
-            });
+        var NUM_NOTA_CREDITO = $('#NOTA_CREDITO_DEV').val().trim();
+        if(!FECHA_DEV || !NUM_NOTA_CREDITO)toastr.warning('Complete todos los datos requeridos', 'Incompleto!');
+        else 
+        {
+            var data = new FormData();
+            data.append('datos', JSON.stringify(arreglo));
+            data.append('ID_COMP', $('#lblID_COMP').text());
+            data.append('NUM_NOTA_CREDITO', NUM_NOTA_CREDITO);
+            data.append('OBSERVACION_DEV', OBSERVACION_DEV);
+            data.append('FECHA_DEV', FECHA_DEV);
+            data.append('SUBTOTAL_DEV', getSubTotales(1));
+            data.append('IVA_DEV', getSubTotales(2));
+            data.append('TOTAL_DEV', getSubTotales(3));
+            axios.post('/devolucion-compra/registrar', data).then(function (response) {
+                if (response.data > 0) {
+                    toastr.success('Devolución registrado correctamente!');
+                    $('#secondFormDevolucion')[0].reset();
+                    $('#FECHA_DEV').datepicker("setDate", new Date());
+                    localStorage.clear();
+                    tablaDetalleCompra.clear().draw();
+                    jsonItemsDevolver = {};
+                }
+                else {
+                    console.log(response.data);
+                    toastr.error('No se ha podido guardar el registro.', 'Error!')
+                }
+            })
+                .catch(function (error) {
+                    console.log(error);
+                    toastr.error('No se ha podido guardar el registro.', 'Error!')
+                }); 
+        }
 
     }
-    
-    
     else
     {
-        toastr.warning('Marque al menos un item de la tabla');
+        toastr.warning('Verifique que las cantidades a devolver sean mayor a 0');
     }
-
-   
-
+    }
 }
 
 function calcular() {

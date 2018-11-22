@@ -100,6 +100,7 @@ Route::post('agencias/activar', 'AgenciasController@activar');
 /** ROUTES CAJAS */
 
 Route::get('cajas', 'CajasController@index');
+Route::get('cajasParaAbrir', 'CajasController@getCajasParaApertura');
 Route::get('cajas/agencias', 'CajasController@onlyAgencias');
 Route::post('cajas/registrar', 'CajasController@store');
 Route::get('cajas/byid', 'CajasController@cajasbyid');
@@ -170,4 +171,10 @@ Route::post('agencias/activar', 'AgenciasController@activar');
 Route::get('settings', 'ConfiguracionController@getSetting');
 
 Route::post('devolucion-compra/registrar', 'DevolucionController@store');
+
+Route::get('cierreCaja/ventasPorUsuario', 'CierreCajaController@getTotalVendidoPorUsuario');
+Route::post('cierreCaja/registrar', 'CierreCajaController@store');
+Route::post('cierreCaja/actualizar', 'CierreCajaController@update');
+
+Route::get('denominacionDinero', 'DenominacionDineroController@index');
 

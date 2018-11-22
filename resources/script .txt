@@ -144,3 +144,21 @@ WHERE ID_VEN=new.ID_VEN;
 
 alter table  EJEMPLARES
 add column ESTADO tinyint not null default 1;
+
+/*funcion para obtener descuento de un producto*/
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `fGetDescuentoByProducto`(`idproducto` INT) RETURNS FLOAT(10,2)
+    NO SQL
+begin
+declare descuento float(10,2) default 0.00;
+SET descuento =
+(SELECT d.PORCENTAJE_DESC from DESCUENTOS as d,
+PRODUCTOS as p ,DETALLES_DESCUENTOS as dt WHERE p.ID_PRO = dt.ID_PRO AND
+p.ID_PRO = idproducto AND
+CURRENT_DATE <= cast(d.FECHA_FIN_DESC as date)
+AND d.ESTADO_DESC=1
+and dt.ID_DESC=d.ID_DESC
+limit 1);
+return descuento;
+END$$
+DELIMITER ;

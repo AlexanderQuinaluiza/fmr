@@ -326,3 +326,4 @@ var tabla =   $('#bootstrap-data-table').DataTable(
             }
         }
 });
+$('.table').attr('style','width:100%');

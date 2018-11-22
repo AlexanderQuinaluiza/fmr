@@ -70,7 +70,7 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label>RUC</label>
-                                            <input type="text" id="RUC_PROV" maxlength="13" class="form-control" placeholder="RUC de Proveedor">
+                                            <input type="text" id="RUC_PROV" maxlength="13" class="form-control entero" placeholder="RUC de Proveedor">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Nombre</label>
@@ -134,7 +134,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Demora entrega (días)</label>
-                                            <input type="text" id="DEMORA_ENTREGA" maxlength="10" class="form-control" placeholder="Días de demora entrega de productos">
+                                            <input type="text" id="DEMORA_ENTREGA" maxlength="10" class="form-control entero" placeholder="Días de demora entrega de productos">
                                         </div>
                                     </div>
                                     <div class="row clearfix div-error">

@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Usuarios;
 use App\UsuarioRol;
 use Illuminate\Support\Facades\DB;
-
-include ("ConfiguracionController.php");
 class UsuarioController extends Controller
 {
     /**
@@ -44,8 +42,8 @@ class UsuarioController extends Controller
         $usuario->APELLIDO_USU = $request->APELLIDO_USU;
         $usuario->TELEFONO_USU = $request->TELEFONO_USU;
         $usuario->ALIAS_USU = $request->ALIAS_USU;
-        $password = Hash::make($request->CLAVE_USU);
-        $usuario->CLAVE_USU = $password;
+        $passwordEncrypt = bcrypt($request->CLAVE_USU);  
+        $usuario->CLAVE_USU = $passwordEncrypt;
         $usuario->DIRECCION_USU = $request->DIRECCION_USU;
         $usuario->CORREO_USU = $request->CORREO_USU;
         $usuario->ESTADO_USU = 1;
@@ -91,75 +89,42 @@ class UsuarioController extends Controller
             {
                 $this->registrarUsuarioRol((int)$rol,(int)$usuario->ID_USU);
             }
-            //$this->registrarUsuarioRol((int)$value,(int)$usuario->ID_USU);
-           // echo $value;
-         
-         //echo "$key => $value\n";
         }
         $dat = '';
+        //obtiene los roles que tiene asignado a un determinado usuario
         $stringUsuarioRol = $this->getStringUsuarioRol((int)$usuario->ID_USU);
         $arrayUsuarioRol = explode(",",$stringUsuarioRol);
-        if(!empty($arrayUsuarioRol))
+        if(!empty($arrayUsuarioRol)) //si el array no esta vacío
         {
             for($i=0;$i<count($arrayUsuarioRol);$i++)
-        {
-            $dat = $arrayUsuarioRol[$i];
-
-            if(in_array($dat, $request->ROLES_USU)) //usuario ni rol esta en tabla USUARIOS_ROL
             {
-             
-            }
-            else{
-                DB::table('USUARIO_ROLES')
-                ->where('ID_ROL', '=', (int)$rol)
-                ->where('ID_USU', '=', (int)$usuario->ID_USU)
-                ->delete();         // return $idRol;
+                $dat = $arrayUsuarioRol[$i]; //toma el id del rol
 
-            }
-           
-        }
-            
+                if(!in_array($dat, $request->ROLES_USU)) //usuario ni rol esta en tabla USUARIOS_ROL
+                {
+                    DB::table('USUARIO_ROLES')
+                    ->where('ID_ROL', '=', (int)$dat)
+                    ->where('ID_USU', '=', (int)$usuario->ID_USU)
+                    ->delete();         // return $idRol;        
+                }
+            }       
         }
         else
         {
             $dat = $stringUsuarioRol;
-            DB::table('USUARIO_ROLES')
-            ->where('ID_ROL', '=', (int)$stringUsuarioRol)
-            ->where('ID_USU', '=', (int)$usuario->ID_USU)
-            ->delete();         // return $idRol;
-
-        }
-        
-        
-        
-        //$someJSON = json_encode($datos);
-        // Replace ... with your PHP Object
-       
-       
-
-
-        return $dat;
-        //$this->getArrayUsuarioRol((int)$usuario->ID_USU) as $idRol
-      /**  foreach ($this->getArrayUsuarioRol((int)$usuario->ID_USU) as $idRol) 
-        {
-          //  $existeUsuarioRol = $this->existenEnUsuarioRoles((int)$usuario->ID_USU,(int)$rol);
-          //  in_array("Irix", $request->ROLES_USU)
-            
-            if(!in_array($idRol, $request->ROLES_USU)) //usuario ni rol esta en tabla USUARIOS_ROL
+            if((int)$dat>0)
             {
-              DB::table('USUARIO_ROLES')
-                ->where('ID_ROL', '=', (int)$idRol[0]->rol)
+                DB::table('USUARIO_ROLES')
+                ->where('ID_ROL', '=', (int)$dat)
                 ->where('ID_USU', '=', (int)$usuario->ID_USU)
-                ->delete();*            // return $idRol;
-               // $this->registrarUsuarioRol((int)$rol,(int)$usuario->ID_USU);
-            }
-        }*/
+                ->delete();         // return $idRol;
+            }         
+        }
+        return $dat;
     }
 
     public function existenEnUsuarioRoles($idUsuario,$idRol)
     {
-        //$idUsuario,$idRol
-        //$queries = DB::select("tiene_parametro_ficha($param, $id_est)");
         $roles = DB::select("SELECT verificarSiTieneRol($idUsuario,$idRol) as existe");
         return $roles[0]->existe;
 
@@ -168,15 +133,7 @@ class UsuarioController extends Controller
     public function getStringUsuarioRol($idusuario)
     {
         $usuarioRoles =  DB::select("SELECT getRolesUsuario($idusuario) as roles");
-        
-      /**  DB::table('USUARIO_ROLES as usr')
-            ->join('ROLES as r', 'usr.ID_ROL', '=', 'r.ID_ROL')
-            ->join('USUARIOS as u', 'usr.ID_USU', '=', 'u.ID_USU')
-            ->select('r.ID_ROL as rol')
-            ->where('u.ID_USU', '=', $idUsuario)
-            ->get();*/
-            //json_decode($ssData, true);
-            return $usuarioRoles[0]->roles;
+        return $usuarioRoles[0]->roles;
     }
 
     /**
@@ -189,7 +146,8 @@ class UsuarioController extends Controller
     public function actualizarClave(Request $request)
     {
      $usuario = Usuarios::findOrFail($request->ID_USU);
-     $usuario->CLAVE_USU = $request->CLAVE_USU;
+     $passwordEncrypt = bcrypt($request->CLAVE_USU); 
+     $usuario->CLAVE_USU = $passwordEncrypt;
      $usuario->save();
     // Roles::find($request->ID_ROL)->delete();
     }
@@ -199,7 +157,7 @@ class UsuarioController extends Controller
      $usuario = Usuarios::findOrFail($request->ID_USU);
      $usuario->ESTADO_USU = 0;
      $usuario->save();
-    // Roles::find($request->ID_ROL)->delete();
+     //Usuarios::find($request->ID_USU)->delete();
     }
     public function activar(Request $request)
     {

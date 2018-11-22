@@ -13,6 +13,13 @@ class CategoriasController extends Controller
         return response()->json(['data'=>$categorias],200);
     }
 
+    public function categoriasActivas()
+    {  
+        $categorias=Categorias::All()->where('ESTADO_CAT','=',1);
+        return response()->json(['data'=>$categorias],200);
+    }
+
+
     public function categoriaById()
     {
         $id = (int) $_GET['ID_CAT'];

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Roles;
+use App\OpcionRoles;
 use Illuminate\Support\Facades\DB;
-include ("ConfiguracionController.php");
 class RolController extends Controller
 {
     /**
@@ -43,6 +43,40 @@ class RolController extends Controller
       return response()->json($roles);   
     }
 
+    public function existenEnOpcionRoles($idModulo,$idRol)
+    {
+        $modulos = DB::select("SELECT verificarSiTieneModulo($idRol,$idModulo) as existe");
+        return $modulos[0]->existe;
+
+    }
+
+    public function getStringOpcionesRol($idRol)
+    {
+        $opcionesRol =  DB::select("SELECT getOpcionesRol($idRol) as modulos");
+        return $opcionesRol[0]->modulos;
+    }
+
+    public function getModulosDeRol()
+    {
+        $idRol = (int)$_GET['ID_ROL'];
+        $modulosDeRol = DB::table('OPCION_ROLES as op')
+        ->join('MODULOS as m','m.ID_MOD','=','op.ID_MOD')
+        ->join('ROLES as r','r.ID_ROL','=','op.ID_ROL')
+        ->select('m.NOMBRE_MOD as modulo','r.NOMBRE_ROL as rol')
+        ->where('op.ID_ROL', '=', $idRol)
+        ->get();
+        return response()->json(['data'=>$modulosDeRol],200);
+    }
+
+    public function getModulosUpdate()
+    {
+      $rol = (int) $_GET['ID_ROL'];
+      $modulos = DB::table('MODULOS as m')
+      ->select('m.ID_MOD as id', 'm.NOMBRE_MOD as text',DB::raw("verificarSiTieneModulo($rol,m.ID_MOD) as selected"))
+      ->get();
+      return response()->json($modulos);   
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,8 +85,24 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[ 'NOMBRE_ROL'=>'required|unique:ROLES', 'DESCRIPCION_ROL'=>'required']);
-        Roles::create($request->all());
+        $rol = new Roles;
+        $rol->NOMBRE_ROL = $request->NOMBRE_ROL;
+        $rol->DESCRIPCION_ROL = $request->DESCRIPCION_ROL;
+        $rol->ESTADO_ROL = 1;
+        $rol->save();
+        foreach ($request->MODULOS_ROL as $value) {          
+                $this->registrarOpcionesRol((int)$value,(int)$rol->ID_ROL);
+            }
+        return $rol;
+    
+    }
+
+    public function registrarOpcionesRol($idModulo,$idRol)
+    {
+        $opcionRol = new OpcionRoles;
+        $opcionRol->ID_MOD = $idModulo;
+        $opcionRol->ID_ROL = $idRol;
+        $opcionRol->save();
     }
 
     /**
@@ -68,6 +118,46 @@ class RolController extends Controller
       $rol->NOMBRE_ROL = $request->NOMBRE_ROL;
       $rol->DESCRIPCION_ROL = $request->DESCRIPCION_ROL;
       $rol->save();
+
+        foreach ($request->MODULOS_ROL as $modulo) 
+        {
+            $existeOpcionRol = $this->existenEnOpcionRoles((int)$modulo,(int)$rol->ID_ROL);
+            if((int)$existeOpcionRol==0) //modulo ni rol esta en tabla OPCION_ROLES
+            {
+                $this->registrarOpcionesRol((int)$modulo,(int)$rol->ID_ROL);
+            }
+        }
+        $dat = '';
+        //obtiene los módulos que tiene asignado un determinado rol
+        $stringOpcionRoles = $this->getStringOpcionesRol((int)$rol->ID_ROL);
+        $arrayOpcionRol = explode(",",$stringOpcionRoles);
+        if(!empty($arrayOpcionRol)) //si el array no esta vacío
+        {
+            for($i=0;$i<count($arrayOpcionRol);$i++)
+            {
+                $dat = $arrayOpcionRol[$i]; //toma el id del modulo
+
+                if(!in_array($dat, $request->MODULOS_ROL)) 
+                {
+                    DB::table('OPCION_ROLES')
+                    ->where('ID_MOD', '=', (int)$dat)
+                    ->where('ID_ROL', '=', (int)$rol->ID_ROL)
+                    ->delete();              
+                }         
+            }    
+        }
+        else
+        {
+            $dat = $stringOpcionRoles; 
+            if((int)$dat>0)
+            {
+                DB::table('OPCION_ROLES')
+                ->where('ID_MOD', '=', (int)$dat)
+                ->where('ID_ROL', '=', (int)$rol->ID_ROL)
+                ->delete();
+            }        
+        }
+        return $dat;
     }
 
     /**

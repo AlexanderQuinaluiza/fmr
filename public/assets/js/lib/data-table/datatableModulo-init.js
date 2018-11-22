@@ -1,27 +1,22 @@
 /**
- * FUNCIONES PARA LA GESTIÓN DE ROLES
+ * FUNCIONES PARA LA GESTIÓN DE MÓDULOS
  */
 
  /**
-  *permite validar los datos de entrada para rol 
+  *permite validar los datos de entrada para módulo 
   * @param {int} opcion -1=registrar, 2=actualizar
   */
 function validarDatos(opcion)
 {
     var error = 0;
     var errorMostrarMsj = [];
-    if(!$('#NOMBRE_ROL').val().trim()) errorMostrarMsj.push("El nombre de rol no puede estar vacío");
-    if(!$('#DESCRIPCION_ROL').val().trim()) errorMostrarMsj.push("La descripción de rol no puede estar vacío");
+    if(!$('#NOMBRE_MOD').val().trim()) errorMostrarMsj.push("El nombre de módulo no puede estar vacío");
+    //if(!$('#ICONO_MOD').val().trim()) errorMostrarMsj.push("La descripción de rol no puede estar vacío");
+    if(!$('#URL_MOD').val().trim()) errorMostrarMsj.push("El identificador de módulo no puede estar vacío");
     if(opcion==2) //opcion para editar
     {
-        if(!$('#id').val().trim()) errorMostrarMsj.push("Escoja un rol existente de la lista");
+        if(!$('#id').val().trim()) errorMostrarMsj.push("Escoja un módulo existente de la lista");
     }
-
-    if(contarModulos()==0)
-    {
-         errorMostrarMsj.push("Escoja al menos un módulo");
-    }
-
     if(errorMostrarMsj.length){
         $('#lstErrores').empty();
         error = 1;
@@ -50,41 +45,41 @@ function limpiarDatos()
 }
 
 /**
- * permite registrar un rol
+ * permite registrar un módulo
  */
 function registrar()
 {
     if(validarDatos(1)){
         return;
     }
-    axios.post('/roles/registrar',{
-        'NOMBRE_ROL': $('#NOMBRE_ROL').val().trim(),
-        'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim(),
-        'MODULOS_ROL' : getModulosSeleccionados()
+    axios.post('/modulos/registrar',{
+        'NOMBRE_MOD': $('#NOMBRE_MOD').val().trim(),
+        'ICONO_MOD' : $('#ICONO_MOD').val().trim(),
+        'URL_MOD' : $('#URL_MOD').val().trim()
     }).then(function (response){
     tabla.ajax.reload();
     limpiarDatos();
     toastr.success('Registrado correctamente!')
     })
     .catch(function (error) {
-     //console.log(error);
+     console.log(error);
      toastr.error('No se ha podido guardar el registro.', 'Error!')
     });
 }
 
 /**
- * permite actualizar un rol existente
+ * permite actualizar un módulo existente
  */
 function actualizar()
 {
     if(validarDatos(2)){
        return;
    }                   
-   axios.post('/roles/actualizar',{
-       'ID_ROL': $('#id').val().trim(),
-       'NOMBRE_ROL':$('#NOMBRE_ROL').val().trim(),
-       'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim(),
-       'MODULOS_ROL': getModulosSeleccionados()
+   axios.post('/modulos/actualizar',{
+       'ID_MOD': $('#id').val().trim(),
+       'NOMBRE_MOD':$('#NOMBRE_MOD').val().trim(),
+       'ICONO_MOD' : $('#ICONO_MOD').val().trim(),
+       'URL_MOD' : $('#URL_MOD').val().trim()
    }).then(function (response){
    tabla.ajax.reload();
    toastr.info('Actualizado correctamente!')
@@ -96,8 +91,8 @@ function actualizar()
 }
 
 /**
- * permite actualizar el estado de un rol de activo a inactivo
- * @param {int} idRegistro -identificador de rol
+ * permite actualizar el estado de un módulo de activo a inactivo
+ * @param {int} idRegistro -identificador de módulo
  */
 function desactivar(idRegistro)
 {
@@ -108,7 +103,7 @@ function desactivar(idRegistro)
     })
 
     swalWithBootstrapButtons({
-    title: 'Esta seguro de desactivar este rol?',
+    title: 'Esta seguro de desactivar este módulo?',
     type: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Aceptar!',
@@ -116,8 +111,8 @@ function desactivar(idRegistro)
     reverseButtons: true
     }).then((result) => {
     if (result.value) {
-        axios.post('/roles/desactivar',{
-        'ID_ROL':idRegistro
+        axios.post('/modulos/desactivar',{
+        'ID_MOD':idRegistro
         }).then(function (response){
         tabla.ajax.reload();
         toastr.warning('El registro ha sido desactivado con éxito!')
@@ -130,13 +125,13 @@ function desactivar(idRegistro)
 }
 
 /**
- * permite actualizar el estado de un rol de inactivo a activo
- * @param {int} idRegistro -identificador de rol
+ * permite actualizar el estado de un módulo de inactivo a activo
+ * @param {int} idRegistro -identificador de módulo
  */
 function activar(idRegistro)
 {
-    axios.post('/roles/activar',{
-    'ID_ROL':idRegistro
+    axios.post('/modulos/activar',{
+    'ID_MOD':idRegistro
     }).then(function (response){
     tabla.ajax.reload();
     })
@@ -146,17 +141,17 @@ function activar(idRegistro)
 }
 
 /**
- * permite obtener un rol dado su id
- * @param {int} idRegistro - id de rol
+ * permite obtener un módulo dado su id
+ * @param {int} idRegistro - id de módulo
  */
 function getRegistroById(idRegistro){
-    var url = '/roles/byid';
-    axios.get(url, { params: { ID_ROL: idRegistro } }).then(function (response){
-        $('#id').val(response.data.ID_ROL);
-        $('#NOMBRE_ROL').val(response.data.NOMBRE_ROL);
-        $('#DESCRIPCION_ROL').val(response.data.DESCRIPCION_ROL);
-        $('#btnCancelarActualizar').show();
-        listarModulosUpdate(idRegistro);                                                                                                                   
+    var url = '/modulos/byid';
+    axios.get(url, { params: { ID_MOD: idRegistro } }).then(function (response){
+        $('#id').val(response.data.ID_MOD);
+        $('#NOMBRE_MOD').val(response.data.NOMBRE_MOD);
+        $('#URL_MOD').val(response.data.URL_MOD);
+        $('#ICONO_MOD').val(response.data.ICONO_MOD);
+        $('#btnCancelarActualizar').show();                                                                                                                      
     })
     .catch(function (error) {
         console.log(error);
@@ -204,141 +199,17 @@ function cambiarTab(indice,idRegistro)
             $('#editar-tab').html('<i class="fa fa-edit"></i>'+' Editar');
             getRegistroById(idRegistro);
             $('#lstErrores').empty();
-            //if(!$('#id').val())getModulosActivosNuevo();
-            
             break;
         }
     }
 }
 
-/**
- * Permite mostrar los módulos activos en controles tipo checkbox
- */
-function getModulosActivosNuevo()
-{
-    var url = '/modulos/activos';
-    axios.get(url).then(function (response){
-        var valor = "";
-        var texto = "";
-        var html = '';
-        for (var key in response.data) 
-        {
-            valor = response.data[key]['ID_MOD'];
-            texto = response.data[key]['NOMBRE_MOD'];
-            //console.log("datos: "+response.data[key]['text']);
-            html+= '<div class="checkbox"><label class="form-check-label ">'+
-            '<input type="checkbox" name="modulosR" id="modulo'+valor+'" value="'+valor+'" class="form-check-input">'+
-            texto+'</label></div>';                                
-        }
-        $('#divchecks').append(html);                    
-    })
-    .catch(function (error) {
-     console.log(error);
-    });        
-}
-
-/**
-  * permite obtener un listado de los módulos a los que puede acceder un rol
-  * @param {int} idRegistro -identificador de rol
-  */
- function listarModulosUpdate(idRegistro)
- {
-     var url = '/roles/modulos/update';
-     axios.get(url, { params: { ID_ROL: idRegistro } }).then(function (response){
-         for (var key in response.data) {
-             var selected = response.data[key]['selected'];
-             var valor = response.data[key]['id']
-             if(selected>0)
-             {
-                 $( "#modulo"+valor).prop('checked', true);
-             }
-             else
-             {
-                 $( "#modulo"+valor).prop('checked', false);
-             }                                                                          
-         }                                               
-     })
-     .catch(function (error) {
-         console.log(error);
-     });                     
- }
-
-/**
- * permite contar los módulos marcados en los input tipo check
- * @return {int} numero -numero de módulos seleccionados/marcados
- */
-function contarModulos(){
-    var numero = 0;
-    var result = $('input[name="modulosR"]:checked');
-    if (result.length > 0) {
-        result.each(function(){
-            numero++;
-         });                      
-    }else{
-       numero=0;
-    }
-    return numero;
-}
-
-/**
- * permite obtener una lista de los módulos seleccionados a los cuales
- * un rol determinado va a tener acceso
- * @return {array} listadoModulos -lista con los identificadores de los módulos seleccionados
- */
-function getModulosSeleccionados()
- {
-    var listadoModulos =[];
-    var result = $('input[name="modulosR"]:checked');
-    if (result.length > 0) {
-        result.each(function(){
-            listadoModulos.push(jQuery(this).val()); 
-            //console.log("item: "+jQuery(this).val());                  
-        });                     
-    }else{
-        console.log(" Ningun checkbox  esta seleccionado");
-    }
-    return listadoModulos;
- }
-
- function detalles(idRegistro)
- {
-    var url = '/roles/modulos';
-    axios.get(url,{
-        params: {
-          ID_ROL: idRegistro
-        }}).then(function (response){
-        var longitud = Object.keys(response.data.data).length;
-        if(longitud>0)
-        {
-            var NOMBRE_ROL='';
-            $('#lstModulos').empty();
-            var lista = '';
-            $.each(response.data.data,function(key,entry){
-                NOMBRE_ROL = entry.rol;            
-                lista+='<li class="fa fa-check" aria-hidden="true">&nbsp;'+entry.modulo+'</li><br>';
-            });
-            $('#lstModulos').append(lista);
-            $('#lblNombreRol').html("Rol <strong>"+NOMBRE_ROL+"</strong> tiene acceso a los siguientes módulos:");
-        }
-        else
-        {
-            $('#lstModulos').empty();
-            $('#lblNombreRol').html("Este rol no tiene acceso a ningún módulo");
-        }
-    //console.log(longitud);
-    
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
- }
 //----------------------------------INICIALIZACIÓN DE MÉTODOS-------------------------
-//detalles(18);
 $('#btnCancelarActualizar').hide();
 //tab activo por defecto
 cambiarTab(0,0);
-getModulosActivosNuevo();
-$('#btnGuardarRol').click(function(){
+
+$('#btnGuardar').click(function(){
     var esEditar = $('#id').val().trim();
     if(!esEditar)
     registrar();
@@ -356,46 +227,46 @@ var tabla =   $('#bootstrap-data-table').DataTable(
 {
       'ajax'       : {
        "type"   : "GET",
-       "url"    : "roles",
+       "url"    : "modulos",
        "dataSrc": function (json) {
          var return_data = new Array();
           var buttons = '';       
           var btn = '';
           var labelEstado = '';
+          var icono = '';
          for(var i=0;i< json.data.length; i++){
-          var ID_ROL = json.data[i].ID_ROL;
-          var btnVerDetalles = '<button type="button" data-toggle="modal" data-target="#mediumModal" onclick="detalles('+ID_ROL+');" class="btn btn-info"><span class="fa fa-info-circle"></span> </button>';   
-          
-           if(json.data[i].ESTADO_ROL>0)
+          var ID_MOD = json.data[i].ID_MOD;
+           if(json.data[i].ESTADO_MOD>0)
            {
-             btn = '<button type="button" onclick="desactivar('+ID_ROL+');" class="btn btn-danger"><span class="fa fa-trash"></span> Desactivar</button>';
+             btn = '<button type="button" onclick="desactivar('+ID_MOD+');" class="btn btn-danger"><span class="fa fa-trash"></span> Desactivar</button>';
              labelEstado =  '<span  class="badge badge-success">Activo</span>';
            }
            else {
-            //var saludo = new Saludar();
-             btn = '<button type="button" onclick="activar('+ID_ROL+')" class="btn btn-success"><span class="fa fa-check"></span> Activar</button>';
+             btn = '<button type="button" onclick="activar('+ID_MOD+')" class="btn btn-success"><span class="fa fa-check"></span> Activar</button>';
              labelEstado = '<span  class="badge badge-danger">Inactivo</span>';
            }          
            buttons = '<div class="btn-group btn-group-sm">'+
-           '<button class="btn btn-primary" onclick="cambiarTab(1,'+ID_ROL+');"><span class="fa fa-pencil-square-o"></span> Editar</button>'+btnVerDetalles+btn+'</div>';
-           //console.log("jaja");
+           '<button class="btn btn-primary" onclick="cambiarTab(1,'+ID_MOD+');"><span class="fa fa-pencil-square-o"></span> Editar</button>'+btn+'</div>';
+           icono = '<span class="'+json.data[i].ICONO_MOD+'"></span>';
            return_data.push({
-             'ID_ROL': json.data[i].ID_ROL,
-             'NOMBRE_ROL'  : json.data[i].NOMBRE_ROL,
-             'DESCRIPCION_ROL'  : json.data[i].DESCRIPCION_ROL,
-             'ESTADO_ROL' : labelEstado,
-             'ACCIONES_ROL' : buttons
+             'ID_MOD': json.data[i].ID_MOD,
+             'NOMBRE_MOD'  : json.data[i].NOMBRE_MOD,
+             'ICONO_MOD'  : icono,
+             'URL_MOD'  : json.data[i].URL_MOD,
+             'ESTADO_MOD' : labelEstado,
+             'ACCIONES_MOD' : buttons
            })
          }
          return return_data;
        }
      },
      "columns"    : [
-       {'data': 'ID_ROL'},
-       {'data': 'NOMBRE_ROL'},
-       {'data': 'DESCRIPCION_ROL'},
-       {'data': 'ESTADO_ROL'},
-       {'data': 'ACCIONES_ROL'}
+       {'data': 'ID_MOD'},
+       {'data': 'NOMBRE_MOD'},
+       {'data': 'ICONO_MOD'},
+       {'data': 'URL_MOD'},
+       {'data': 'ESTADO_MOD'},
+       {'data': 'ACCIONES_MOD'}
      ],
         dom: 'lBfrtip',
         lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "Todo"]],

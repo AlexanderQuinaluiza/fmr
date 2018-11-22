@@ -13,7 +13,7 @@ class ProductoController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -21,10 +21,11 @@ class ProductoController extends Controller
         $productos = Productos::All();    
         return response()->json(['data'=>$productos],200);
     }
-    /** funcion agregada para usar en los detalles de descuentos */
-    public function productosActivos(){
-        $productos = Productos::All()
-        ->where('ESTADO_PRO', '=', 1);    
+    public function productosActivos()
+    {
+        $productos = Productos::select('ID_PRO','NOMBRE_PRO')
+        ->where('ESTADO_PRO','>',0)
+        ->get();    
         return response()->json(['data'=>$productos],200);
     }
 
@@ -296,10 +297,10 @@ public function productoEjemplar()
 
     public function desactivar(Request $request)
     {
-     $producto = Productos::findOrFail($request->ID_PRO);
-     $producto->ESTADO_PRO = 0;
-     $producto->save();
-     //Productos::find($request->ID_PRO)->delete();
+     //$producto = Productos::findOrFail($request->ID_PRO);
+     //$producto->ESTADO_PRO = 0;
+     //$producto->save();
+     Productos::find($request->ID_PRO)->delete();
     }
     public function activar(Request $request)
     {

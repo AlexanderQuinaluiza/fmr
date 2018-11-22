@@ -99,7 +99,7 @@ function actualizarUsuario()
     if(validarDatosUsuario(2)){
        return;
    }                                    
-   axios.put('/usuarios/actualizar',{
+   axios.post('/usuarios/actualizar',{
        'ID_USU': $('#id').val().trim(),
        'CED_RUC_USU':$('#CED_RUC_USU').val().trim(),
        'NOMBRE_USU':$('#NOMBRE_USU').val().trim(),
@@ -110,10 +110,10 @@ function actualizarUsuario()
        'CORREO_USU':$('#CORREO_USU').val().trim(),
        'ROLES_USU': getRolesSeleccionados()
    }).then(function (response){
-    console.log(getRolesSeleccionados());
+    //console.log(getRolesSeleccionados());
     tabla.ajax.reload();
     toastr.info('Actualizado correctamente!')
-    console.log(response);
+    //console.log(response);
     })
     .catch(function (error) {
         console.log(error);
@@ -233,7 +233,7 @@ function actualizarClave()
     if(validarClave()){
     return;
     }
-    axios.put('/usuarios/actualizarClave',{
+    axios.post('/usuarios/actualizarClave',{
         'ID_USU':$('#id').val().trim(),
         'CLAVE_USU':$('#newPassword').val().trim()                      
     }).then(function (response){                  
@@ -341,7 +341,7 @@ function listarRolesUpdate(idRegistro)
   */
 function activar(idRegistro)
 {
-    axios.put('/usuarios/activar',{
+    axios.post('/usuarios/activar',{
     'ID_USU':idRegistro
     }).then(function (response){
     tabla.ajax.reload();
@@ -372,14 +372,14 @@ function desactivar(idRegistro)
     reverseButtons: true
     }).then((result) => {
         if (result.value) {
-            axios.put('/usuarios/desactivar',{
+            axios.post('/usuarios/desactivar',{
             'ID_USU':idRegistro
             }).then(function (response){
             tabla.ajax.reload();
             toastr.warning('El registro ha sido desactivado con éxito!')                    
         })
         .catch(function (error) {
-        toastr.error('No se ha podido borrar el registro.', 'Error!')
+        toastr.error('No se ha podido desactivar el registro.', 'Error!')
         });      
         }
     })
@@ -610,3 +610,4 @@ var tabla =   $('#bootstrap-data-table').DataTable(
             }
         }
 });
+$('.table').attr('style','width:100%');

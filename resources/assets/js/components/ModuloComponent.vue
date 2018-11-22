@@ -3,36 +3,9 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 id="titulo"><i class="fa fa-users"></i> Roles </h4>
+                    <h4 id="titulo"><i class="fa fa-users"></i> Módulos </h4>
                 </div>
                 <div class="card-body">
-
-                     <!--Inicio modal detalle producto -->
-                    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-primary" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header modal-header-primary">
-                                    <h5 class="modal-title" id="mediumModalLabel">DETALLE ROL</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-12">
-                                            <label id="lblNombreRol"> </label>
-                                             <ul id="lstModulos"></ul>
-                                        </div>                                                                            
-                                    </div>                                                                                                                                                                                                    
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-                                
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!--Fin modal detalles producto -->
-
                     <div class="custom-tab">
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -61,27 +34,23 @@
                                 <form id="form">
                                     <input type="hidden" id="id" value="">
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-4">
                                             <label>Nombre</label>
-                                            <input type="text" id="NOMBRE_ROL" required class="form-control" placeholder="Nombre de rol" maxlength="110">
+                                            <input type="text" id="NOMBRE_MOD" required class="form-control" placeholder="Nombre de módulo" maxlength="100">
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Descripción</label>
-                                            <input type="text" id="DESCRIPCION_ROL" required class="form-control" placeholder="Descripción de rol" maxlength="200">
+                                        <div class="form-group col-md-4">
+                                            <label>Icono</label>
+                                            <input type="text" id="ICONO_MOD" required class="form-control" placeholder="Icono de módulo" maxlength="100">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Identificador</label>
+                                            <input type="text" id="URL_MOD" required class="form-control entero" placeholder="Identificador de módulo" maxlength="4">
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                            <label class="col-md-2 form-control-label">Módulos </label>
-                                            <div class="col-md-10">                                          
-                                                <div class="form-check" id="divchecks">
-                                                </div>
-                                            </div>
-                                    </div>
-
                                     <div class="row clearfix div-error">
                                             <ul id="lstErrores"></ul>
                                     </div>                                                             
-                                     <button type="button" id="btnGuardarRol" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                     <button type="button" id="btnGuardar" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
                                     <button type="button" id="btnCancelarActualizar" class="btn btn-warning"><i class="fa fa-times"></i> Cancelar</button>
                                 </form>
                             </div>
@@ -97,12 +66,12 @@
         export default {
             data(){
                 return{
-                   cabeceras : ["Id","Nombre","Descripción","Estado","Acciones"]
+                   cabeceras : ["#","Nombre","Icono","Id","Estado","Acciones"]
                 }
             },
             mounted() {              
            let datatable = document.createElement('script')
-            datatable.setAttribute('src', 'assets/js/lib/data-table/datatableRol-init.js')
+            datatable.setAttribute('src', 'assets/js/lib/data-table/datatableModulo-init.js')
             document.head.appendChild(datatable)
             }
         }

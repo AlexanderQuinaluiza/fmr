@@ -554,7 +554,7 @@ var tabla =   $('#bootstrap-data-table').DataTable(
              'ID_PRO': json.data[i].ID_PRO,
              'NOMBRE_PRO'  : json.data[i].NOMBRE_PRO,
              'DESCRIPCION_PRO'  : json.data[i].DESCRIPCION_PRO,
-             //'ETIQUETAS_PRO'  : json.data[i].ETIQUETAS_PRO,
+             'ETIQUETAS_PRO'  : json.data[i].ETIQUETAS_PRO,
              'STOCK_PRO'  : json.data[i].STOCK_PRO,
              'ESTADO_PRO' : labelEstado,
              'ACCIONES_PRO' : buttons
@@ -567,7 +567,7 @@ var tabla =   $('#bootstrap-data-table').DataTable(
        {'data': 'ID_PRO'},
        {'data': 'NOMBRE_PRO'},
        {'data': 'DESCRIPCION_PRO'},
-      // {'data': 'ETIQUETAS_PRO'},
+       {'data': 'ETIQUETAS_PRO'},
        {'data': 'STOCK_PRO'},
        {'data': 'ESTADO_PRO'},
        {'data': 'ACCIONES_PRO'}
@@ -644,3 +644,4 @@ var tabla =   $('#bootstrap-data-table').DataTable(
             }
         }
 });
+$('.table').attr('style','width:100%');

@@ -18,6 +18,13 @@ class ProveedorController extends Controller
         return response()->json(['data'=>$proveedores],200);
     }
 
+    public function activos()
+    {
+        $proveedores = Proveedores::select('ID_PROV','NOMBRE_PROV')
+        ->where('ESTADO_PROV','>',0)->get();
+        return response()->json(['data'=>$proveedores],200);
+    }
+
     public function proveedorById()
     {
         $id = (int) $_GET['ID_PROV'];

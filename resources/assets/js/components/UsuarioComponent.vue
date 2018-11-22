@@ -166,9 +166,9 @@
                 }
             },
             mounted() {              
-            /** let sa = document.createElement('script')
+            let sa = document.createElement('script')
             sa.setAttribute('src', 'assets/js/lib/data-table/datatables-init.js')
-            document.head.appendChild(sa)*/
+            document.head.appendChild(sa)
             }
         }
 </script>

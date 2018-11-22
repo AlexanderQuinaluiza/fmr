@@ -87,3 +87,60 @@ WHERE TIPO_DOC='Factura';
 
 end;
 //
+
+/** trigger calculos y set ventas y detalle ventas*/
+
+drop trigger if exists trgInsertBeforeDetallesVentas;
+Delimiter //
+create trigger trgInsertBeforeDetallesVentas
+before insert on DETALLE_VENTAS
+for each row
+begin
+declare total numeric(10,2) default 0;
+declare iva numeric(10,2) default 0;
+declare subiva numeric(10,2)default 0;
+declare subcero numeric(10,2) default 0;
+declare totaldesc numeric(10,2) default 0;
+/** ID_VEN, ID_USU, ID_CLI, FECHA_VEN, DESCRIPCION_VEN, IVA_VEN, TOTAL_VEN, ESTADO, SUBT_IVA, SUBT_CERO, TOTAL_DESC */
+declare subtotaldel numeric(10,2) default 0;
+/**ID_DET_VEN, ID_PRO, ID_VEN, CANTIDAD_PRO, PRECIO_VEN, AHORRO*/
+set new.PRECIO_VEN=(select p.PRECIO_VENTA_PRO from PRODUCTOS p
+ where p.ID_PRO=new.ID_PRO);
+set new.AHORRO=(select p.PRECIO_VENTA_PRO*new.CANTIDAD_PRO - p.PRECIO_PROMOCIONAL_PRO*new.CANTIDAD_PRO from PRODUCTOS p
+ where p.ID_PRO=new.ID_PRO); 
+ 
+set new.SUBTOTAL=(select p.PRECIO_VENTA_PRO*new.CANTIDAD_PRO from PRODUCTOS p
+where p.ID_PRO=new.ID_PRO); 
+
+ 
+ set subcero=( select sum(v.SUBTOTAL)
+			  from PRODUCTOS p,DETALLE_VENTAS v
+             where v.ID_VEN=1
+             and p.ID_PRO=v.ID_PRO
+             and p.APLICA_IVA_PRO=1);
+             
+set subiva=( select sum(v.SUBTOTAL)
+			 from PRODUCTOS p,DETALLE_VENTAS v
+             where v.ID_VEN=1
+             and p.ID_PRO=v.ID_PRO
+             and p.APLICA_IVA_PRO=0);
+             
+             set totaldesc=(select sum(AHORRO)   
+             from DETALLE_VENTAS
+             where ID_VEN=1); 
+             /* SELECT IVA*/
+set iva=(select subiva*VALOR_CONF from CONFIGURACIONES where ID_CONF=2);
+
+set total=(subcero+subiva-totaldesc+iva); 
+update VENTAS
+SET IVA_VEN=iva,
+TOTAL_VEN=total,
+SUBT_IVA= subiva, SUBT_CERO=subcero, TOTAL_DESC=totaldesc
+WHERE ID_VEN=new.ID_VEN;
+ end;
+//
+
+/********* add column ejemplares para guardar el estado ***///
+
+alter table  EJEMPLARES
+add column ESTADO tinyint not null default 1;

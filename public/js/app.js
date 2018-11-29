@@ -41111,7 +41111,12 @@ var render = function() {
                             _c("div", { staticClass: "card-body" }, [
                               _vm._m(4),
                               _vm._v(" "),
-                              _c("hr"),
+                              _c("hr", {
+                                staticStyle: {
+                                  "margin-top": "0",
+                                  "margin-bottom": "0"
+                                }
+                              }),
                               _vm._v(" "),
                               _c("div", { staticClass: "table-responsive" }, [
                                 _c(
@@ -41165,7 +41170,12 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _c("hr"),
+                              _c("hr", {
+                                staticStyle: {
+                                  "margin-top": "0",
+                                  "margin-bottom": "0"
+                                }
+                              }),
                               _vm._v(" "),
                               _vm._m(5)
                             ])
@@ -41495,7 +41505,7 @@ var staticRenderFns = [
           })
         ]),
         _vm._v(" "),
-        _c("hr"),
+        _c("hr", { staticStyle: { "margin-top": "0", "margin-bottom": "0" } }),
         _vm._v(" "),
         _c("label", { attrs: { for: "" } }, [_vm._v("Código de barras")]),
         _vm._v(" "),
@@ -41600,7 +41610,17 @@ var staticRenderFns = [
                   [_vm._v("Valor")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "valorfac" } }, [_vm._v("0.00 ")])
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "end",
+                      "padding-right": "18px"
+                    },
+                    attrs: { id: "valorfac" }
+                  },
+                  [_vm._v("0.00 ")]
+                )
               ]),
               _vm._v(" "),
               _c("tr", [
@@ -41610,7 +41630,17 @@ var staticRenderFns = [
                   [_vm._v("Subtotal IVA")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "subtotalivafac" } }, [_vm._v("0.00 ")])
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "end",
+                      "padding-right": "18px"
+                    },
+                    attrs: { id: "subtotalivafac" }
+                  },
+                  [_vm._v("0.00 ")]
+                )
               ]),
               _vm._v(" "),
               _c("tr", [
@@ -41620,9 +41650,17 @@ var staticRenderFns = [
                   [_vm._v("Subtotal 0%")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "subtotalcerofac" } }, [
-                  _vm._v("0.00 ")
-                ])
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "end",
+                      "padding-right": "18px"
+                    },
+                    attrs: { id: "subtotalcerofac" }
+                  },
+                  [_vm._v("0.00 ")]
+                )
               ]),
               _vm._v(" "),
               _c("tr", [
@@ -41632,7 +41670,17 @@ var staticRenderFns = [
                   [_vm._v("Descuentos")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "descfac" } }, [_vm._v(" 0.00")])
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "end",
+                      "padding-right": "18px"
+                    },
+                    attrs: { id: "descfac" }
+                  },
+                  [_vm._v(" 0.00")]
+                )
               ]),
               _vm._v(" "),
               _c("tr", [
@@ -41642,7 +41690,17 @@ var staticRenderFns = [
                   [_vm._v("Tarifa 0%")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "subcero" } }, [_vm._v("0.00 ")])
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "end",
+                      "padding-right": "18px"
+                    },
+                    attrs: { id: "subcero" }
+                  },
+                  [_vm._v("0.00 ")]
+                )
               ]),
               _vm._v(" "),
               _c("tr", [
@@ -41652,7 +41710,17 @@ var staticRenderFns = [
                   [_vm._v("Tarifa 12%")]
                 ),
                 _vm._v(" "),
-                _c("th", { attrs: { id: "sub12" } }, [_vm._v("0.00 ")])
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "end",
+                      "padding-right": "18px"
+                    },
+                    attrs: { id: "sub12" }
+                  },
+                  [_vm._v("0.00 ")]
+                )
               ]),
               _vm._v(" "),
               _c("tr", [

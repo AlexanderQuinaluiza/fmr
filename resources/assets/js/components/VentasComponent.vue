@@ -151,7 +151,7 @@
     
   </div>
  </div>
- <hr>
+ <hr style="margin-top: 0;margin-bottom: 0;">
 
   <label for="">Código de barras</label>
   <input type="text" class="form-control" id="barcode" onchange="verificarEjemplar();" autofocus>
@@ -169,7 +169,7 @@
   <!-- fin eqtiquetas del usuario -->
   </div>
                                     </div>
-    <hr>
+    <hr style="margin-top: 0;margin-bottom: 0;">
     <div class="table-responsive">
                             <table class="table table-bordered table-hover dataTable js-exportable">
                                 <thead style="color:#fff;background:#546e7a;">
@@ -183,7 +183,7 @@
                              </table>
                             </div>  
  <!-- subtotales--> 
-                            <hr>
+                            <hr style="margin-top: 0;margin-bottom: 0;">
                           <div class="form-row">
                                <div class="col-md-6">
                                  <div class="row clearfix div-error">
@@ -215,28 +215,28 @@
                                 <tbody> 
                                      <tr>
                                     <th style="color:#fff;background:#546e7a;">Valor</th>
-                                     <th id="valorfac">0.00 </th>                                         
+                                     <th id="valorfac" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
                                     </tr>  
                                     <tr>
                                     <th style="color:#fff;background:#546e7a;">Subtotal IVA</th>
-                                     <th id="subtotalivafac">0.00 </th>                                         
+                                     <th id="subtotalivafac" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
                                     </tr>
                                       <tr>
                                     <th style="color:#fff;background:#546e7a;">Subtotal 0%</th>
-                                     <th id="subtotalcerofac">0.00 </th>                                         
+                                     <th id="subtotalcerofac" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
                                     </tr>   
                                      <tr>
                                     <th style="color:#fff;background:#546e7a;">Descuentos</th>
-                                     <th id="descfac"> 0.00</th>                                         
+                                     <th id="descfac" style="text-align: end;padding-right: 18px;"> 0.00</th>                                         
                                     </tr>  
                                    
                                     <tr>
                                     <th style="color:#fff;background:#546e7a;">Tarifa 0%</th>
-                                     <th id="subcero">0.00 </th>                                         
+                                     <th id="subcero" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
                                     </tr> 
                                     <tr>
                                     <th style="color:#fff;background:#546e7a;">Tarifa 12%</th>
-                                     <th id="sub12">0.00 </th>                                         
+                                     <th id="sub12" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
                                     </tr>
                                                           
                                     <tr>

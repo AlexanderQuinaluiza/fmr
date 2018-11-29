@@ -196,3 +196,141 @@ create table INVENTARIOS
 
 alter table INVENTARIOS add constraint FK_ESTA_EN_INVENTARIO foreign key (ID_PRO)
       references PRODUCTOS (ID_PRO) ;
+/** procedimiento para verificar si la caja esta aperturada*/
+
+drop procedure if exists spGetApertura;
+create procedure spGetApertura(in caja int, in usuario int)
+select count(ID_CCJ) as resultado from CIERRE_CAJA 
+where date_format(FECHA_APERTUTA_CCJ,'%d-%m-%Y') = date_format(sysdate(),'%d-%m-%Y')
+AND ID_CAJA=caja and ID_USU= usuario;
+
+/** procedimiento para sacar los datos de cabecera de factura ***/
+drop procedure if exists spGetCabeceraFac;
+
+create procedure spGetCabeceraFac(in usuario int)
+select g.ID_AGE, g.NOMBRE_AGE, g.DIRECCION_AGE, g.RUC_AGE, g.LOGO_AGE, c.DESCRIPCION_CAJA
+from AGENCIAS g, CAJAS c,USUARIOS u
+WHERE g.ID_AGE = c.ID_CAJA
+and c.ID_CAJA=u.ID_CAJA
+and g.ESTADO_AGE=1 and c.ESTADO=1
+and u.ID_USU=usuario;
+
+/** agregar campos tabla ventas y detalle ventas*/
+alter table VENTAS
+ADD column SUBT_IVA NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+alter table VENTAS
+ADD column SUBT_CERO NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+alter table VENTAS
+ADD column TOTAL_DESC NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+alter table VENTAS
+modify COLUMN IVA_VEN NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+alter table VENTAS
+modify COLUMN TOTAL_VEN NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+alter table DETALLE_VENTAS
+ADD column AHORRO NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+alter table DETALLE_VENTAS
+ADD column SUBTOTAL NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+/** TRIGGER AFTER INSERT VENTAS- ACTUALIZA DOCUMENTOS Y INSERTA COMPROBANTE**/
+
+DELIMITER //
+create trigger trgInsertVentas
+after insert on VENTAS
+for each row
+begin
+DECLARE NUMFAC BIGINT DEFAULT 0;
+SET NUMFAC = (SELECT EMPEZAR FROM DOCUMENTOS
+              WHERE DOCUMENTOS.TIPO_DOC='Factura');
+              
+
+/* INGRESO DE UN NUEVO COMPROBANTE */
+insert into COMPROBANTES(TIPO_DOC,ID_VEN,NUMERO_COM) VALUES('Factura',NEW.ID_VEN,NUMFAC);
+/* ACTUALIZACION DEL CAMPO EMPEZAR EN LA TABLA DOCUMENTOS */
+UPDATE DOCUMENTOS 
+SET EMPEZAR=NUMFAC+1
+WHERE TIPO_DOC='Factura';
+
+
+end;
+//
+
+/** trigger calculos y set ventas y detalle ventas*/
+
+drop trigger if exists trgInsertBeforeDetallesVentas;
+Delimiter //
+create trigger trgInsertBeforeDetallesVentas
+before insert on DETALLE_VENTAS
+for each row
+begin
+declare total numeric(10,2) default 0;
+declare iva numeric(10,2) default 0;
+declare subiva numeric(10,2)default 0;
+declare subcero numeric(10,2) default 0;
+declare totaldesc numeric(10,2) default 0;
+/** ID_VEN, ID_USU, ID_CLI, FECHA_VEN, DESCRIPCION_VEN, IVA_VEN, TOTAL_VEN, ESTADO, SUBT_IVA, SUBT_CERO, TOTAL_DESC */
+declare subtotaldel numeric(10,2) default 0;
+/**ID_DET_VEN, ID_PRO, ID_VEN, CANTIDAD_PRO, PRECIO_VEN, AHORRO*/
+set new.PRECIO_VEN=(select p.PRECIO_VENTA_PRO from PRODUCTOS p
+ where p.ID_PRO=new.ID_PRO);
+set new.AHORRO=(select p.PRECIO_VENTA_PRO*new.CANTIDAD_PRO - p.PRECIO_PROMOCIONAL_PRO*new.CANTIDAD_PRO from PRODUCTOS p
+ where p.ID_PRO=new.ID_PRO); 
+ 
+set new.SUBTOTAL=(select p.PRECIO_VENTA_PRO*new.CANTIDAD_PRO from PRODUCTOS p
+where p.ID_PRO=new.ID_PRO); 
+
+ 
+ set subcero=( select sum(v.SUBTOTAL)
+			  from PRODUCTOS p,DETALLE_VENTAS v
+             where v.ID_VEN=1
+             and p.ID_PRO=v.ID_PRO
+             and p.APLICA_IVA_PRO=1);
+             
+set subiva=( select sum(v.SUBTOTAL)
+			 from PRODUCTOS p,DETALLE_VENTAS v
+             where v.ID_VEN=1
+             and p.ID_PRO=v.ID_PRO
+             and p.APLICA_IVA_PRO=0);
+             
+             set totaldesc=(select sum(AHORRO)   
+             from DETALLE_VENTAS
+             where ID_VEN=1); 
+             /* SELECT IVA*/
+set iva=(select subiva*VALOR_CONF from CONFIGURACIONES where ID_CONF=2);
+
+set total=(subcero+subiva-totaldesc+iva); 
+update VENTAS
+SET IVA_VEN=iva,
+TOTAL_VEN=total,
+SUBT_IVA= subiva, SUBT_CERO=subcero, TOTAL_DESC=totaldesc
+WHERE ID_VEN=new.ID_VEN;
+ end;
+//
+
+/********* add column ejemplares para guardar el estado ***///
+
+alter table  EJEMPLARES
+add column ESTADO tinyint not null default 1;
+
+/*funcion para obtener descuento de un producto*/
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `fGetDescuentoByProducto`(`idproducto` INT) RETURNS FLOAT(10,2)
+    NO SQL
+begin
+declare descuento float(10,2) default 0.00;
+SET descuento =
+(SELECT d.PORCENTAJE_DESC from DESCUENTOS as d,
+PRODUCTOS as p ,DETALLES_DESCUENTOS as dt WHERE p.ID_PRO = dt.ID_PRO AND
+p.ID_PRO = idproducto AND
+CURRENT_DATE <= cast(d.FECHA_FIN_DESC as date)
+AND d.ESTADO_DESC=1
+and dt.ID_DESC=d.ID_DESC
+limit 1);
+return descuento;
+END$$
+DELIMITER ;

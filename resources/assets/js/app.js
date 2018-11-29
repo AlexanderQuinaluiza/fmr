@@ -29,11 +29,18 @@ Vue.component('categoria_comp', require('./components/CategoriaComponent.vue'));
 Vue.component('agencia_comp', require('./components/AgenciaComponent.vue'));
 Vue.component('caja_comp', require('./components/CajaComponent.vue'));
 Vue.component('descuento_comp', require('./components/DescuentoComponent.vue'));
+Vue.component('ventas_comp', require('./components/VentasComponent.vue'));
 
+Vue.component('pedido_comp', require('./components/PedidoComponent.vue'));
+Vue.component('modulo_comp', require('./components/ModuloComponent.vue'));
+Vue.component('compra_comp', require('./components/CompraComponent.vue'));
+Vue.component('dev_compra_comp', require('./components/DevCompraComponent.vue'));
+Vue.component('apertura_caja_comp', require('./components/AperturaCajaComponent.vue'));
+Vue.component('cierre_caja_comp', require('./components/CierreCajaComponent.vue'));
 
 const app = new Vue({
     el: '#app',
     data:{
-        menu:2
+        menu:16
     }
 });

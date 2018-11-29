@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use App\File;
+
 class ProductoController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -20,10 +21,11 @@ class ProductoController extends Controller
         $productos = Productos::All();    
         return response()->json(['data'=>$productos],200);
     }
-    /** funcion agregada para usar en los detalles de descuentos */
-    public function productosActivos(){
-        $productos = Productos::All()
-        ->where('ESTADO_PRO', '=', 1);    
+    public function productosActivos()
+    {
+        $productos = Productos::select('ID_PRO','NOMBRE_PRO')
+        ->where('ESTADO_PRO','>',0)
+        ->get();    
         return response()->json(['data'=>$productos],200);
     }
 
@@ -48,14 +50,13 @@ class ProductoController extends Controller
         ->get();
 
        // $producto[0]->PRECIO_PROMOCIONAL_PRO;
-       $idproducto = (int)$producto[0]->ID_PRO;
-       $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-
-        $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-        $descuento = $porcentajeDesc * $precioVenta;
-        $precioConDescuento = $precioVenta - $descuento;
-        $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
-
+      /// $idproducto = (int)$producto[0]->ID_PRO;
+      // $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+//
+   ///  $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+      //  $descuento = $porcentajeDesc * $precioVenta;
+      //  $precioConDescuento = $precioVenta - $descuento;
+      //  $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
         //return round($precioConDescuento,2);
 
        // $id = (int) $_GET['ID_PRO'];
@@ -65,10 +66,107 @@ class ProductoController extends Controller
         /**->join('PRESENTACIONES pr')
         ->join('CATEGORIAS c')*/
     }
-     
+/** productos ventas, metodo que se usa en el modulo de ventas */
+
+public function productosVentas()
+{
+   //$id = (int) $_GET['ID_PRO'];
+    $producto =  DB::table('PRODUCTOS as p')
+    ->select('p.ID_PRO','p.NOMBRE_PRO','p.ID_CAT','p.ID_PRS',
+    'p.ID_MAR','p.DESCRIPCION_PRO','p.COSTO_PRO',
+    'p.GANANCIA_PRO','p.PRECIO_VENTA_PRO','p.EXISTENCIA_MIN_PRO',
+    'p.EXISTENCIA_MAX_PRO','p.ETIQUETAS_PRO','p.UBICACION_PRO', 
+    'p.IMAGEN_PRO','p.APLICA_IVA_PRO','p.STOCK_PRO',
+    'p.LOTE_PRO','p.LABORATORIO_PRO','p.ESTADO_PRO','p.FECHA_REGISTRO_PRO',
+    'p.TIPO_PRO','p.PRECIO_PROMOCIONAL_PRO','p.VENTA_CON_RECETA',
+    'u.NOMBRE_USU','u.APELLIDO_USU','m.NOMBRE_MAR as MARCA_PRO','pr.NOMBRE_PRS as PRESENTACION_PRO',
+    'c.NOMBRE_CAT as CATEGORIA_PRO')
+    ->join('MARCAS as m','p.ID_MAR','=','m.ID_MAR')
+    ->join('PRESENTACIONES as pr','p.ID_PRS','=','pr.ID_PRS')
+    ->join('CATEGORIAS as c','p.ID_CAT','=','c.ID_CAT')
+    ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
+    ->where('p.ESTADO_PRO', '=', 1)
+    ->get();
+
+   // $producto[0]->PRECIO_PROMOCIONAL_PRO;
+   //$idproducto = (int)$producto[0]->ID_PRO;
+   //$precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+//
+   // $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+   // $descuento = $porcentajeDesc * $precioVenta;
+   // $precioConDescuento = $precioVenta - $descuento;
+   // $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+
+    //return round($precioConDescuento,2);
+
+   // $id = (int) $_GET['ID_PRO'];
+   // $producto = Productos::findOrFail($id);
+   return response()->json(['data'=>$producto],200);
+
+    /**->join('PRESENTACIONES pr')
+    ->join('CATEGORIAS c')*/
+}
+
+/**** metodo para extaer la informacion de un producto en base al codigo de barras */
+public function productoEjemplar()
+{  
+      //$producto='';
+    try{
+        $id = $_GET['CODEBAR'];
+        $producto =  DB::table('PRODUCTOS as p')
+        ->select('p.ID_PRO','p.NOMBRE_PRO','p.ID_CAT','p.ID_PRS',
+        'p.ID_MAR','p.DESCRIPCION_PRO','p.COSTO_PRO',
+        'p.GANANCIA_PRO','p.PRECIO_VENTA_PRO','p.EXISTENCIA_MIN_PRO',
+        'p.EXISTENCIA_MAX_PRO','p.ETIQUETAS_PRO','p.UBICACION_PRO', 
+        'p.IMAGEN_PRO','p.APLICA_IVA_PRO','p.STOCK_PRO',
+        'p.LOTE_PRO','p.LABORATORIO_PRO','p.ESTADO_PRO','p.FECHA_REGISTRO_PRO',
+        'p.TIPO_PRO','p.PRECIO_PROMOCIONAL_PRO','p.VENTA_CON_RECETA',
+        'u.NOMBRE_USU','u.APELLIDO_USU','m.NOMBRE_MAR as MARCA_PRO','pr.NOMBRE_PRS as PRESENTACION_PRO',
+        'c.NOMBRE_CAT as CATEGORIA_PRO','e.COD_BARRAS_EJM')
+        ->join('MARCAS as m','p.ID_MAR','=','m.ID_MAR')
+        ->join('PRESENTACIONES as pr','p.ID_PRS','=','pr.ID_PRS')
+        ->join('CATEGORIAS as c','p.ID_CAT','=','c.ID_CAT')
+        ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
+        ->join('EJEMPLARES as e', 'e.ID_PRO','=','p.ID_PRO')
+        ->where('p.ESTADO_PRO', '=', 1)
+        ->where('e.ESTADO', '=', 1)
+        ->where('e.COD_BARRAS_EJM','=',$id)
+        ->get();
+    
+       // $producto[0]->PRECIO_PROMOCIONAL_PRO;
+    
+        
+       //$idproducto = (int)$producto[0]->ID_PRO;
+       //$precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+    //
+       //$porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+       //$descuento = $porcentajeDesc * $precioVenta;
+       //$precioConDescuento = $precioVenta - $descuento;
+       //$producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+    }catch(Exeption $e){
+       //$producto='';
+    }
+    
+
+       return response()->json(['data'=>$producto],200);
+   
+  
+   
+
+    //return round($precioConDescuento,2);
+
+   // $id = (int) $_GET['ID_PRO'];
+   // $producto = Productos::findOrFail($id);
+  
+
+    /**->join('PRESENTACIONES pr')
+    ->join('CATEGORIAS c')*/
+}
+
+/** metodo que se usa en el modulo  de descuentos */
     public function productoDescuentos()
     {
-       $id = (int) $_GET['ID_DESC'];
+         $id = (int) $_GET['ID_DESC'];
         $producto =  DB::table('PRODUCTOS as p')
         ->select('p.ID_PRO','p.NOMBRE_PRO','p.ID_CAT','p.ID_PRS',
         'p.ID_MAR','p.DESCRIPCION_PRO','p.COSTO_PRO',
@@ -88,19 +186,19 @@ class ProductoController extends Controller
         ->get();
 
        // $producto[0]->PRECIO_PROMOCIONAL_PRO;
-       $idproducto = (int)$producto[0]->ID_PRO;
-       $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-
-        $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-        $descuento = $porcentajeDesc * $precioVenta;
-        $precioConDescuento = $precioVenta - $descuento;
-        $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
-
-        //return round($precioConDescuento,2);
-
+       
+        ////return round($precioConDescuento,2);
+        //$idproducto = (int)$producto[0]->ID_PRO;
+        //$precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+     //
+        // $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+        // $descuento = $porcentajeDesc * $precioVenta;
+        // $precioConDescuento = $precioVenta - $descuento;
+        // $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+         return response()->json(['data'=>$producto],200);
        // $id = (int) $_GET['ID_PRO'];
        // $producto = Productos::findOrFail($id);
-       return response()->json(['data'=>$producto],200);
+       
        //return response()->json($producto,200);
 
         /**->join('PRESENTACIONES pr')
@@ -198,10 +296,10 @@ class ProductoController extends Controller
 
     public function desactivar(Request $request)
     {
-     $producto = Productos::findOrFail($request->ID_PRO);
-     $producto->ESTADO_PRO = 0;
-     $producto->save();
-     //Productos::find($request->ID_PRO)->delete();
+     //$producto = Productos::findOrFail($request->ID_PRO);
+     //$producto->ESTADO_PRO = 0;
+     //$producto->save();
+     Productos::find($request->ID_PRO)->delete();
     }
     public function activar(Request $request)
     {

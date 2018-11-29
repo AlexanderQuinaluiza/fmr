@@ -6,6 +6,33 @@
                     <h4 id="titulo"><i class="fa fa-users"></i> Roles </h4>
                 </div>
                 <div class="card-body">
+
+                     <!--Inicio modal detalle producto -->
+                    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-primary" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header modal-header-primary">
+                                    <h5 class="modal-title" id="mediumModalLabel">DETALLE ROL</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label id="lblNombreRol"> </label>
+                                             <ul id="lstModulos"></ul>
+                                        </div>                                                                            
+                                    </div>                                                                                                                                                                                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--Fin modal detalles producto -->
+
                     <div class="custom-tab">
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -31,7 +58,7 @@
                         </div>                       
                             <div class="tab-pane fade" id="editar" role="tabpanel" aria-labelledby="editar-tab">
                                 <br>
-                                <form>
+                                <form id="form">
                                     <input type="hidden" id="id" value="">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
@@ -43,6 +70,14 @@
                                             <input type="text" id="DESCRIPCION_ROL" required class="form-control" placeholder="Descripción de rol" maxlength="200">
                                         </div>
                                     </div>
+                                    <div class="row form-group">
+                                            <label class="col-md-2 form-control-label">Módulos </label>
+                                            <div class="col-md-10">                                          
+                                                <div class="form-check" id="divchecks">
+                                                </div>
+                                            </div>
+                                    </div>
+
                                     <div class="row clearfix div-error">
                                             <ul id="lstErrores"></ul>
                                     </div>                                                             

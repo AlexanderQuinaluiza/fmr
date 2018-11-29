@@ -81,11 +81,20 @@ class ConfiguracionController extends Controller
     {
         //
     }
-    public function getPaginacion()
-    {
-        $configuracion = Configuraciones::where('NOMBRE_CONF','=', 'paginacion')
-               ->take(1)
-               ->get();
-        return $configuracion[0]->VALOR_CONF;
+    public function getSetting()
+    {   
+        $valueReturn = '';
+        try
+        {
+            $clave = $_GET['setting'];
+            $configuracion = Configuraciones::where('NOMBRE_CONF','=', $clave)
+            ->take(1)
+            ->get();
+            $valueReturn = $configuracion[0]->VALOR_CONF;
+        }catch(\Exception $e)
+        {
+           $valueReturn = '';
+        }
+        return $valueReturn;
     }
 }

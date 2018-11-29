@@ -16,6 +16,12 @@ function validarDatos(opcion)
     {
         if(!$('#id').val().trim()) errorMostrarMsj.push("Escoja un rol existente de la lista");
     }
+
+    if(contarModulos()==0)
+    {
+         errorMostrarMsj.push("Escoja al menos un módulo");
+    }
+
     if(errorMostrarMsj.length){
         $('#lstErrores').empty();
         error = 1;
@@ -39,8 +45,7 @@ function validarDatos(opcion)
 function limpiarDatos()
 {
     $('#id').val('');
-    $('#NOMBRE_ROL').val('');
-    $('#DESCRIPCION_ROL').val('');
+    $('#form')[0].reset();
     $('#lstErrores').empty();
 }
 
@@ -54,7 +59,8 @@ function registrar()
     }
     axios.post('/roles/registrar',{
         'NOMBRE_ROL': $('#NOMBRE_ROL').val().trim(),
-        'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim()
+        'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim(),
+        'MODULOS_ROL' : getModulosSeleccionados()
     }).then(function (response){
     tabla.ajax.reload();
     limpiarDatos();
@@ -77,7 +83,8 @@ function actualizar()
    axios.post('/roles/actualizar',{
        'ID_ROL': $('#id').val().trim(),
        'NOMBRE_ROL':$('#NOMBRE_ROL').val().trim(),
-       'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim()
+       'DESCRIPCION_ROL' : $('#DESCRIPCION_ROL').val().trim(),
+       'MODULOS_ROL': getModulosSeleccionados()
    }).then(function (response){
    tabla.ajax.reload();
    toastr.info('Actualizado correctamente!')
@@ -148,7 +155,8 @@ function getRegistroById(idRegistro){
         $('#id').val(response.data.ID_ROL);
         $('#NOMBRE_ROL').val(response.data.NOMBRE_ROL);
         $('#DESCRIPCION_ROL').val(response.data.DESCRIPCION_ROL);
-        $('#btnCancelarActualizar').show();                                                                                                                      
+        $('#btnCancelarActualizar').show();
+        listarModulosUpdate(idRegistro);                                                                                                                   
     })
     .catch(function (error) {
         console.log(error);
@@ -196,16 +204,140 @@ function cambiarTab(indice,idRegistro)
             $('#editar-tab').html('<i class="fa fa-edit"></i>'+' Editar');
             getRegistroById(idRegistro);
             $('#lstErrores').empty();
+            //if(!$('#id').val())getModulosActivosNuevo();
+            
             break;
         }
     }
 }
 
+/**
+ * Permite mostrar los módulos activos en controles tipo checkbox
+ */
+function getModulosActivosNuevo()
+{
+    var url = '/modulos/activos';
+    axios.get(url).then(function (response){
+        var valor = "";
+        var texto = "";
+        var html = '';
+        for (var key in response.data) 
+        {
+            valor = response.data[key]['ID_MOD'];
+            texto = response.data[key]['NOMBRE_MOD'];
+            //console.log("datos: "+response.data[key]['text']);
+            html+= '<div class="checkbox"><label class="form-check-label ">'+
+            '<input type="checkbox" name="modulosR" id="modulo'+valor+'" value="'+valor+'" class="form-check-input">'+
+            texto+'</label></div>';                                
+        }
+        $('#divchecks').append(html);                    
+    })
+    .catch(function (error) {
+     console.log(error);
+    });        
+}
+
+/**
+  * permite obtener un listado de los módulos a los que puede acceder un rol
+  * @param {int} idRegistro -identificador de rol
+  */
+ function listarModulosUpdate(idRegistro)
+ {
+     var url = '/roles/modulos/update';
+     axios.get(url, { params: { ID_ROL: idRegistro } }).then(function (response){
+         for (var key in response.data) {
+             var selected = response.data[key]['selected'];
+             var valor = response.data[key]['id']
+             if(selected>0)
+             {
+                 $( "#modulo"+valor).prop('checked', true);
+             }
+             else
+             {
+                 $( "#modulo"+valor).prop('checked', false);
+             }                                                                          
+         }                                               
+     })
+     .catch(function (error) {
+         console.log(error);
+     });                     
+ }
+
+/**
+ * permite contar los módulos marcados en los input tipo check
+ * @return {int} numero -numero de módulos seleccionados/marcados
+ */
+function contarModulos(){
+    var numero = 0;
+    var result = $('input[name="modulosR"]:checked');
+    if (result.length > 0) {
+        result.each(function(){
+            numero++;
+         });                      
+    }else{
+       numero=0;
+    }
+    return numero;
+}
+
+/**
+ * permite obtener una lista de los módulos seleccionados a los cuales
+ * un rol determinado va a tener acceso
+ * @return {array} listadoModulos -lista con los identificadores de los módulos seleccionados
+ */
+function getModulosSeleccionados()
+ {
+    var listadoModulos =[];
+    var result = $('input[name="modulosR"]:checked');
+    if (result.length > 0) {
+        result.each(function(){
+            listadoModulos.push(jQuery(this).val()); 
+            //console.log("item: "+jQuery(this).val());                  
+        });                     
+    }else{
+        console.log(" Ningun checkbox  esta seleccionado");
+    }
+    return listadoModulos;
+ }
+
+ function detalles(idRegistro)
+ {
+    var url = '/roles/modulos';
+    axios.get(url,{
+        params: {
+          ID_ROL: idRegistro
+        }}).then(function (response){
+        var longitud = Object.keys(response.data.data).length;
+        if(longitud>0)
+        {
+            var NOMBRE_ROL='';
+            $('#lstModulos').empty();
+            var lista = '';
+            $.each(response.data.data,function(key,entry){
+                NOMBRE_ROL = entry.rol;            
+                lista+='<li class="fa fa-check" aria-hidden="true">&nbsp;'+entry.modulo+'</li><br>';
+            });
+            $('#lstModulos').append(lista);
+            $('#lblNombreRol').html("Rol <strong>"+NOMBRE_ROL+"</strong> tiene acceso a los siguientes módulos:");
+        }
+        else
+        {
+            $('#lstModulos').empty();
+            $('#lblNombreRol').html("Este rol no tiene acceso a ningún módulo");
+        }
+    //console.log(longitud);
+    
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+ }
 //----------------------------------INICIALIZACIÓN DE MÉTODOS-------------------------
+//detalles(18);
 $('#btnCancelarActualizar').hide();
 //tab activo por defecto
 cambiarTab(0,0);
-
+getModulosActivosNuevo();
 $('#btnGuardarRol').click(function(){
     var esEditar = $('#id').val().trim();
     if(!esEditar)
@@ -232,6 +364,8 @@ var tabla =   $('#bootstrap-data-table').DataTable(
           var labelEstado = '';
          for(var i=0;i< json.data.length; i++){
           var ID_ROL = json.data[i].ID_ROL;
+          var btnVerDetalles = '<button type="button" data-toggle="modal" data-target="#mediumModal" onclick="detalles('+ID_ROL+');" class="btn btn-info"><span class="fa fa-info-circle"></span> </button>';   
+          
            if(json.data[i].ESTADO_ROL>0)
            {
              btn = '<button type="button" onclick="desactivar('+ID_ROL+');" class="btn btn-danger"><span class="fa fa-trash"></span> Desactivar</button>';
@@ -243,7 +377,7 @@ var tabla =   $('#bootstrap-data-table').DataTable(
              labelEstado = '<span  class="badge badge-danger">Inactivo</span>';
            }          
            buttons = '<div class="btn-group btn-group-sm">'+
-           '<button class="btn btn-primary" onclick="cambiarTab(1,'+ID_ROL+');"><span class="fa fa-pencil-square-o"></span> Editar</button>'+btn+'</div>';
+           '<button class="btn btn-primary" onclick="cambiarTab(1,'+ID_ROL+');"><span class="fa fa-pencil-square-o"></span> Editar</button>'+btnVerDetalles+btn+'</div>';
            //console.log("jaja");
            return_data.push({
              'ID_ROL': json.data[i].ID_ROL,
@@ -335,3 +469,4 @@ var tabla =   $('#bootstrap-data-table').DataTable(
             }
         }
 });
+$('.table').attr('style','width:100%');

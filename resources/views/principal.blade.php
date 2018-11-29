@@ -36,12 +36,120 @@
 <link href="EasyAutocomplete/easy-autocomplete.themes.css" rel="stylesheet">
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/css/bootstrap-select.css" />
+<!--inicio date time picker -->
+<link href="assets/js/lib/bootstrap/bootstrap-datepicker.css" rel="stylesheet">
+<!--fin date time picker -->
+
 <!-- JQuery DataTable Css -->
 <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 <!-- style datepiker -->
 <!--fin-->
+<style>
+.container .details-row td {
+  padding: 0;
+  margin: 0;
+}
+
+.details-container {
+  width: 100%;
+  height: 100%;
+  background-color: #556e7a;
+  padding-top: 5px;
+}
+
+.details-table {
+  width: 100%;
+  background-color: #fff;
+  margin: 5px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.iconSettings, td.details-control:before, tr.shown td.details-control:before {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: "Glyphicons Halflings";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+td.details-control {
+  cursor: pointer;
+  text-align: center;
+}
+td.details-control:before {
+  content: "\2b";
+}
+
+tr.shown td.details-control:before {
+  content: "\2212";
+}
+
+     </style>
 </head>
-<body>
+<style>
+.container .details-row td {
+  padding: 0;
+  margin: 0;
+}
+
+.details-container {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding-top: 5px;
+}
+
+.details-table {
+  width: 100%;
+  background-color: #fff;
+  margin: 5px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.iconSettings, td.details-control:before, tr.shown td.details-control:before {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: "Glyphicons Halflings";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+td.details-control {
+  cursor: pointer;
+  text-align: center;
+}
+td.details-control:before {
+  content: "\2b";
+}
+
+tr.shown td.details-control:before {
+  content: "\2212";
+}
+
+#app {
+    overflow-x: hidden;
+}
+
+     </style> 
+<body class="open">
  <div id="app">
         <!-- Left Panel -->
     @include('plantilla.sidebar')
@@ -203,7 +311,7 @@
         </div>
           
         <div class="content mt-3">
-            <div class="animated">
+            <div class="animated"  >
             @yield('contenido')
             </div>  <!-- .animated -->
         </div>     <!-- .content -->
@@ -240,7 +348,7 @@
     if (
     (charCode != 45 || $(element).val().indexOf('-') != -1) &&      // “-” CHECK MINUS, AND ONLY ONE.
     (charCode != 46 || $(element).val().indexOf('.') != -1) &&      // “.” CHECK DOT, AND ONLY ONE.
-    (charCode < 48 || charCode > 57))
+    (charCode < 48 || charCode > 57) )
     return false;
     return true;
     }

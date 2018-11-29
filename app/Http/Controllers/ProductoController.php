@@ -50,14 +50,13 @@ class ProductoController extends Controller
         ->get();
 
        // $producto[0]->PRECIO_PROMOCIONAL_PRO;
-       $idproducto = (int)$producto[0]->ID_PRO;
-       $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-
-        $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-        $descuento = $porcentajeDesc * $precioVenta;
-        $precioConDescuento = $precioVenta - $descuento;
-        $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
-
+      /// $idproducto = (int)$producto[0]->ID_PRO;
+      // $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+//
+   ///  $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+      //  $descuento = $porcentajeDesc * $precioVenta;
+      //  $precioConDescuento = $precioVenta - $descuento;
+      //  $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
         //return round($precioConDescuento,2);
 
        // $id = (int) $_GET['ID_PRO'];
@@ -90,13 +89,13 @@ public function productosVentas()
     ->get();
 
    // $producto[0]->PRECIO_PROMOCIONAL_PRO;
-   $idproducto = (int)$producto[0]->ID_PRO;
-   $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-
-    $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-    $descuento = $porcentajeDesc * $precioVenta;
-    $precioConDescuento = $precioVenta - $descuento;
-    $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+   //$idproducto = (int)$producto[0]->ID_PRO;
+   //$precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+//
+   // $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+   // $descuento = $porcentajeDesc * $precioVenta;
+   // $precioConDescuento = $precioVenta - $descuento;
+   // $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
 
     //return round($precioConDescuento,2);
 
@@ -111,7 +110,7 @@ public function productosVentas()
 /**** metodo para extaer la informacion de un producto en base al codigo de barras */
 public function productoEjemplar()
 {  
-      $producto='';
+      //$producto='';
     try{
         $id = $_GET['CODEBAR'];
         $producto =  DB::table('PRODUCTOS as p')
@@ -136,16 +135,16 @@ public function productoEjemplar()
     
        // $producto[0]->PRECIO_PROMOCIONAL_PRO;
     
-       
-     $idproducto = (int)$producto[0]->ID_PRO;
-     $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-    
-       $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-       $descuento = $porcentajeDesc * $precioVenta;
-       $precioConDescuento = $precioVenta - $descuento;
-       $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+        
+       //$idproducto = (int)$producto[0]->ID_PRO;
+       //$precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+    //
+       //$porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+       //$descuento = $porcentajeDesc * $precioVenta;
+       //$precioConDescuento = $precioVenta - $descuento;
+       //$producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
     }catch(Exeption $e){
-       $producto='';
+       //$producto='';
     }
     
 
@@ -188,14 +187,14 @@ public function productoEjemplar()
 
        // $producto[0]->PRECIO_PROMOCIONAL_PRO;
        
-        //return round($precioConDescuento,2);
-        $idproducto = (int)$producto[0]->ID_PRO;
-        $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-     
-         $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-         $descuento = $porcentajeDesc * $precioVenta;
-         $precioConDescuento = $precioVenta - $descuento;
-         $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+        ////return round($precioConDescuento,2);
+        //$idproducto = (int)$producto[0]->ID_PRO;
+        //$precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+     //
+        // $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+        // $descuento = $porcentajeDesc * $precioVenta;
+        // $precioConDescuento = $precioVenta - $descuento;
+        // $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
          return response()->json(['data'=>$producto],200);
        // $id = (int) $_GET['ID_PRO'];
        // $producto = Productos::findOrFail($id);

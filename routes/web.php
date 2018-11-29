@@ -125,6 +125,7 @@ Route::get('ventas/cabecera', 'VentasController@getCabeceraFAC');
 Route::get('ventas/apertura', 'VentasController@getApertura');
 Route::get('ventas/cliente', 'VentasController@clienteFAC');
 Route::get('ventas/ejemplares', 'ProductoController@productoEjemplar');
+Route::post('ventas/registrar','VentasController@store');
 
 Route::get('roles', 'RolController@index');
 Route::get('roles/byid', 'RolController@rolById');

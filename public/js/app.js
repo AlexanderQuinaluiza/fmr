@@ -40990,6 +40990,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -41520,11 +41521,21 @@ var staticRenderFns = [
         })
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group col-md-8" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body", attrs: { id: "carddatoscl" } })
-        ])
-      ])
+      _c(
+        "div",
+        {
+          staticClass: "form-group col-md-8",
+          staticStyle: { "margin-bottom": "-20px" }
+        },
+        [
+          _c("div", { staticClass: "card" }, [
+            _c("div", {
+              staticClass: "card-body",
+              attrs: { id: "carddatoscl" }
+            })
+          ])
+        ]
+      )
     ])
   },
   function() {
@@ -41578,7 +41589,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "btn btn-primary", attrs: { type: "button" } },
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", onclick: "productosSeleccionados();" }
+          },
           [_vm._v("Finalizar")]
         ),
         _vm._v(" "),
@@ -41627,46 +41641,6 @@ var staticRenderFns = [
                 _c(
                   "th",
                   { staticStyle: { color: "#fff", background: "#546e7a" } },
-                  [_vm._v("Subtotal IVA")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticStyle: {
-                      "text-align": "end",
-                      "padding-right": "18px"
-                    },
-                    attrs: { id: "subtotalivafac" }
-                  },
-                  [_vm._v("0.00 ")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c(
-                  "th",
-                  { staticStyle: { color: "#fff", background: "#546e7a" } },
-                  [_vm._v("Subtotal 0%")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticStyle: {
-                      "text-align": "end",
-                      "padding-right": "18px"
-                    },
-                    attrs: { id: "subtotalcerofac" }
-                  },
-                  [_vm._v("0.00 ")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c(
-                  "th",
-                  { staticStyle: { color: "#fff", background: "#546e7a" } },
                   [_vm._v("Descuentos")]
                 ),
                 _vm._v(" "),
@@ -41687,7 +41661,7 @@ var staticRenderFns = [
                 _c(
                   "th",
                   { staticStyle: { color: "#fff", background: "#546e7a" } },
-                  [_vm._v("Tarifa 0%")]
+                  [_vm._v("Descuentos")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -41697,9 +41671,9 @@ var staticRenderFns = [
                       "text-align": "end",
                       "padding-right": "18px"
                     },
-                    attrs: { id: "subcero" }
+                    attrs: { id: "subsubtotal" }
                   },
-                  [_vm._v("0.00 ")]
+                  [_vm._v(" 0.00")]
                 )
               ]),
               _vm._v(" "),
@@ -41717,7 +41691,47 @@ var staticRenderFns = [
                       "text-align": "end",
                       "padding-right": "18px"
                     },
-                    attrs: { id: "sub12" }
+                    attrs: { id: "tar12" }
+                  },
+                  [_vm._v("0.00 ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c(
+                  "th",
+                  { staticStyle: { color: "#fff", background: "#546e7a" } },
+                  [_vm._v("Tarifa  0%")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "end",
+                      "padding-right": "18px"
+                    },
+                    attrs: { id: "tar0" }
+                  },
+                  [_vm._v("0.00 ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c(
+                  "th",
+                  { staticStyle: { color: "#fff", background: "#546e7a" } },
+                  [_vm._v("IVA")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "text-align": "end",
+                      "padding-right": "18px"
+                    },
+                    attrs: { id: "valoriva" }
                   },
                   [_vm._v("0.00 ")]
                 )

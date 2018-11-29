@@ -676,16 +676,29 @@ function limpiarDatos()
 function productosSeleccionados(){
 try {
     var arrayproductos = new Array();
+    
     var cont=0;
     var table = document.getElementById('table_detalles');
     
-    
+  
     for(var i=0, n=table.rows.length;i<n ;i++) {
         var item={};
+        
+        var arrayCodigosBarra= new Array();
         var cantidad=0;
         var stringCodes=table.rows[i].cells[2].innerHTML;
          var res = stringCodes.split(",");
-         item.BARCODES=res;
+         
+         //console.log(res);
+         for (var j = 0; j < res.length; j++) {
+            var subitem={};
+             subitem.CODE_BAR=res[j];
+             arrayCodigosBarra.push(subitem);
+           
+         }
+         //console.log(arrayCodigosBarra);
+         item.BARCODES=arrayCodigosBarra;
+
         var id_prod= table.rows[i].cells[1].innerHTML;
         item.ID_PRO=id_prod;
         //var nameinput= table.rows[i].cells[4].getElementsByTagName("input")[0].tagName;
@@ -699,17 +712,20 @@ try {
             cantidad=table.rows[i].cells[4].innerHTML;
         }
         item.CANTIDAD=cantidad;
+        item.PRECIO_VENTA= table.rows[i].cells[5].innerHTML;
+        item.AHORRO= table.rows[i].cells[8].innerHTML;
+        item.SUBTOTAL= table.rows[i].cells[9].innerHTML;
            arrayproductos.push(item);
                   
            /* if(cantidad==undefined){
              //cantidad=table.rows[i].cells[4].getElementsByTagName("input")[0].value;
-            }*/
-                 
+             }*/
+              
       }
 } catch (error) {
     console.log(error);
 }
-
+console.log(arrayproductos);  
  // alert(arrayproductos);
 return arrayproductos;
 }
@@ -718,18 +734,24 @@ function registrarVenta(){
     if(this.validarDatosCabeceraFac()){
         return;
     }
-    var url='/ventas/registrar';
+    var url='ventas/registrar';
     var data = new FormData();
         
         data.append('detalles',JSON.stringify(productosSeleccionados()));
-        data.append('DESCRIPCION_DESC',$('#DESCRIPCION_DESC').val().trim());
-        data.append('PORCENTAJE_DESC',$('#PORCENTAJE_DESC').val().trim());
-        data.append('FECHA_INICIO_DESC',f_inicio);
-        data.append('FECHA_FIN_DESC',f_fin);
+        
+        data.append('TOTAL_VEN',$('#total').html());
+        data.append('SUBT_IVA',$('#tar12').html());
+        data.append('SUBT_CERO',$('#tar0').html());
+        data.append('IVA_VEN',$('#valoriva').html());
+        data.append('TOTAL_DESC',$('#descfac').html());
 
-    axios.post(url,data).then(function(response){
+        axios.post(url,data).then(function(response){
+         
+         console.log(response.data.result);   
+         console.log(response.data.detalles); 
+         console.log(response.data.miventa); 
 
-    }).catch(function (error) {
+       }).catch(function (error) {
         console.log(error);
         toastr.error('No se ha podido guardar la venta.', 'Error!')
        });
@@ -842,7 +864,7 @@ function registrar()
     
     function addRow(datos) {
         var arraycodigos = new Array();
-  var existe=0;
+     var existe=0;
     var cont=0;
     var table = document.getElementById('table_detalles');
         console.log("agregando fila "+datos.data[0].DESCRIPCION_PRO);
@@ -1042,17 +1064,17 @@ function recalcularTotales(){
         valor_total+=toFixedTrunc(totalfila, 2)*1;
         var aplicaiva=table.rows[i].cells[6].getElementsByTagName("span")[0].innerHTML;
         if(aplicaiva=="Si")
-        subtotaliva+=toFixedTrunc(totalfila, 2)*1;
+        subtotaliva+=toFixedTrunc(totalfila, 2)*1 -ahorro;
         else
-        subtotalcero+=toFixedTrunc(totalfila, 2)*1; 
+        subtotalcero+=toFixedTrunc(totalfila, 2)*1 -ahorro; 
     }
     document.getElementById("valorfac").innerHTML=toFixedTrunc(valor_total, 2);
-    document.getElementById("subtotalivafac").innerHTML=toFixedTrunc(subtotaliva, 2);
-    document.getElementById("subtotalcerofac").innerHTML=toFixedTrunc(subtotalcero, 2);
-    document.getElementById("descfac").innerHTML=toFixedTrunc(-descuentos, 2);
-    document.getElementById("subcero").innerHTML=toFixedTrunc(0, 2);
-    document.getElementById("sub12").innerHTML=toFixedTrunc(subtotaliva*0.12, 2);
-    document.getElementById("total").innerHTML=toFixedTrunc(subtotaliva*1+subtotalcero*1-descuentos+subtotaliva*0.12, 2);
+    document.getElementById("tar12").innerHTML=toFixedTrunc(subtotaliva, 2);
+    document.getElementById("tar0").innerHTML=toFixedTrunc(subtotalcero, 2);
+    document.getElementById("descfac").innerHTML=toFixedTrunc(descuentos, 2);
+    document.getElementById("subsubtotal").innerHTML=toFixedTrunc(valor_total-descuentos, 2);
+    document.getElementById("valoriva").innerHTML=toFixedTrunc(subtotaliva*0.12, 2);
+    document.getElementById("total").innerHTML=toFixedTrunc(subtotaliva*1+subtotalcero*1+subtotaliva*0.12, 2);
    
 }
 /** calcular el cambio */

@@ -76,10 +76,11 @@ class EjemplarController extends Controller
         $cantidad = count($data);
          
         for ($i=0; $i < $cantidad ; $i++) { 
-              $codesbar=$data[$i]['BARCODES'];
+              $codesbar=(array)$data[$i]['BARCODES'];
               for ($j=0; $j < count($codesbar); $j++) { 
                  $codigo=$codesbar[$j]['CODE_BAR']; 
-                 $ejemplar= Ejemplares::where('COD_BARRAS_EJM','=', $codigo)->get();
+                
+                 $ejemplar= Ejemplares::where('COD_BARRAS_EJM','=', $codigo)->first();
                  $ejemplar->ESTADO=0; 
                  $ejemplar->save();
               }

@@ -64,6 +64,8 @@ class VentasController extends Controller
         //
 
         $success = 0;
+        //$miventa = [];
+        //$misdetalles=[];
         $error = null;
         DB::beginTransaction();
         try {
@@ -84,12 +86,13 @@ class VentasController extends Controller
             app('App\Http\Controllers\DetalleVentasController')->store($data,$ventas->ID_VEN);
             app('App\Http\Controllers\EjemplarController')->update($data);
             DB::commit();
-          $miventa= (array)$this->getVenta($ventas->ID_VEN);
+          $miventa=(array)$this->getVenta($ventas->ID_VEN);
           $misdetalles=(array)$this->getdetalleVentas($ventas->ID_VEN);
           $success = 1;
         } catch (\Exception $e) {
-         $success = 0;
+       // $success=0;
         $error = $e->getMessage();
+        $success = $error;
         DB::rollback();
         }
         return response()->json(['result'=>$success,'miventa'=>$miventa,'detalles'=>$misdetalles],200);
@@ -107,46 +110,16 @@ class VentasController extends Controller
         //
        
         $venta = DB::select('call spSelectValoresFactura("'.$id.'")');
+       // return response()->json(['data'=>$venta],200);
         return $venta;
     }
     public function getdetalleVentas($id)
     {
         //
         $detalles = DB::select('call spSelectDetallesFactura("'.$id.'")');
+        //return response()->json(['data'=>$detalles],200);
         return $detalles;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Ventas  $ventas
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ventas $ventas)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ventas  $ventas
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ventas $ventas)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ventas  $ventas
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ventas $ventas)
-    {
-        //
-    }
+   
 }

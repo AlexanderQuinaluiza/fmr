@@ -41095,7 +41095,7 @@ var render = function() {
                   [
                     _c("br"),
                     _vm._v(" "),
-                    _c("form", { attrs: { name: "formfact" } }, [
+                    _c("form", { attrs: { name: "formfact", id: "formfac" } }, [
                       _c("input", {
                         attrs: { type: "hidden", id: "id", value: "" }
                       }),
@@ -41545,7 +41545,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "form-row" }, [
       _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "row clearfix div-error" }, [
-          _c("ul", { attrs: { id: "lstErrores" } })
+          _c("ul", { attrs: { id: "lstErroresFac" } })
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
@@ -41583,7 +41583,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "btn btn-primary", attrs: { type: "button" } },
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", id: "btnImprimirVenta" }
+          },
           [_vm._v("Imprimir")]
         ),
         _vm._v(" "),
@@ -41591,18 +41594,13 @@ var staticRenderFns = [
           "button",
           {
             staticClass: "btn btn-primary",
-            attrs: { type: "button", onclick: "productosSeleccionados();" }
+            attrs: {
+              type: "button",
+              onclick: "productosSeleccionados();",
+              id: "btnfinalizarVenta"
+            }
           },
           [_vm._v("Finalizar")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-warning",
-            attrs: { type: "button", id: "btnCancelarActualizar" }
-          },
-          [_c("i", { staticClass: "fa fa-times" }), _vm._v(" Cancelar")]
         )
       ]),
       _vm._v(" "),
@@ -41661,7 +41659,7 @@ var staticRenderFns = [
                 _c(
                   "th",
                   { staticStyle: { color: "#fff", background: "#546e7a" } },
-                  [_vm._v("Descuentos")]
+                  [_vm._v("Subtotal")]
                 ),
                 _vm._v(" "),
                 _c(

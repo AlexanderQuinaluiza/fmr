@@ -109,7 +109,7 @@
                                 <br>
                                 
                                 <!-- inicio edicion -->
-                                <form name="formfact" >
+                                <form name="formfact" id="formfac">
                                     <input type="hidden" id="id" value="">
                                       
                                      <div class="row">
@@ -187,7 +187,7 @@
                           <div class="form-row">
                                <div class="col-md-6">
                                  <div class="row clearfix div-error">
-                                            <ul id="lstErrores"></ul>
+                                            <ul id="lstErroresFac"></ul>
                                     </div>  
                                     <div class="row">
                                         <div class="col-md-6">
@@ -200,9 +200,9 @@
                                     </div>   
                                     <hr>
                                <button type="button" class="btn btn-primary" id="btnGuardarVenta" ><i class="fa fa-floppy-o"></i> Guardar</button> 
-                                <button type="button" class="btn btn-primary">Imprimir</button>
-                                 <button type="button" class="btn btn-primary" onclick="productosSeleccionados();">Finalizar</button>  
-                                  <button type="button" id="btnCancelarActualizar" class="btn btn-warning"><i class="fa fa-times"></i> Cancelar</button>    
+                                <button type="button" class="btn btn-primary" id="btnImprimirVenta">Imprimir</button>
+                                 <button type="button" class="btn btn-primary" onclick="productosSeleccionados();" id="btnfinalizarVenta" >Finalizar</button>  
+                                 
                                </div>
                               <div class="col-md-6"> 
                          <!-- <div class="card">-->
@@ -222,7 +222,7 @@
                                      <th id="descfac" style="text-align: end;padding-right: 18px;"> 0.00</th>                                         
                                     </tr>  
                                      <tr>
-                                    <th style="color:#fff;background:#546e7a;">Descuentos</th>
+                                    <th style="color:#fff;background:#546e7a;">Subtotal</th>
                                      <th id="subsubtotal" style="text-align: end;padding-right: 18px;"> 0.00</th>                                         
                                     </tr>
                                     <tr>

@@ -748,9 +748,9 @@ function registrarVenta(){
 
         axios.post(url,data).then(function(response){
          
-         console.log(response.data.result);   
-         console.log(response.data.detalles); 
-         console.log(response.data.miventa);
+         //console.log(response.data.result);   
+         //console.log(response.data.detalles); 
+         //console.log(response.data.miventa);
          if(response.data.result>0){
             toastr.success('Se ingreso la venta. Puede continuar con el proceso.');
             bloquearControles();
@@ -808,7 +808,7 @@ function finalizarVenta(){
      document.getElementById("btndelete").disabled=false;
      document.getElementById("table_detalles").innerHTML="";
      recalcularTotales();
-     $('#lstErrores').empty();
+     $('#lstErroresFac').empty();
      document.getElementById("btnGuardarVenta").style.display = "block";
      document.getElementById("btnImprimirVenta").style.display = "none";
      document.getElementById("btnfinalizarVenta").style.display = "none";
@@ -1283,7 +1283,7 @@ function bloquearControles(){
      document.getElementById("btnGuardarVenta").style.display = "none";
      document.getElementById("btnImprimirVenta").style.display = "inline";
      document.getElementById("btnfinalizarVenta").style.display = "inline";
-     $('#lstErrores').empty();
+     $('#lstErroresFac').empty();
      document.getElementById("ridefac").innerHTML="";
      document.getElementById("recibe").value="";
     }

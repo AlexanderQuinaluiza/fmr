@@ -186,3 +186,6 @@ Route::post('cierreCaja/actualizar', 'CierreCajaController@update');
 
 Route::get('denominacionDinero', 'DenominacionDineroController@index');
 
+/**routes devoluciones ventas */
+Route::get('devoventas', 'DevolucionesVentasController@index');
+

@@ -162,3 +162,40 @@ limit 1);
 return descuento;
 END$$
 DELIMITER ;
+
+/*** Tablas devoluciones_ventas y devoluciones_detalle_ventas ***/
+
+
+/**ID_VEN, ID_USU, ID_CLI, FECHA_VEN, DESCRIPCION_VEN, IVA_VEN, TOTAL_VEN, ESTADO, SUBT_IVA, SUBT_CERO, TOTAL_DESC*/
+
+create table DEVOLUCIONES_VENTAS
+(
+   ID_DEV_VEN          bigint not null auto_increment,
+   ID_VEN              bigint,
+   ID_USU               int,
+   TOTAL_DEV            float,
+   IVA_DEV              float,
+   SUBT_IVA             float,
+   SUBT_CERO            float,
+   OBSERVACION_DEV      varchar(120),
+   FECHA_DEV            timestamp default CURRENT_TIMESTAMP,
+   primary key (ID_DEV_VEN)
+);
+
+/*ID_DET_VEN, ID_PRO, ID_VEN, CANTIDAD_PRO, PRECIO_VEN, AHORRO, SUBTOTAL*/
+alter table DEVOLUCIONES_VENTAS add constraint FK_RELATIONSHIP_DEV_VEN foreign key (ID_VEN)
+      references VENTAS (ID_VEN);
+create table DETALLE_DEVOLUCIONES_VENTAS
+(
+   ID_DET_DEV_VEN       bigint not null auto_increment,
+   ID_DEV_VEN               bigint,
+   CANTIDAD             bigint,
+   PRECIO_VEN           float,
+   AHORRO               decimal(10,2),
+   SUBTOTAL             decimal(10,2), 
+   PRODUCTO             varchar(130),
+   OBSERVACION_DEV      varchar(120),
+   primary key (ID_DET_DEV_VEN)
+);
+alter table DETALLE_DEVOLUCIONES_VENTAS add constraint FK_RELATIONSHIP_DEVDETA_VEN foreign key (ID_DEV_VEN)
+      references DEVOLUCIONES_VENTAS (ID_DEV_VEN);

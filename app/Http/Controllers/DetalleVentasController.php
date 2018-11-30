@@ -42,17 +42,15 @@ class DetalleVentasController extends Controller
             $detalleVentas->ID_VEN= $id;
             $ID_PRO = $data[$i]['ID_PRO'];
             $CANTIDAD_PRO = $data[$i]['CANTIDAD'];
-            //$ID_MAR = $data[$i]['ID_MAR'];
-            //$ID_PRS = $data[$i]['ID_PRS'];
-            //$ID_PROV = $data[$i]['ID_PROV'];
-            //$CANTIDAD_PRO = $data[$i]['CANTIDAD_PRO'];
+            
+         
             $detalleVentas->ID_PRO = $ID_PRO;
             $detalleVentas->CANTIDAD_PRO = $CANTIDAD_PRO;
-            //$detalleDescuento->ID_MAR = $ID_MAR;
-            //$detalleDescuento->ID_PRS = $ID_PRS;
-            //$detalleDescuento->ID_PROV = $ID_PROV;
-            //$detalleDescuento->CANTIDAD_PRO = $CANTIDAD_PRO;
-            $detalleDescuento->save();
+            $detalleVentas->PRECIO_VEN = $data[$i]['PRECIO_VENTA'];
+            $detalleVentas->AHORRO = $data[$i]['AHORRO'];
+            $detalleVentas->SUBTOTAL = $data[$i]['SUBTOTAL'];
+         
+            $detalleVentas->save();
         }
 
 

@@ -64,24 +64,39 @@ class VentasController extends Controller
         //
 
         $success = 0;
+        //$miventa = [];
+        //$misdetalles=[];
         $error = null;
         DB::beginTransaction();
         try {
+            //ID_VEN, ID_USU, ID_CLI, FECHA_VEN, DESCRIPCION_VEN, IVA_VEN, TOTAL_VEN, ESTADO, SUBT_IVA, SUBT_CERO, TOTAL_DESC
             $data = json_decode($request->detalles, true);
             $ventas = new Ventas;
+
             $ventas->ID_USU = $request->ID_USU;
             $ventas->ID_CLI = $request->ID_CLI;
-            $ventas->ESTADO = "Facturado"; // facturado o anulado
+            $ventas->TOTAL_VEN=$request->TOTAL_VEN;
+            $ventas->IVA_VEN=$request->IVA_VEN;
+            $ventas->SUBT_IVA=$request->SUBT_IVA;
+            $ventas->SUBT_CERO=$request->SUBT_CERO;
+            $ventas->TOTAL_DESC=$request->TOTAL_DESC;
+             
+            $ventas->ESTADO = "Facturado"; // facturado o anulado 
             $ventas->save();
             app('App\Http\Controllers\DetalleVentasController')->store($data,$ventas->ID_VEN);
-        DB::commit();
-        $success = 1;
+            app('App\Http\Controllers\EjemplarController')->update($data);
+            DB::commit();
+          $miventa=(array)$this->getVenta($ventas->ID_VEN);
+          $misdetalles=(array)$this->getdetalleVentas($ventas->ID_VEN);
+          $success = 1;
         } catch (\Exception $e) {
-        $success = 0;
+       // $success=0;
         $error = $e->getMessage();
+        $success = $error;
         DB::rollback();
         }
-       return $success;
+        return response()->json(['result'=>$success,'miventa'=>$miventa,'detalles'=>$misdetalles],200);
+       //return $success;
     }
 
     /**
@@ -90,42 +105,21 @@ class VentasController extends Controller
      * @param  \App\Ventas  $ventas
      * @return \Illuminate\Http\Response
      */
-    public function show(Ventas $ventas)
+    public function getVenta($id)
     {
         //
+       
+        $venta = DB::select('call spSelectValoresFactura("'.$id.'")');
+       // return response()->json(['data'=>$venta],200);
+        return $venta;
+    }
+    public function getdetalleVentas($id)
+    {
+        //
+        $detalles = DB::select('call spSelectDetallesFactura("'.$id.'")');
+        //return response()->json(['data'=>$detalles],200);
+        return $detalles;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Ventas  $ventas
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ventas $ventas)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ventas  $ventas
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ventas $ventas)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ventas  $ventas
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ventas $ventas)
-    {
-        //
-    }
+   
 }

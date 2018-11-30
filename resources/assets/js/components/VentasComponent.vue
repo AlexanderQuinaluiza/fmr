@@ -109,7 +109,7 @@
                                 <br>
                                 
                                 <!-- inicio edicion -->
-                                <form name="formfact" >
+                                <form name="formfact" id="formfac">
                                     <input type="hidden" id="id" value="">
                                       
                                      <div class="row">
@@ -156,7 +156,7 @@
   <label for="">Código de barras</label>
   <input type="text" class="form-control" id="barcode" onchange="verificarEjemplar();" autofocus>
   </div>
-  <div class="form-group col-md-8">                                       
+  <div class="form-group col-md-8" style="margin-bottom: -20px;">                                       
   <!-- etiquetas del usuario-->                                       
 <div class="card">
   <!--<h5 class="card-header">Alexander Ivan</h5>-->
@@ -187,7 +187,7 @@
                           <div class="form-row">
                                <div class="col-md-6">
                                  <div class="row clearfix div-error">
-                                            <ul id="lstErrores"></ul>
+                                            <ul id="lstErroresFac"></ul>
                                     </div>  
                                     <div class="row">
                                         <div class="col-md-6">
@@ -200,9 +200,9 @@
                                     </div>   
                                     <hr>
                                <button type="button" class="btn btn-primary" id="btnGuardarVenta" ><i class="fa fa-floppy-o"></i> Guardar</button> 
-                                <button type="button" class="btn btn-primary">Imprimir</button>
-                                 <button type="button" class="btn btn-primary">Finalizar</button>  
-                                  <button type="button" id="btnCancelarActualizar" class="btn btn-warning"><i class="fa fa-times"></i> Cancelar</button>    
+                                <button type="button" class="btn btn-primary" id="btnImprimirVenta">Imprimir</button>
+                                 <button type="button" class="btn btn-primary" onclick="productosSeleccionados();" id="btnfinalizarVenta" >Finalizar</button>  
+                                 
                                </div>
                               <div class="col-md-6"> 
                          <!-- <div class="card">-->
@@ -216,29 +216,30 @@
                                      <tr>
                                     <th style="color:#fff;background:#546e7a;">Valor</th>
                                      <th id="valorfac" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
-                                    </tr>  
-                                    <tr>
-                                    <th style="color:#fff;background:#546e7a;">Subtotal IVA</th>
-                                     <th id="subtotalivafac" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
-                                    </tr>
-                                      <tr>
-                                    <th style="color:#fff;background:#546e7a;">Subtotal 0%</th>
-                                     <th id="subtotalcerofac" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
-                                    </tr>   
+                                    </tr> 
                                      <tr>
                                     <th style="color:#fff;background:#546e7a;">Descuentos</th>
                                      <th id="descfac" style="text-align: end;padding-right: 18px;"> 0.00</th>                                         
                                     </tr>  
-                                   
-                                    <tr>
-                                    <th style="color:#fff;background:#546e7a;">Tarifa 0%</th>
-                                     <th id="subcero" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
-                                    </tr> 
+                                     <tr>
+                                    <th style="color:#fff;background:#546e7a;">Subtotal</th>
+                                     <th id="subsubtotal" style="text-align: end;padding-right: 18px;"> 0.00</th>                                         
+                                    </tr>
                                     <tr>
                                     <th style="color:#fff;background:#546e7a;">Tarifa 12%</th>
-                                     <th id="sub12" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
+                                     <th id="tar12" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
                                     </tr>
-                                                          
+                                      <tr>
+                                    <th style="color:#fff;background:#546e7a;">Tarifa  0%</th>
+                                     <th id="tar0" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
+                                    </tr>   
+                                     
+                                   
+                                    <tr>
+                                    <th style="color:#fff;background:#546e7a;">IVA</th>
+                                     <th id="valoriva" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
+                                    </tr> 
+                                                                                           
                                     <tr>
                                     <th style="color:#fff;background:#546e7a;"> TOTAL</th>
                                      <th id="total" style="text-align: center;font-size: x-large;background-color: black;color: white;">0.00 </th>                                         

@@ -6,7 +6,9 @@
                     <h4 id="titulo"><i class="fa fa-file-text"></i> Ventas </h4>
                 </div>
                 <div class="card-body">
-                   
+                   <div id="ridefac" style="display:none">
+                       
+                   </div>
                           <!--Inicio modal productos seleccionados para descuentos-->
                     <div class="modal fade" id="modalnewCl" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-primary" role="document">
@@ -122,6 +124,7 @@
     <h6 class="card-title">Factura</h6>
     <div id="numfac">001-222-000000###</div>
     <p class="card-text" id="direccionfac">Direccion: efasf aefasfaf <br> Dirección sucursal: na/na</p>
+     <p class="card-text" id="cajadesc"></p>
     
   </div>
 </div>
@@ -155,6 +158,7 @@
 
   <label for="">Código de barras</label>
   <input type="text" class="form-control" id="barcode" onchange="verificarEjemplar();" autofocus>
+ 
   </div>
   <div class="form-group col-md-8" style="margin-bottom: -20px;">                                       
   <!-- etiquetas del usuario-->                                       
@@ -200,8 +204,8 @@
                                     </div>   
                                     <hr>
                                <button type="button" class="btn btn-primary" id="btnGuardarVenta" ><i class="fa fa-floppy-o"></i> Guardar</button> 
-                                <button type="button" class="btn btn-primary" id="btnImprimirVenta">Imprimir</button>
-                                 <button type="button" class="btn btn-primary" onclick="productosSeleccionados();" id="btnfinalizarVenta" >Finalizar</button>  
+                                <button type="button" class="btn btn-primary" id="btnImprimirVenta" onclick="vistaPreviaImprimir();"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
+                                 <button type="button" class="btn btn-primary" onclick="finalizarVenta();" id="btnfinalizarVenta" >Finalizar</button>  
                                  
                                </div>
                               <div class="col-md-6"> 

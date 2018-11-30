@@ -549,8 +549,8 @@ return error_ruc;
   
            $('#rucfac').html('R.U.C '+ response.data[0].RUC_AGE);
            $('#numfac').html('001-00'+ response.data[0].ID_AGE+'-00000###');
-           $('#direccionfac').html('Dirección: '+ response.data[0].DIRECCION_AGE +'<br> '+response.data[0].DESCRIPCION_CAJA);
-
+           $('#direccionfac').html('Dirección: '+ response.data[0].DIRECCION_AGE );
+        $('#cajadesc').html(response.data[0].DESCRIPCION_CAJA)
                      
        })
        .catch(function (error) {
@@ -748,18 +748,24 @@ function registrarVenta(){
 
         axios.post(url,data).then(function(response){
          
-         console.log(response.data.result);   
-         console.log(response.data.detalles); 
-         console.log(response.data.miventa);
+         //console.log(response.data.result);   
+         //console.log(response.data.detalles); 
+         //console.log(response.data.miventa);
          if(response.data.result>0){
             toastr.success('Se ingreso la venta. Puede continuar con el proceso.');
             bloquearControles();
+            
+            tablaproductos.ajax.reload();
+            crearFactura(response.data.miventa,response.data.detalles);
+            vistaPreviaImprimir();
 
-         } 
+           }else{
+            toastr.error('Los datos ingresados son erroneos, Intentente nuevamente', 'Error!');
+           } 
 
        }).catch(function (error) {
         console.log(error);
-        toastr.error('No se ha podido guardar la venta.', 'Error!')
+        toastr.error('No se ha podido guardar la venta.', 'Error!');
        });
 }
 /**
@@ -787,6 +793,160 @@ function registrar()
      console.log(error);
      toastr.error('No se ha podido guardar el registro.', 'Error!')
     });
+}
+
+/** funcion enable controles, finalizar venta */
+
+function finalizarVenta(){
+    var formulariofac=document.getElementById("formfac");
+    for (var i = 0; i < formulariofac.elements.length; i++) {
+        
+        if(formulariofac.elements[i].tagName=="INPUT"){
+            formulariofac.elements[i].readOnly=false;
+        }
+    }
+     document.getElementById("btndelete").disabled=false;
+     document.getElementById("table_detalles").innerHTML="";
+     recalcularTotales();
+     $('#lstErroresFac').empty();
+     document.getElementById("btnGuardarVenta").style.display = "block";
+     document.getElementById("btnImprimirVenta").style.display = "none";
+     document.getElementById("btnfinalizarVenta").style.display = "none";
+     totalArticulosVendidos();
+}
+
+/** funcion para crear la factura  */
+function crearFactura(miventa,misdetalles){
+    var conten=document.getElementById("ridefac");
+    var numcomprobante=document.getElementById("numfac").innerHTML;
+    var nuevocomp=numcomprobante.replace('###',miventa[0].NUMERO_COM);
+
+    var contenido= '<div class="card" style="width: 20rem;">'+
+    '<div class="card-body">'+          
+    '<div><center> <b> FARMACIA COMUNITARIA PUYO </b></center> </div>'+    
+        ' <center><div>R.U.C:'+ document.getElementById("rucfac").innerHTML+' </div>  </center>'+
+        ' <center><div>'+ document.getElementById("direccionfac").innerHTML+' </div>  </center>'+
+          '<div id="numfac">FACTURA: '+nuevocomp+'</div>'+  
+          '<div>Fecha: '+miventa[0].FECHA_VEN+'</div>'+
+          '<div>Ruc/Ci: '+document.getElementById("RUC").value+'</div>'+
+          '<div>Cliente:<b> '+document.getElementById("nombrescl").innerHTML+'</b></div>'+
+          '<div>Dirección:'+document.getElementById("dirtel").innerHTML+'</div>'+  
+            '<table class="table table-sm">'+
+            '<tr style="font-size: smaller;">'+
+                '<th>Descripción</th>'+
+                '<th>Cantidad</th>'+
+                '<th>Pre.Uni</th>'+
+                '<th>Pre.Total</th>'+
+            '</tr> <tbody>';
+            //ID_DET_VEN, ID_PRO, ID_VEN, CANTIDAD_PRO, PRECIO_VEN, AHORRO, SUBTOTAL, DESCRIPCION_PRO
+            for (let i = 0; i < misdetalles.length; i++) {
+               var fila= '<tr style="font-size: smaller;">'+
+                '<td>'+misdetalles[i].DESCRIPCION_PRO+'</td>'+
+                '<td>'+misdetalles[i].CANTIDAD_PRO+'</td>'+
+                '<td>'+misdetalles[i].PRECIO_VEN+'</td>'+
+                '<td>'+misdetalles[i].SUBTOTAL+'</td>'+
+            '</tr>';
+            contenido+=fila;
+                
+            }
+            
+            contenido+='</tbody>'+
+                       '</table>'+
+        '<table class="table table-sm" style="font-size: smaller;">'+
+               '<tr>'+
+                '    <td class="datosv">Valor</td>'+
+                    '<td class="datosv">'+document.getElementById("valorfac").innerHTML+'</td>'+
+                '</tr>'+
+               '<tr>'+
+                     
+                    '<td class="datosv">Descuentos</td>'+
+                    '<td class="datosv">'+document.getElementById("descfac").innerHTML+'</td>'+
+                '</tr>'+   
+                '<tr>'+
+                   
+                    '<td class="datosv">Subtotal</td>'+
+                    '<td class="datosv">'+document.getElementById("subsubtotal").innerHTML+'</td>'+
+                '</tr>'+
+                 '<tr>'+
+                    
+                    '<td class="datosv">tarifa 12%</td>'+
+                    '<td class="datosv">'+document.getElementById("tar12").innerHTML+'</td>'+
+                '</tr>'+
+               
+                 '<tr>'+
+                     
+                    '<td class="datosv">Tarifa 0%</td>'+
+                    '<td class="datosv">'+document.getElementById("tar0").innerHTML+'</td>'+
+                '</tr>'+
+                 '<tr>'+
+                    
+                    '<td class="datosv">IVA</td>'+
+                   ' <td class="datosv">'+document.getElementById("valoriva").innerHTML+'</td>'+
+                 '</tr>'+
+                ' <tr>'+
+                     
+                    '<th>TOTAL</th>'+
+                    '<th>'+document.getElementById("total").innerHTML+'</th>'+
+                '</tr>'+
+       ' </table>'+
+       ' <hr>'+
+        '<div class="datosv" style="font-size: smaller;">Atendido por:'+'UsuarioLogin'+' </div>'+
+       ' <div class="datosv" style="font-size: smaller;">Caja:'+document.getElementById("cajadesc").innerHTML+'</div>'+
+       ' <div class="datosv" style="font-size: smaller;">Total de articulos vendidos:'+totalArticulosVendidos()+'</div> ' +
+      '</div>'+
+    '</div>';
+    document.getElementById("ridefac").innerHTML=contenido;
+}
+/** funcion para imprimir la factura */
+function vistaPreviaImprimir() {
+    var elem="ridefac";
+    var context = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2)); 
+    var url =window.location.protocol+"//"+ window.location.host +context;
+    var mywindow = window.open();
+    var css = "";
+    var myStylesLocation = url+"/assets/css/bootstrap.min.css";
+    $.ajax({
+        url: myStylesLocation,
+        type: "POST",
+        async: false
+    }).done(function (data) {
+        css += data;
+    })
+   // mywindow.document.write('<html><head><title>Pedidos</title>');
+    mywindow.document.write('<style type="text/css">' + css + ' </style>');
+    mywindow.document.write('</head><body >');
+   // mywindow.document.write('<h1>' + 'Pedido: '+$('#lblID_PED').text() + '</h1>');
+    var contenido = document.getElementById(elem).innerHTML;
+    var $html = $('<div />',{html:contenido});
+    //$html.find('button#btnPreview').hide();
+    //$html.find('button#btnSendMail').hide();
+   // $html.find('table#tabla-detalle>thead').attr('style','color:black;background:rgb(84, 110, 122);');
+    mywindow.document.write($html.html());
+    mywindow.document.write('</body></html>');
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+    mywindow.print();
+    mywindow.close();
+    return true;
+}
+/** funcion para calcular el total de articulos vendidos */
+function totalArticulosVendidos(){
+   var cantidades=0; 
+    var table = document.getElementById('table_detalles');
+    for(var i=0, n=table.rows.length;i<n;i++) {
+        var has_input=table.rows[i].cells[4].children.length;
+        if (has_input>0) {
+            var cantidad=table.rows[i].cells[4].getElementsByTagName("input")[0].value;
+                cantidad=toFixedTrunc(cantidad, 2);
+                cantidades+=cantidad*1;
+            }else{
+                var cantidad=table.rows[i].cells[4].innerHTML;
+                cantidad=toFixedTrunc(cantidad, 2);
+                cantidades+=cantidad*1;
+            }
+    }
+    //document.getElementById("articuloscount").innerHTML=cantidades*1; 
+    return cantidades*1;
 }
     /********************************************* detalles de la factura  ***/
    // verificarEjemplar();
@@ -941,6 +1101,7 @@ function registrar()
        // var cell2 = row.insertCell(1);
        //recalculartotales 
        recalcularTotales();
+       //totalArticulosVendidos();
         // Add some text to the new cells:
        // cell1.innerHTML = "NEW CELL1";
        // cell2.innerHTML = "NEW CELL2";
@@ -951,6 +1112,7 @@ function registrar()
         document.getElementById('table_detalles').deleteRow(d);
         toastr.warning('Se elimino un item.! ');
         recalcularTotales();
+        //totalArticulosVendidos();
      }
 
 /** funcion retorna un array con los id_pro agregado */
@@ -1058,6 +1220,7 @@ function toFixedTrunc(value, n) {
            document.getElementById("table_detalles").rows[i].cells[8].innerHTML=toFixedTrunc(p_uni*(cantidad*1)-preciopromo*(cantidad*1),2);
             document.getElementById("table_detalles").rows[i].cells[9].innerHTML=toFixedTrunc(p_uni*(cantidad*1),2);
             recalcularTotales();
+            //totalArticulosVendidos();
             break;
         }
     }
@@ -1104,8 +1267,9 @@ function calculaCambio(valor){
 
    
 }
-
-
+/**bloquear los botones imprimir y finalizar */
+document.getElementById("btnImprimirVenta").style.display = "none";
+document.getElementById("btnfinalizarVenta").style.display = "none";
 /**funcion bloquear cuando se ingrese una venta los controles **/
 function bloquearControles(){
     var formulariofac=document.getElementById("formfac");
@@ -1116,4 +1280,11 @@ function bloquearControles(){
         }
     }
      document.getElementById("btndelete").disabled=true;
-}
+     document.getElementById("btnGuardarVenta").style.display = "none";
+     document.getElementById("btnImprimirVenta").style.display = "inline";
+     document.getElementById("btnfinalizarVenta").style.display = "inline";
+     $('#lstErroresFac').empty();
+     document.getElementById("ridefac").innerHTML="";
+     document.getElementById("recibe").value="";
+    }
+//$('#table').attr('style','width:auto');

@@ -40991,6 +40991,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -41021,6 +41025,11 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
+          _c("div", {
+            staticStyle: { display: "none" },
+            attrs: { id: "ridefac" }
+          }),
+          _vm._v(" "),
           _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "custom-tab" }, [
@@ -41471,7 +41480,9 @@ var staticRenderFns = [
             _vm._v("Direccion: efasf aefasfaf "),
             _c("br"),
             _vm._v(" Dirección sucursal: na/na")
-          ])
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "card-text", attrs: { id: "cajadesc" } })
         ])
       ])
     ])
@@ -41585,9 +41596,19 @@ var staticRenderFns = [
           "button",
           {
             staticClass: "btn btn-primary",
-            attrs: { type: "button", id: "btnImprimirVenta" }
+            attrs: {
+              type: "button",
+              id: "btnImprimirVenta",
+              onclick: "vistaPreviaImprimir();"
+            }
           },
-          [_vm._v("Imprimir")]
+          [
+            _c("i", {
+              staticClass: "fa fa-print",
+              attrs: { "aria-hidden": "true" }
+            }),
+            _vm._v(" Imprimir")
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -41596,7 +41617,7 @@ var staticRenderFns = [
             staticClass: "btn btn-primary",
             attrs: {
               type: "button",
-              onclick: "productosSeleccionados();",
+              onclick: "finalizarVenta();",
               id: "btnfinalizarVenta"
             }
           },

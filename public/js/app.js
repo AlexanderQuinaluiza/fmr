@@ -1430,7 +1430,8 @@ Vue.component('dev_venta_comp', __webpack_require__(131));
 var app = new Vue({
   el: '#app',
   data: {
-    menu: 18
+    menu: 18,
+    userid: 1
   }
 });
 
@@ -47108,7 +47109,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.div-error{\ndisplay: flex;\njustify-content: center;\n}\n", ""]);
+exports.push([module.i, "\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n", ""]);
 
 // exports
 
@@ -47214,19 +47215,92 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            //ID_DEV_VEN, ID_VEN, ID_USU, TOTAL_DEV, IVA_DEV, SUBT_IVA, SUBT_CERO, OBSERVACION_DEV, FECHA_DEV
-            cabeceras: ["Id", "#Factura", "Fecha Venta", "Motivo", "Valor Devuelto", "Fecha Dev.", "#N.C.", "Acciones"]
-        };
-    },
-    mounted: function mounted() {
-        var datatable = document.createElement('script');
-        datatable.setAttribute('src', 'assets/js/lib/data-table/datatabledevoventas.js');
-        document.head.appendChild(datatable);
-    }
+  data: function data() {
+    return {
+      //ID_DEV_VEN, ID_VEN, ID_USU, TOTAL_DEV, IVA_DEV, SUBT_IVA, SUBT_CERO, OBSERVACION_DEV, FECHA_DEV
+      cabeceras: ["Id", "#Factura", "Fecha Venta", "Motivo", "Valor Devuelto", "Fecha Dev.", "#N.C.", "Acciones"]
+    };
+  },
+  mounted: function mounted() {
+    var datatable = document.createElement("script");
+    datatable.setAttribute("src", "assets/js/lib/data-table/datatabledevoventas.js");
+    document.head.appendChild(datatable);
+  }
 });
 
 /***/ }),
@@ -47324,7 +47398,7 @@ var staticRenderFns = [
           staticClass: "fa fa-undo",
           attrs: { "aria-hidden": "true" }
         }),
-        _vm._v(" Devoluciones ")
+        _vm._v(" Devoluciones\n        ")
       ])
     ])
   },
@@ -47432,7 +47506,10 @@ var staticRenderFns = [
                 "aria-selected": "true"
               }
             },
-            [_c("i", { staticClass: "fa fa-list" }), _vm._v(" Listado")]
+            [
+              _c("i", { staticClass: "fa fa-list" }),
+              _vm._v(" Listado\n              ")
+            ]
           ),
           _vm._v(" "),
           _c(
@@ -47448,7 +47525,10 @@ var staticRenderFns = [
                 "aria-selected": "false"
               }
             },
-            [_c("i", { staticClass: "fa fa-plus" }), _vm._v(" Nuevo")]
+            [
+              _c("i", { staticClass: "fa fa-plus" }),
+              _vm._v(" Nuevo\n              ")
+            ]
           )
         ]
       )
@@ -47475,70 +47555,171 @@ var staticRenderFns = [
           _c("input", { attrs: { type: "hidden", id: "id", value: "" } }),
           _vm._v(" "),
           _c("div", { staticClass: "form-row" }, [
-            _c("div", { staticClass: "form-group col-md-6" }, [
-              _c("label", [_vm._v("Nombre")]),
+            _c("div", { staticClass: "form-group col-md-3" }, [
+              _c("label", [_vm._v("Código de la Factura")]),
               _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  id: "NOMBRE_ROL",
-                  required: "",
-                  placeholder: "Nombre de rol",
-                  maxlength: "110"
-                }
-              })
+              _c("div", { staticClass: "input-group mb-3" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "NUM_FAC",
+                    required: "",
+                    placeholder: "12345",
+                    maxlength: "20",
+                    autofocus: ""
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group-append" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: {
+                        id: "btnbuscarventa",
+                        type: "button",
+                        onclick: "cargarDatosFactura();"
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-search",
+                        attrs: { "aria-hidden": "true" }
+                      })
+                    ]
+                  )
+                ])
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group col-md-6" }, [
-              _c("label", [_vm._v("Descripción")]),
+            _c("div", { staticClass: "form-group col-md-9" }, [
+              _c("label", [_vm._v("Motivo devolución")]),
               _vm._v(" "),
               _c("input", {
                 staticClass: "form-control",
                 attrs: {
                   type: "text",
-                  id: "DESCRIPCION_ROL",
+                  id: "MOTIVO",
                   required: "",
-                  placeholder: "Descripción de rol",
+                  placeholder: "Ejemplo: Producto equivocado",
                   maxlength: "200"
                 }
               })
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row form-group" }, [
-            _c("label", { staticClass: "col-md-2 form-control-label" }, [
-              _vm._v("Módulos ")
+          _c("div", { attrs: { id: "fichadev" } }),
+          _vm._v(" "),
+          _c("hr", {
+            staticStyle: { "margin-top": "0px", "margin-bottom": "0px" }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-9" }, [
+            _c("div", { staticClass: "row clearfix div-error" }, [
+              _c("ul", { attrs: { id: "lstErrores" } })
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-10" }, [
-              _c("div", {
-                staticClass: "form-check",
-                attrs: { id: "divchecks" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row clearfix div-error" }, [
-            _c("ul", { attrs: { id: "lstErrores" } })
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "button", id: "btnGuardarDev" }
+              },
+              [
+                _c("i", { staticClass: "fa fa-floppy-o" }),
+                _vm._v(" Guardar\n                ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "button", id: "btnImprimirDev" }
+              },
+              [
+                _c("i", { staticClass: "fa fa-print" }),
+                _vm._v(" Imprimir\n                ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "button", id: "btnFinalDev" }
+              },
+              [
+                _c("i", { staticClass: "fa fa-end" }),
+                _vm._v(" Finalizar\n                ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-warning",
+                attrs: { type: "button", id: "btnCancelarActualizar" }
+              },
+              [
+                _c("i", { staticClass: "fa fa-times" }),
+                _vm._v(" Cancelar\n                ")
+              ]
+            )
           ]),
           _vm._v(" "),
           _c(
-            "button",
+            "div",
             {
-              staticClass: "btn btn-primary",
-              attrs: { type: "button", id: "btnGuardarRol" }
+              staticClass: "col-md-3",
+              staticStyle: { "padding-right": "0px" }
             },
-            [_c("i", { staticClass: "fa fa-floppy-o" }), _vm._v(" Guardar")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-warning",
-              attrs: { type: "button", id: "btnCancelarActualizar" }
-            },
-            [_c("i", { staticClass: "fa fa-times" }), _vm._v(" Cancelar")]
+            [
+              _c("table", { staticClass: "table table-sm table-bordered" }, [
+                _c("tr", [
+                  _c(
+                    "td",
+                    {
+                      staticStyle: {
+                        color: "white",
+                        "background-color": "#546e7a"
+                      }
+                    },
+                    [_vm._v("IVA")]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { attrs: { id: "iva_dev" } }, [_vm._v("0.00")])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c(
+                    "td",
+                    {
+                      staticStyle: {
+                        color: "white",
+                        "background-color": "#546e7a"
+                      }
+                    },
+                    [_c("b", [_vm._v("TOTAL")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticStyle: {
+                        color: "white",
+                        "background-color": "#000",
+                        "text-align": "center",
+                        "font-size": "x-large"
+                      },
+                      attrs: { id: "total_dev" }
+                    },
+                    [_vm._v("0.00")]
+                  )
+                ])
+              ])
+            ]
           )
         ])
       ]

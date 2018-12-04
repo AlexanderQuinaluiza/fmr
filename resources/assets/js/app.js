@@ -42,6 +42,7 @@ Vue.component('dev_venta_comp', require('./components/DevolucionesVentasComponen
 const app = new Vue({
     el: '#app',
     data:{
-        menu:18
+        menu:18,
+        userid:1
     }
 });

@@ -827,7 +827,7 @@ function crearFactura(miventa,misdetalles){
         ' <center><div>R.U.C:'+ document.getElementById("rucfac").innerHTML+' </div>  </center>'+
         ' <center><div>'+ document.getElementById("direccionfac").innerHTML+' </div>  </center>'+
           '<div id="numfac">FACTURA: '+nuevocomp+'</div>'+  
-          '<div>Fecha: '+miventa[0].FECHA_VEN+'</div>'+
+          '<div>Fecha: '+miventa[0].FECHA_VEN+'   Codigo: '+miventa[0].ID_VEN+'</div>'+
           '<div>Ruc/Ci: '+document.getElementById("RUC").value+'</div>'+
           '<div>Cliente:<b> '+document.getElementById("nombrescl").innerHTML+'</b></div>'+
           '<div>Dirección:'+document.getElementById("dirtel").innerHTML+'</div>'+  

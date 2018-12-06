@@ -13,50 +13,8 @@ class ConfiguracionController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $configuraciones = Configuraciones::All();
+        return response()->json(['data'=>$configuraciones],200);
     }
 
     /**
@@ -66,21 +24,57 @@ class ConfiguracionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $config = Configuraciones::findOrFail($request->NOMBRE_CONF);
+        $config->VALOR_CONF = $request->VALOR_CONF;
+     
+        // switch ($request->NOMBRE_CONF) {
+        //     case 'driver correo':
+        //                 Config::set('MAIL_DRIVER', $config->VALOR_CONF);
+        //         break;
+        //     case 'host correo':
+        //                 Config::set('MAIL_HOST', $config->VALOR_CONF);
+        //         break;
+        //     case 'puerto correo':
+        //                 Config::set('MAIL_PORT', $config->VALOR_CONF);
+        //         break; 
+        //     case 'usuario correo':
+        //                 Config::set('MAIL_USERNAME', $config->VALOR_CONF);
+        //         break;           
+        //     case 'contraseña correo':
+           
+        //     Config::set('MAIL_PASSWORD', $config->VALOR_CONF);
+        //         break;
+        //     default:
+        //         # code...
+        //         break;
+        // }
+           $config->save();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public static function changeEnvironmentVariable($key,$value)
     {
-        //
+        $path = base_path('.env');
+    
+        if(is_bool(env($key)))
+        {
+            $old = env($key)? 'true' : 'false';
+        }
+        elseif(env($key)===null){
+            $old = 'null';
+        }
+        else{
+            $old = env($key);
+        }
+    
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                "$key=".$old, "$key=".$value, file_get_contents($path)
+            ));
+        }
     }
+
     public function getSetting()
     {   
         $valueReturn = '';

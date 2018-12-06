@@ -42,6 +42,17 @@ class CajasController extends Controller
        return response()->json(['data'=>$cajas],200);
     }
 
+    public function getCajasParaCierre()
+    {
+       $cajas = DB::table('CIERRE_CAJA as c')
+        ->select('c.ID_CCJ','c.ID_CAJA','cj.DESCRIPCION_CAJA as CAJA','c.ID_USU')
+        ->join('CAJAS as cj','c.ID_CAJA','=','cj.ID_CAJA')
+        ->where('c.ESTADO_CCJ', '=', 0)
+        ->orderBy('c.ID_CAJA','desc')
+        ->get();
+       return response()->json(['data'=>$cajas],200);
+    }
+
     public function store(Request $request)
     {
         $this->validate($request,[ 'DESCRIPCION_CAJA'=>'required|unique:CAJAS','ID_AGE'=>'required']);

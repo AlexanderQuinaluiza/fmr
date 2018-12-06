@@ -496,6 +496,9 @@ var tabla =   $('#bootstrap-data-table').DataTable(
       'ajax'       : {
        "type"   : "GET",
        "url"    : "usuarios",
+       error: function (xhr, error, thrown) {
+        toastr.error('No autorizado para consultar información')
+        },
        "dataSrc": function (json) {
          var return_data = new Array();
           var buttons = '';       

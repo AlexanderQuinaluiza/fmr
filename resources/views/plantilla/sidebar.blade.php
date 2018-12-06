@@ -98,7 +98,13 @@
 
                         </ul>
                         <li>
-                        <a href="javascript: void(0)"  @click="menu=25"> <i class="menu-icon fa fa-dashboard"></i>Cierre de caja </a>
+                        <a href="javascript: void(0)"  @click="menu=25"> <i class="menu-icon fa fa-lock"></i>Cierre caja (Vendedor)</a>
+                       </li>
+                       <li>
+                        <a href="javascript: void(0)"  @click="menu=26"> <i class="menu-icon fa fa-lock"></i>Cierres caja (Admin) </a>
+                       </li>
+                       <li>
+                        <a href="javascript: void(0)"  @click="menu=27"> <i class="menu-icon fa fa-unlock"></i>Apertura caja (Admin) </a>
                        </li>
                        
 
@@ -162,4 +168,13 @@
 
 <script src="assets/js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
 <script src="assets/js/lib/bootstrap/es.js"></script>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+
 

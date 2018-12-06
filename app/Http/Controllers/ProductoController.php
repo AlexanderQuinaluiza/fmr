@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use App\File;
+use Auth;
 class ProductoController extends Controller
 {
     /**
@@ -20,11 +21,10 @@ class ProductoController extends Controller
         $productos = Productos::All();    
         return response()->json(['data'=>$productos],200);
     }
-    public function productosActivos()
-    {
-        $productos = Productos::select('ID_PRO','NOMBRE_PRO')
-        ->where('ESTADO_PRO','>',0)
-        ->get();    
+    /** funcion agregada para usar en los detalles de descuentos */
+    public function productosActivos(){
+        $productos = Productos::All()
+        ->where('ESTADO_PRO', '=', 1);    
         return response()->json(['data'=>$productos],200);
     }
 
@@ -47,30 +47,110 @@ class ProductoController extends Controller
         ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
         ->where('p.ID_PRO', '=', $id)
         ->get();
-
-       // $producto[0]->PRECIO_PROMOCIONAL_PRO;
-       $idproducto = (int)$producto[0]->ID_PRO;
-       $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-
-        $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-        $descuento = $porcentajeDesc * $precioVenta;
-        $precioConDescuento = $precioVenta - $descuento;
-        $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
-
-        //return round($precioConDescuento,2);
-
-       // $id = (int) $_GET['ID_PRO'];
-       // $producto = Productos::findOrFail($id);
       return response()->json($producto,200);
-
-        /**->join('PRESENTACIONES pr')
-        ->join('CATEGORIAS c')*/
     }
-
+/** productos ventas, metodo que se usa en el modulo de ventas */
+public function productosVentas()
+{
+    $producto =  DB::table('PRODUCTOS as p')
+    ->select('p.ID_PRO','p.NOMBRE_PRO','p.ID_CAT','p.ID_PRS',
+    'p.ID_MAR','p.DESCRIPCION_PRO','p.COSTO_PRO',
+    'p.GANANCIA_PRO','p.PRECIO_VENTA_PRO','p.EXISTENCIA_MIN_PRO',
+    'p.EXISTENCIA_MAX_PRO','p.ETIQUETAS_PRO','p.UBICACION_PRO', 
+    'p.IMAGEN_PRO','p.APLICA_IVA_PRO','p.STOCK_PRO',
+    'p.LOTE_PRO','p.LABORATORIO_PRO','p.ESTADO_PRO','p.FECHA_REGISTRO_PRO',
+    'p.TIPO_PRO','p.PRECIO_PROMOCIONAL_PRO','p.VENTA_CON_RECETA',
+    'u.NOMBRE_USU','u.APELLIDO_USU','m.NOMBRE_MAR as MARCA_PRO','pr.NOMBRE_PRS as PRESENTACION_PRO',
+    'c.NOMBRE_CAT as CATEGORIA_PRO')
+    ->join('MARCAS as m','p.ID_MAR','=','m.ID_MAR')
+    ->join('PRESENTACIONES as pr','p.ID_PRS','=','pr.ID_PRS')
+    ->join('CATEGORIAS as c','p.ID_CAT','=','c.ID_CAT')
+    ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
+    ->where('p.ESTADO_PRO', '=', 1)
+    ->get();
+   $idproducto = (int)$producto[0]->ID_PRO;
+   $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+    $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+    $descuento = $porcentajeDesc * $precioVenta;
+    $precioConDescuento = $precioVenta - $descuento;
+    $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+   return response()->json(['data'=>$producto],200);
+}
+/**** metodo para extaer la informacion de un producto en base al codigo de barras */
+public function productoEjemplar()
+{  
+      $producto='';
+    try{
+        $id = $_GET['CODEBAR'];
+        $producto =  DB::table('PRODUCTOS as p')
+        ->select('p.ID_PRO','p.NOMBRE_PRO','p.ID_CAT','p.ID_PRS',
+        'p.ID_MAR','p.DESCRIPCION_PRO','p.COSTO_PRO',
+        'p.GANANCIA_PRO','p.PRECIO_VENTA_PRO','p.EXISTENCIA_MIN_PRO',
+        'p.EXISTENCIA_MAX_PRO','p.ETIQUETAS_PRO','p.UBICACION_PRO', 
+        'p.IMAGEN_PRO','p.APLICA_IVA_PRO','p.STOCK_PRO',
+        'p.LOTE_PRO','p.LABORATORIO_PRO','p.ESTADO_PRO','p.FECHA_REGISTRO_PRO',
+        'p.TIPO_PRO','p.PRECIO_PROMOCIONAL_PRO','p.VENTA_CON_RECETA',
+        'u.NOMBRE_USU','u.APELLIDO_USU','m.NOMBRE_MAR as MARCA_PRO','pr.NOMBRE_PRS as PRESENTACION_PRO',
+        'c.NOMBRE_CAT as CATEGORIA_PRO','e.COD_BARRAS_EJM')
+        ->join('MARCAS as m','p.ID_MAR','=','m.ID_MAR')
+        ->join('PRESENTACIONES as pr','p.ID_PRS','=','pr.ID_PRS')
+        ->join('CATEGORIAS as c','p.ID_CAT','=','c.ID_CAT')
+        ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
+        ->join('EJEMPLARES as e', 'e.ID_PRO','=','p.ID_PRO')
+        ->where('p.ESTADO_PRO', '=', 1)
+        ->where('e.ESTADO', '=', 1)
+        ->where('e.COD_BARRAS_EJM','=',$id)
+        ->get();
+    
+       // $producto[0]->PRECIO_PROMOCIONAL_PRO;
+    
+       
+     $idproducto = (int)$producto[0]->ID_PRO;
+     $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+    
+       $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+       $descuento = $porcentajeDesc * $precioVenta;
+       $precioConDescuento = $precioVenta - $descuento;
+       $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+    }catch(Exeption $e){
+       $producto='';
+    }
+       return response()->json(['data'=>$producto],200);
+}
+/** metodo que se usa en el modulo  de descuentos */
+    public function productoDescuentos()
+    {
+         $id = (int) $_GET['ID_DESC'];
+        $producto =  DB::table('PRODUCTOS as p')
+        ->select('p.ID_PRO','p.NOMBRE_PRO','p.ID_CAT','p.ID_PRS',
+        'p.ID_MAR','p.DESCRIPCION_PRO','p.COSTO_PRO',
+        'p.GANANCIA_PRO','p.PRECIO_VENTA_PRO','p.EXISTENCIA_MIN_PRO',
+        'p.EXISTENCIA_MAX_PRO','p.ETIQUETAS_PRO','p.UBICACION_PRO', 
+        'p.IMAGEN_PRO','p.APLICA_IVA_PRO','p.STOCK_PRO',
+        'p.LOTE_PRO','p.LABORATORIO_PRO','p.ESTADO_PRO','p.FECHA_REGISTRO_PRO',
+        'p.TIPO_PRO','p.PRECIO_PROMOCIONAL_PRO','p.VENTA_CON_RECETA',
+        'u.NOMBRE_USU','u.APELLIDO_USU','m.NOMBRE_MAR as MARCA_PRO','pr.NOMBRE_PRS as PRESENTACION_PRO',
+        'c.NOMBRE_CAT as CATEGORIA_PRO')
+        ->join('MARCAS as m','p.ID_MAR','=','m.ID_MAR')
+        ->join('PRESENTACIONES as pr','p.ID_PRS','=','pr.ID_PRS')
+        ->join('CATEGORIAS as c','p.ID_CAT','=','c.ID_CAT')
+        ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
+        ->join('DETALLES_DESCUENTOS as dd', 'dd.ID_PRO','=','p.ID_PRO')
+        ->where('dd.ID_DESC', '=', $id)
+        ->get();
+        $idproducto = (int)$producto[0]->ID_PRO;
+        $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+     
+         $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+         $descuento = $porcentajeDesc * $precioVenta;
+         $precioConDescuento = $precioVenta - $descuento;
+         $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+         return response()->json(['data'=>$producto],200);
+    }
+     
     function getPorcentajeDescuento($ID_PRO)
     {
-        //$ID_PRO =1;
-        $descuento = DB::select('call pGetDescuentoByProducto("'.$ID_PRO.'")');
+        $descuento = DB::select("SELECT fGetDescuentoByProducto($ID_PRO) as PORCENTAJE_DESC");
         $porcentaje = 0;
         if(count((array)$descuento)>0)
         {
@@ -78,8 +158,6 @@ class ProductoController extends Controller
         }
         return $porcentaje;
     }
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -106,18 +184,16 @@ class ProductoController extends Controller
 		$file->move(public_path().'/recursos_producto/',$file->getClientOriginalName());
         $producto->IMAGEN_PRO ='recursos_producto/'.$file->getClientOriginalName();   
         }
-
         $producto->APLICA_IVA_PRO = $data['APLICA_IVA_PRO'];
         $producto->LOTE_PRO = $data['LOTE_PRO'];
         $producto->LABORATORIO_PRO = $data['LABORATORIO_PRO'];
         $producto->ESTADO_PRO = 1;
         $producto->TIPO_PRO = $data['TIPO_PRO'];
         $producto->VENTA_CON_RECETA = $data['VENTA_CON_RECETA'];
-        $producto->USU_REGISTRO = 1;//$request->USU_REGISTRO;
+        $producto->USU_REGISTRO = Auth::user()->ID_USU;
         $producto->save();
         return $producto;
     }
-
    
    
     /**
@@ -154,13 +230,12 @@ class ProductoController extends Controller
         $producto->VENTA_CON_RECETA = $data['VENTA_CON_RECETA'];
         $producto->save();
     }
-
     public function desactivar(Request $request)
     {
-     //$producto = Productos::findOrFail($request->ID_PRO);
-     //$producto->ESTADO_PRO = 0;
-     //$producto->save();
-     Productos::find($request->ID_PRO)->delete();
+     $producto = Productos::findOrFail($request->ID_PRO);
+     $producto->ESTADO_PRO = 0;
+     $producto->save();
+     //Productos::find($request->ID_PRO)->delete();
     }
     public function activar(Request $request)
     {

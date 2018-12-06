@@ -36,6 +36,20 @@ class DetallePedidoController extends Controller
      // return $detallePedidos;
     }
 
+    public function getDetalleByIdNoJSON($ID_PED)
+    { 
+      $detallePedidos = DB::table('DETALLE_PEDIDO as dt')
+      ->join('PEDIDOS as p','p.ID_PED','=','dt.ID_PED')
+      ->join('PRODUCTOS as pr','pr.ID_PRO','=','dt.ID_PRO')
+      ->join('MARCAS as m','m.ID_MAR','=','dt.ID_MAR')
+      ->join('PRESENTACIONES as ps','ps.ID_PRS','=','dt.ID_PRS')
+      ->select('dt.ID_PED','p.FECHA_PED','p.OBSERVACION_PED','p.ESTADO','m.NOMBRE_MAR','pr.NOMBRE_PRO','dt.ID_PRO',
+      'ps.NOMBRE_PRS','dt.CANTIDAD_PRO')
+      ->where('dt.ID_PED', '=', $ID_PED)
+      ->get();
+      return $detallePedidos;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

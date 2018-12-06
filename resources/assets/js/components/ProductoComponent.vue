@@ -331,58 +331,9 @@
                 }
             },
             mounted() {
-
-
-           /**     let dt1 = document.createElement('script')
-            dt1.setAttribute('src', 'assets/js/lib/data-table/datatables.min.js')
-            document.head.appendChild(dt1)
-            let dt2 = document.createElement('script')
-            dt2.setAttribute('src', 'assets/js/lib/data-table/dataTables.bootstrap.min.js')
-            document.head.appendChild(dt2)
-            let dt3 = document.createElement('script')
-            datatable.setAttribute('src', 'assets/js/lib/data-table/dataTables.buttons.min.js')
-            document.head.appendChild(dt3)
-            let dt4 = document.createElement('script')
-            dt4.setAttribute('src', 'assets/js/lib/data-table/buttons.bootstrap.min.js')
-            document.head.appendChild(dt4)
-            let dt5 = document.createElement('script')
-            dt5.setAttribute('src', 'assets/js/lib/data-table/jszip.min.js')
-            document.head.appendChild(dt5)
-            let dt6 = document.createElement('script')
-            dt6.setAttribute('src', 'assets/js/lib/data-table/pdfmake.min.js')
-            document.head.appendChild(dt6)
-            let dt7 = document.createElement('script')
-            dt7.setAttribute('src', 'assets/js/lib/data-table/vfs_fonts.js')
-            document.head.appendChild(dt7)
-            let dt8 = document.createElement('script')
-            dt8.setAttribute('src', 'assets/js/lib/data-table/buttons.html5.min.js')
-            document.head.appendChild(dt8)
-            let dt9 = document.createElement('script')
-            dt9.setAttribute('src', 'assets/js/lib/data-table/buttons.print.min.js')
-            document.head.appendChild(dt9)
-            let dt10 = document.createElement('script')
-            dt10.setAttribute('src', 'assets/js/lib/data-table/buttons.colVis.min.js')
-            document.head.appendChild(dt10)
-      
-
-           
-             let dt0 = document.createElement('script')
-            dt0.setAttribute('src', 'js/iziModal/js/iziModal.min.js')
-            document.head.appendChild(dt0)*/
-
-            /** let dt1 = document.createElement('script')
-            dt1.setAttribute('src', 'js/iziModal/js/iziModal.js')
-            document.head.appendChild(dt1)*/
-
-    
-
 let datatable = document.createElement('script')
             datatable.setAttribute('src', 'assets/js/lib/data-table/datatableProducto-init.js')
             document.head.appendChild(datatable)
-
-
-
- 
             }
         }
 </script>

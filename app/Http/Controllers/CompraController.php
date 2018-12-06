@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Compras;
 use Illuminate\Support\Facades\DB;
+use Auth;
 class CompraController extends Controller
 {
     /**
@@ -50,7 +51,7 @@ class CompraController extends Controller
             $data = json_decode($request->datos, true);
             $compra = new Compras;
             $compra->ID_PROV = $request->ID_PROV;
-            $compra->ID_USU = 1; //cambiar luego con Auth
+            $compra->ID_USU = Auth::user()->ID_USU;
             $compra->FACTURA_PROV = $request->FACTURA_PROV;
             $descripcion = $request->DESCRIPCION_COMP;
             if(empty($descripcion))//si descripcion esta vacio

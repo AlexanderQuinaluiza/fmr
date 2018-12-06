@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Proveedores;
 use Illuminate\Support\Facades\DB;
+use Auth;
 class ProveedorController extends Controller
 {
     /**
@@ -50,7 +51,7 @@ class ProveedorController extends Controller
         $proveedor->TELEFONO_PROV = $request->TELEFONO_PROV;
         $proveedor->RAZON_SOCIAL_PROV = $request->RAZON_SOCIAL_PROV;
         $proveedor->NACIONALIDAD_PROV = $request->NACIONALIDAD_PROV;
-        //$proveedor->USU_INGRESO_PROV = $request->USU_INGRESO_PROV;
+        $proveedor->USU_INGRESO_PROV = Auth::user()->ID_USU;
         $proveedor->USU_ACTU_PROV = $request->USU_ACTU_PROV;
         $proveedor->ESTADO_PROV = 1;
         $proveedor->DEMORA_ENTREGA = $request->DEMORA_ENTREGA;
@@ -99,7 +100,7 @@ class ProveedorController extends Controller
         $proveedor->TELEFONO_PROV = $request->TELEFONO_PROV;
         $proveedor->RAZON_SOCIAL_PROV = $request->RAZON_SOCIAL_PROV;
         $proveedor->NACIONALIDAD_PROV = $request->NACIONALIDAD_PROV;
-        $proveedor->USU_ACTU_PROV = $request->USU_ACTU_PROV;
+        $proveedor->USU_ACTU_PROV = Auth::user()->ID_USU;
         $proveedor->DEMORA_ENTREGA = $request->DEMORA_ENTREGA;
         $proveedor->PROVINCIA_PROV = $request->PROVINCIA_PROV;
         $proveedor->CIUDAD_PROV = $request->CIUDAD_PROV;

@@ -6,6 +6,14 @@ var inputCantidades = [];
 var inputTotales = [];
 var labelDenominaciones = [];
 var subtotalesCalculados = [];
+var ID_USU = 0;
+var ID_CCJ = 0;
+try {
+    ID_USU = parseInt($('#idUsuario').val()); 
+    console.log("current userID: "+ID_USU);
+} catch (error) {
+    
+}
 
 /**
  * Permite obtener las agencias registradas y cargarlas
@@ -39,7 +47,7 @@ function getCajasByAgencia(idAgencia) {
 }
 
 /**
- * Permite validar que los datos de entrada no esten vacíos
+ * Permite validar que los datos de entrada no esten vacíos (para apertura caja)
  */
 function validarDatos() {
     var error = 0;
@@ -78,7 +86,7 @@ function aperturaCaja() {
     var CAJA_DESCRIPCION = $('#ddlCajas option:selected').text();
     axios.post('/cierreCaja/registrar', {
         'ID_CAJA': CAJA,
-        'ID_USU': 1,
+        'ID_USU': ID_USU,
         'DEPOSITO': DEPOSITO
     }).then(function (response) {
         $('#formAperturaCaja')[0].reset();
@@ -137,63 +145,95 @@ function getDenominacionesDinero() {
     });
 }
 
+/**
+ * Permite obtener el total de ventas realizadas por un usuario
+ */
 function getTotalVentasPorUsuario() {
-    var ID_USU = 1; //cambiar cuando se implemente autenticación
     var url = '/cierreCaja/ventasPorUsuario';
     axios.get(url, { params: { ID_USU: ID_USU } }).then(function (response) {
         $('#CALCULADO').val(response.data);
+        $('#RETIRADO').val(response.data);
         getDiferencia();
-
     })
         .catch(function (error) {
             console.log(error);
         });
 }
-function setValores()
+
+/**
+ * Permite obtener la diferencia entre lo contado y lo calculado
+ */
+// function getDiferencia() {
+//     var valorContado = $('#CONTADO').val();
+//     if (!valorContado) valorContado = 0.00;
+
+//     var valorCalculado = $('#CALCULADO').val();
+//     if (!valorCalculado) valorCalculado = 0.00;
+
+//     var diferencia = valorContado - valorCalculado;
+//     console.log(valorContado + " : " + valorCalculado);
+//     var valorDiferencia = Math.round(diferencia * 100) / 100
+//     $('#DIFERENCIA').val(valorDiferencia);
+//     if (valorDiferencia == 0)
+//         $('#DIFERENCIA').attr('style', 'color:blue');
+//     else
+//         $('#DIFERENCIA').attr('style', 'color:red');
+// }
+
+function getCajaDeUsuarioParaCierre()
 {
-    var contado = parseFloat($('#totalContado').val());
-    if (!contado) contado = 0.00;
-    //$('#CONTADO').val(contado);
+        $.ajax({
+            async: false,
+            cache: false,
+            dataType: "json",
+            type: 'GET',
+            url: "/cajasParaCierre",
+            success: function (respuesta) {
+              //  iva =  parseFloat(respuesta.trim());
+              $.each(respuesta.data, function (key, entry) {
+                        if(entry.ID_USU == ID_USU){
+                        ID_CCJ = entry.ID_CCJ;
+                        $('#lblNombreCaja').text('Caja: '+entry.CAJA);
+                        }
+                      })
+            },
+            beforeSend: function () { },
+            error: function (objXMLHttpRequest) { }
+        });
+}
 
-    var calculado = parseFloat($('#CALCULADO').attr('value'));
-    var diferencia = contado - calculado;
-    if(isNaN(diferencia) && calculado)
-    {
-        $('#DIFERENCIA').val(calculado);
-    }  
-
-    console.log($('#CALCULADO').attr('value')+":"+contado);
-    if (contado > calculado || contado < calculado) {
-        $('#DIFERENCIA').val(diferencia);
-        $('#DIFERENCIA').attr('style', 'color:red');
-    }
-    else {
-        $('#DIFERENCIA').val(diferencia);
-        $('#DIFERENCIA').attr('style', 'color:blue');
-    }
-}setValores();
-
-function getDiferencia()
+/**
+ * Permite realizar el corte/cierre de caja
+ */
+function corteDeCaja()
 {
-    var valorContado = $('#CONTADO').val();
-if(!valorContado) valorContado = 0.00;
-
-var valorCalculado = $('#CALCULADO').val();
-if(!valorCalculado) valorCalculado = 0.00;
-
-var diferencia = valorContado -valorCalculado;
-console.log(valorContado+" : "+valorCalculado);
-var valorDiferencia = Math.round(diferencia * 100) / 100
-$('#DIFERENCIA').val(valorDiferencia);
-if(valorDiferencia==0)
-    $('#DIFERENCIA').attr('style', 'color:blue');
-else
-    $('#DIFERENCIA').attr('style', 'color:red');
+    var CONTADO = $('#CONTADO').val().trim(); if(!CONTADO) CONTADO=0;
+   // var CALCULADO = $('#CALCULADO').val().trim(); if(!CALCULADO) CALCULADO = 0;
+   // var DIFERENCIA = $('#DIFERENCIA').val().trim(); if(!DIFERENCIA) DIFERENCIA = 0;
+    var RETIRADO = $('#RETIRADO').val().trim(); if(!RETIRADO) RETIRADO = 0;
+    //var ID_CCJ = 7; 
+    console.log("id de cierre caja: "+ID_CCJ);
+    //console.log('contado: '+CONTADO+" calculado: "+CALCULADO+" diferencia: "+DIFERENCIA+
+    //'retirado: '+RETIRADO);
+    // axios.post('/cierreCaja/actualizar', {
+    //     'ID_CCJ': ID_CCJ,
+    //     'CONTADO_CCJ': CONTADO,
+    //     'CALCULADO_CCJ': CALCULADO,
+    //     'DIFERENCIA_CCJ':DIFERENCIA,
+    //     'RETIRO_CCJ': RETIRADO
+    // }).then(function (response) {
+    //     $('#formCierreCaja').hide();
+    //     toastr.success('Se realizó el corte de caja correctamente!')
+    // })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //         toastr.error('No se ha podido realizar el corte de caja.', 'Error!')
+    //     });
 }
 /**************************CONFIGURACIONES INICIALES ***********************************/
 getDenominacionesDinero();
 
-getTotalVentasPorUsuario();
+//getTotalVentasPorUsuario();
 
 getAgencias();
 
@@ -209,17 +249,19 @@ $('#btnAbrirCaja').click(function () {
     aperturaCaja();
 });
 
+$('#btnCorteCaja').click(function () {
+    corteDeCaja();
+});
+
+
 $('#btnOK').click(function () {
-
     toastr.success('Contado correctamente!');
-
-    
+    var contado = parseFloat($('#totalContado').val());
+    if (!contado) contado = 0.00;
+    $('#CONTADO').val(contado);
+    getDiferencia();
 });
 
-$('.inputcaja').keyup(function(){
-//setValores();
-//console.log("jaj");
-getDiferencia();
-//console.log(valorContado+" : "+valorCalculado);
-});
+
+getCajaDeUsuarioParaCierre();
 

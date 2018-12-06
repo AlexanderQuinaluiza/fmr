@@ -11,12 +11,12 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/principal', function () {
     return view('contenido/contenido');
 });
 
 
-
+Route::auth();
 Route::get('roles', 'RolController@index');
 Route::get('roles/byid', 'RolController@rolById');
 Route::post('roles/registrar', 'RolController@store');
@@ -101,6 +101,7 @@ Route::post('agencias/activar', 'AgenciasController@activar');
 
 Route::get('cajas', 'CajasController@index');
 Route::get('cajasParaAbrir', 'CajasController@getCajasParaApertura');
+Route::get('cajasParaCierre', 'CajasController@getCajasParaCierre');
 Route::get('cajas/agencias', 'CajasController@onlyAgencias');
 Route::post('cajas/registrar', 'CajasController@store');
 Route::get('cajas/byid', 'CajasController@cajasbyid');
@@ -139,7 +140,7 @@ Route::post('usuarios/desactivar', 'UsuarioController@desactivar');
 Route::post('usuarios/activar', 'UsuarioController@activar');
 Route::post('usuarios/actualizarClave', 'UsuarioController@actualizarClave');
 Route::get('usuarios/existe', 'UsuarioController@getStringUsuarioRol');
-
+Route::get('usuario/rol', 'UsuarioController@getNombreRolByUsuario');
 
 Route::get('pedidos', 'PedidoController@index');
 Route::get('detallepedidos', 'DetallePedidoController@index');
@@ -168,13 +169,44 @@ Route::post('agencias/actualizar', 'AgenciasController@update');
 Route::post('agencias/desactivar', 'AgenciasController@desactivar');
 Route::post('agencias/activar', 'AgenciasController@activar');
 
+Route::get('config', 'ConfiguracionController@index');
 Route::get('settings', 'ConfiguracionController@getSetting');
+Route::post('config/update', 'ConfiguracionController@update');
 
 Route::post('devolucion-compra/registrar', 'DevolucionController@store');
 
+Route::get('cierreCajas', 'CierreCajaController@index');
+Route::get('cierreCajas/byid', 'CierreCajaController@getCierreCajaById');
 Route::get('cierreCaja/ventasPorUsuario', 'CierreCajaController@getTotalVendidoPorUsuario');
 Route::post('cierreCaja/registrar', 'CierreCajaController@store');
 Route::post('cierreCaja/actualizar', 'CierreCajaController@update');
 
 Route::get('denominacionDinero', 'DenominacionDineroController@index');
+
+Route::get('send/email', 'PedidoController@mail');
+Route::post('enviarCorreoPedidoNoGuardado', 'PedidoController@enviarCorreoPedidoNoGuardado');
+Route::post('enviarCorreoPedidoGuardado', 'PedidoController@enviarCorreoPedidoGuardado');
+
+Route::get('password/email', 'Auth\PasswordController@getEmail');
+
+Route::get('inventarios', 'InventarioController@getInventarioByProducto');
+
+Route::get('reportes/generalventas', 'ReporteController@reporteGeneralVentas');
+
+Route::get('reportes/generalcompras', 'ReporteComprasController@getReporteComprasByFechas');
+Route::get('reportes/productocompras', 'ReporteComprasController@getReporteComprasByProductos');
+Route::get('estadisticas/compras', 'ReporteComprasController@getEstadisticasCompras');
+
+Route::get('notificacion/productosProximoCaducar', 'NotificacionController@getProductosProximosCaducar');
+Route::get('notificacion/ejemplaresByProductoProximoCaducar', 'NotificacionController@getProductosEjemplaresProximosCaducar');
+Route::get('notificacion/productosStockMinimo', 'NotificacionController@getProductosStockMinimo');
+Route::get('notificacion/productoByIdStockMinimo', 'NotificacionController@getProductobyIdStockMinimo');
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/login', 'HomeController@login');
+Route::get('logout','HomeController@logout');
+
 

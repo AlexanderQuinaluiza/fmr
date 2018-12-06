@@ -334,3 +334,7 @@ limit 1);
 return descuento;
 END$$
 DELIMITER ;
+
+
+alter table MODULOS
+ADD column SECCION VARCHAR(140) NOT NULL DEFAULT 'Almacén';

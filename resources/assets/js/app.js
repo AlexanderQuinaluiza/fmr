@@ -37,10 +37,12 @@ Vue.component('compra_comp', require('./components/CompraComponent.vue'));
 Vue.component('dev_compra_comp', require('./components/DevCompraComponent.vue'));
 Vue.component('apertura_caja_comp', require('./components/AperturaCajaComponent.vue'));
 Vue.component('cierre_caja_comp', require('./components/CierreCajaComponent.vue'));
+Vue.component('dev_venta_comp', require('./components/DevolucionesVentasComponent.vue'));
 
 const app = new Vue({
     el: '#app',
     data:{
-        menu:16
+        menu:18,
+        userid:1
     }
 });

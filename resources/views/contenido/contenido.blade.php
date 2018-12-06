@@ -53,6 +53,10 @@
         <template v-if="menu==16">
         <ventas_comp></ventas_comp>
         </template>
+
+         <template v-if="menu==18">
+        <dev_venta_comp></dev_venta_comp>
+        </template>
         </template> 
 
 

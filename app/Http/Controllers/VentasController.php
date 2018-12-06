@@ -105,7 +105,7 @@ class VentasController extends Controller
      * @param  \App\Ventas  $ventas
      * @return \Illuminate\Http\Response
      */
-    public function getVenta($id)
+    public function getDevVenta($id)
     {
         //
        
@@ -113,7 +113,7 @@ class VentasController extends Controller
        // return response()->json(['data'=>$venta],200);
         return $venta;
     }
-    public function getdetalleVentas($id)
+    public function getdetalleDevVentas($id)
     {
         //
         $detalles = DB::select('call spSelectDetallesFactura("'.$id.'")');

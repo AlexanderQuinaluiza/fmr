@@ -56,40 +56,7 @@ class DetalleVentasController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\DetalleVentas  $detalleVentas
-     * @return \Illuminate\Http\Response
-     */
-    public function show(DetalleVentas $detalleVentas)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\DetalleVentas  $detalleVentas
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(DetalleVentas $detalleVentas)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DetalleVentas  $detalleVentas
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, DetalleVentas $detalleVentas)
-    {
-        //
-    }
-
+  
     /**
      * Remove the specified resource from storage.
      *

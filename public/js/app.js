@@ -47288,6 +47288,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -47317,6 +47326,11 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
+          _c("div", {
+            staticStyle: { display: "none" },
+            attrs: { id: "ridenc" }
+          }),
+          _vm._v(" "),
           _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "custom-tab" }, [
@@ -47636,7 +47650,11 @@ var staticRenderFns = [
               "button",
               {
                 staticClass: "btn btn-primary",
-                attrs: { type: "button", id: "btnImprimirDev" }
+                attrs: {
+                  type: "button",
+                  id: "btnImprimirDev",
+                  onclick: "vistaPreviaImprimir();"
+                }
               },
               [
                 _c("i", { staticClass: "fa fa-print" }),
@@ -47648,12 +47666,13 @@ var staticRenderFns = [
               "button",
               {
                 staticClass: "btn btn-primary",
-                attrs: { type: "button", id: "btnFinalDev" }
+                attrs: {
+                  type: "button",
+                  id: "btnFinalDev",
+                  onclick: "finalizar();"
+                }
               },
-              [
-                _c("i", { staticClass: "fa fa-end" }),
-                _vm._v(" Finalizar\n                ")
-              ]
+              [_vm._v("\n                  Finalizar\n                ")]
             ),
             _vm._v(" "),
             _c(
@@ -47677,6 +47696,36 @@ var staticRenderFns = [
             },
             [
               _c("table", { staticClass: "table table-sm table-bordered" }, [
+                _c("tr", [
+                  _c(
+                    "td",
+                    {
+                      staticStyle: {
+                        color: "white",
+                        "background-color": "#546e7a"
+                      }
+                    },
+                    [_vm._v("Tarifa 0%")]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { attrs: { id: "tarcero" } }, [_vm._v("0.00")])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c(
+                    "td",
+                    {
+                      staticStyle: {
+                        color: "white",
+                        "background-color": "#546e7a"
+                      }
+                    },
+                    [_vm._v("Tarifa iva")]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { attrs: { id: "tariva" } }, [_vm._v("0.00")])
+                ]),
+                _vm._v(" "),
                 _c("tr", [
                   _c(
                     "td",

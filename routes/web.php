@@ -189,4 +189,5 @@ Route::get('denominacionDinero', 'DenominacionDineroController@index');
 /**routes devoluciones ventas */
 Route::get('devoventas', 'DevolucionesVentasController@index');
 Route::get('devoventas/datosfac', 'DevolucionesVentasController@datosComprobante');
+Route::post('devoventas/registrar', 'DevolucionesVentasController@store');
 

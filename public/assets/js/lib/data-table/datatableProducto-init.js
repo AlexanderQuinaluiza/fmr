@@ -23,7 +23,7 @@ function getRegistroById(idRegistro,opcion){
             $('#limgIMAGEN_PRO').prop('src',response.data[0].IMAGEN_PRO);
             $('#lblLOTE_PRO').text(response.data[0].LOTE_PRO);
             $('#lblCOSTO_PRO').text('$ '+response.data[0].COSTO_PRO);
-            $('#lblGANANCIA_PRO').text('% '+response.data[0].GANANCIA_PRO);
+            $('#lblGANANCIA_PRO').text(response.data[0].GANANCIA_PRO);
             $('#lblPRECIO_VENTA_PRO').text('$ '+response.data[0].PRECIO_VENTA_PRO);
             $('#lblEXISTENCIA_MIN_PRO').text(response.data[0].EXISTENCIA_MIN_PRO);
             $('#lblEXISTENCIA_MAX_PRO').text(response.data[0].EXISTENCIA_MAX_PRO);
@@ -422,29 +422,6 @@ function addEjemplar()
                 });
         }
 }
-
-/**
-function calcularPrecioVenta()
-{
-    $('#GANANCIA_PRO').blur(function() {
-        try {
-        var costo = parseFloat($('#COSTO_PRO').val().trim());
-        var ganancia = parseFloat($(this).val().trim());
-        var precioVenta = (costo * ganancia)+costo;
-        //console.log("PVP: "+precioVenta+" costo: "+costo+" ganancia:"+ganancia);
-        if(isNaN(costo)) $('#PRECIO_VENTA_PRO').val('0');
-        else $('#PRECIO_VENTA_PRO').val(precioVenta);
-        } catch (error) {
-            //console.log(error);
-            $('#PRECIO_VENTA_PRO').val('0');
-        }
-      
-        //console.log(precioVenta+costo);
-      });
-}*/
-//calcularPrecioVenta();
-
-
 
 /**
  * permite cambiar el nombre de clase de un tab

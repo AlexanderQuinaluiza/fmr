@@ -136,7 +136,6 @@ class RolController extends Controller
             for($i=0;$i<count($arrayOpcionRol);$i++)
             {
                 $dat = $arrayOpcionRol[$i]; //toma el id del modulo
-
                 if(!in_array($dat, $request->MODULOS_ROL)) 
                 {
                     DB::table('OPCION_ROLES')

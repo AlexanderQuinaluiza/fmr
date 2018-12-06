@@ -14,8 +14,10 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = 'USUARIOS';
+    protected $primaryKey = 'ID_USU';
     protected $fillable = [
-        'name', 'email', 'password',
+        'NOMBRE_USU', 'CORREO_USU', 'CLAVE_USU',
     ];
 
     /**
@@ -24,6 +26,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'CLAVE_USU', 'REMEMBER_TOKEN',
     ];
+    public function getAuthPassword()
+    {
+      return $this->CLAVE_USU;
+    }
+    public function getAuthIdentifier()
+    {
+        return $this->ID_USU;
+    }
+
+
 }

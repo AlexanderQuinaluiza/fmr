@@ -39,8 +39,8 @@
                                 <br>
 
                                 <div class="form-row" id="divCabecera" >
-                                        <div class="form-group col-md-4">
-                                            <div class="row text-right">
+                                        <div class="form-group col-md-5">
+                                            <div class="row">
                                                 <img id="LOGO_AGE" class="imagen" />
                                             </div>
                                         </div>
@@ -57,23 +57,20 @@
                                         </div>
                                         <div class="form-group col-md-3" >
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <label class="lblPedido">Pedido </label><br>
-                                                    <label id="lblID_PED" class="form-label datoPedido numero"></label>
+                                                <div class="col-md-12" >
+                                                    <label class="form-label datoPedido"><strong>Pedido:</strong>&nbsp; </label><label id="lblID_PED" class="form-label datoPedido numero"></label><br>
+                                                    <label class="form-label datoPedido"><strong>Fecha:</strong>&nbsp; </label><label  id="lblFECHA_PED" class="form-label datoPedido fecha"></label><br>
+                                                    <label class="form-label datoPedido"><strong>Observación:</strong>&nbsp; </label><label id="lblOBSERVACION_PED" class="form-label datoPedido"></label><br>
+                                                    <label class="form-label datoPedido"><strong>Proveedor:</strong>&nbsp; </label><label id="lblPROVEEDOR_PED" class="form-label datoPedido"></label>                                             
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label class="lblPedido">Fecha:</label><br>
-                                                    <label id="lblFECHA_PED" class="form-label datoPedido fecha"></label>
-                                                </div>
-                                            </div>                                         
                                         </div>
                                 </div><hr>
                                 <div id="divDetalle" class="table-responsive">
-                                    <button type="button" id="btnPreview" onclick="printData()" class="btn btn-info"><i class="fa fa-print"></i> Vista previa</button>                               
+                                    <button type="button" id="btnPreview"   class="btn btn-info"><i class="fa fa-print"></i> Vista previa</button>
+                                    <button type="button" id="btnSendMail" class="btn btn-info"><i class="fa fa-envelope" id="mailIcon1"></i><i class="fa fa-spinner fa-spin" id="loadingImage1" style="font-size:19px"></i> <span id="btnText1">Enviar por correo</span></button> 
                                     <table id="tabla-detalle" class="table table-bordered table-striped table-hover dataTable js-exportable">
-                                        <thead style="color:#fff;background:#546e7a">
+                                        <thead id="head-detalle" style="color:#fff;background:#546e7a">
                                             <tr>
                                                 <th v-for="cabecera in cabecerasDetalle" :key="cabecera">{{ cabecera }}</th>                                      
                                             </tr>
@@ -141,15 +138,22 @@
                                                 <select id="ddlProveedor" style="width:100%" data-placeholder="Escoja un proveedor..." class="form-control" data-live-search="true">                                              
                                                 </select>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-8">
                                                 <label>Observación</label>
                                                  <input type="text" id="OBSERVACION_PED" required class="form-control" placeholder="Observación de pedido" maxlength="300">
                                             </div>
-                                            <div class="form-group col-md-2">
-                                                <label>&nbsp;</label><br>
+                                            
+                                        </div>
+
+                                         <div class="form-row">
+                                            <div class="form-group col-md-4 offset-4">
+                                               <button type="button" id="btnEnviarCorreo" class="btn btn-info"><i class="fa fa-envelope" id="mailIcon"></i><i class="fa fa-spinner fa-spin" id="loadingImage" style="font-size:19px"></i> <span id="btnText">Enviar por correo</span></button>
                                                <button type="button" id="btnGuardar" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                                
                                             </div>
-                                        </div>                                                                                                                                                   
+                                            
+                                        </div> 
+
                                     </form>
                             </div>
                         </div>
@@ -174,8 +178,8 @@ export default {
       cabecerasListado: ["#", "Fecha", "Observación", "Proveedor", "Acciones"],
       cabecerasDetalle: [
         "Producto",
-        "Presentación",
         "Marca",
+        "Presentación",
         "Cantidad"
       ]
     };
@@ -194,7 +198,20 @@ export default {
       "assets/js/lib/data-table/agencia.js"
     );
     document.head.appendChild(agencia);
-  }
+  },
+   methods:{
+       imprimir(divName)
+       {
+            var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+       }
+   }
 };
 </script>
 <style>

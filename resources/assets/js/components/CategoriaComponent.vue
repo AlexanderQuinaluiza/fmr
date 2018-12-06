@@ -62,7 +62,9 @@
                    cabeceras : ["Id","Nombre","Estado","Acciones"]
                 }
             },
-            mounted() {              
+            mounted() {
+                
+               // id_usuario = $('#idUsuario').val();
            let datatable = document.createElement('script')
             datatable.setAttribute('src', 'assets/js/lib/data-table/datatableCategoria-init.js')
             document.head.appendChild(datatable)

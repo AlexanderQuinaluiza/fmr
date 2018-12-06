@@ -13,6 +13,11 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     public function index()
     {
         $usuarios = DB::table('USUARIOS')->select('ID_USU', 
@@ -26,6 +31,17 @@ class UsuarioController extends Controller
         $id = (int) $_GET['ID_USU'];
         $usuario = Usuarios::findOrFail($id);
       return $usuario;
+    }
+
+    public function getNombreRolByUsuario()
+    {
+        $ID_USU = $_GET['ID_USU'];
+        $nombreRol = DB::table('ROLES as r')->select('r.NOMBRE_ROL')
+        ->join('USUARIO_ROLES as u','u.ID_ROL','=','r.ID_ROL')
+        ->where('u.ID_USU','=',$ID_USU)
+        ->limit(1)
+        ->get();
+        return $nombreRol[0]->NOMBRE_ROL;
     }
 
     /**

@@ -7,8 +7,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Sufee Admin - HTML5 Admin Template</title>
-    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <title>Farmacia-Solidaria</title>
+    <meta name="description" content="Farmacia-Solidaria">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" href="apple-icon.png">
@@ -166,36 +166,159 @@ tr.shown td.details-control:before {
 
             <div class="header-menu">
 
+
+<!--inicio modal notificacion productos caducar -->
+<div class="modal fade" id="productoCaducarModal" tabindex="-1" role="dialog" aria-labelledby="productoCaducarModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-primary" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header modal-header-primary">
+                                    <h5 class="modal-title" id="productoCaducarModalLabel">PRODUCTOS A CADUCAR</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-2">
+                                                <label><strong>Id Producto:</strong>&nbsp;</label>
+                                                <label id="lblIdProductoCaduca">1</label>
+                                                 
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label><strong>Nombre:</strong>&nbsp;</label>
+                                                <label id="lblNombreProductoCaduca">Nolotil</label>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label><strong>Descripción:</strong>&nbsp;</label>
+                                                <label id="lblDescripciónProductoCaduca">Bisolgrip forte 10 sobres polvo</label>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label><strong>Ubicación:</strong>&nbsp;</label>
+                                                <label id="lblUbicacionProductoCaduca">Percha 5 nivel 6</label>
+                                            </div>
+                                        </div>
+                                    <label>Ejemplares próximos a caducarse:</label>
+                                     <div class="table-responsive">
+                                            <table class="table datatables" id="tablaCaducaProducto">
+                                            <thead  style="color:#fff;background:#546e7a">
+                                            <tr>
+                                                <th></th>
+                                                <th>Código de barra</th>
+                                                <th>Fecha caducidad</th>
+                                                <th>Caduca en</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                                                                             
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>                                                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--fin modal  notificacion productos caducar -->
+
+                    <!--inicio modal notificacion productos agotar -->
+<div class="modal fade" id="productoAgotarModal" tabindex="-1" role="dialog" aria-labelledby="productoAgotarModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-primary" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header modal-header-primary">
+                                    <h5 class="modal-title" id="productoAgotarModalLabel">PRODUCTO PRÓXIMO A AGOTARSE</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-2">
+                                                <label><strong>Id Producto:</strong>&nbsp;</label>
+                                                <label id="lblIdProductoAgotar">1</label>                                                
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label><strong>Nombre:</strong>&nbsp;</label>
+                                                <label id="lblNombreProductoAgotar">Nolotil</label>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label><strong>Descripción:</strong>&nbsp;</label>
+                                                <label id="lblDescripciónProductoAgotar">Bisolgrip forte 10 sobres polvo</label>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label><strong>Ubicación:</strong>&nbsp;</label>
+                                                <label id="lblUbicacionProductoAgotar">Percha 5 nivel 6</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label><strong>Existencia mínima:</strong>&nbsp;</label>
+                                                <label id="lblMinProductoAgotar">1</label>                                                
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label><strong>Stock actual:</strong>&nbsp;</label>
+                                                <label id="lblStockProductoAgotar">Nolotil</label>
+                                            </div>
+                                            <div class="form-group col-md-3">                                          
+                                                <img id="imgProductoAgotar" />
+                                            </div>                                          
+                                        </div>
+                                    
+                                     <!-- <div class="table-responsive">
+                                            <table class="table datatables" id="tablaCaducaProducto">
+                                            <thead  style="color:#fff;background:#546e7a">
+                                            <tr>
+                                                <th></th>
+                                                <th>Código de barra</th>
+                                                <th>Fecha caducidad</th>
+                                                <th>Caduca en</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div> -->
+                                                                                             
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>                                                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--fin modal  notificacion productos caducar -->
+
+
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+                        <!-- <button class="search-trigger"><i class="fa fa-search"></i></button>
                         <div class="form-inline">
                             <form class="search-form">
                                 <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
                                 <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                             </form>
-                        </div>
+                        </div> -->
 
                         <div class="dropdown for-notification">
                           <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
-                            <span class="count bg-danger">5</span>
+                            <span id="not1" class="count bg-danger"></span>
                           </button>
-                          <div class="dropdown-menu" aria-labelledby="notification">
-                            <p class="red">You have 3 Notification</p>
-                            <a class="dropdown-item media bg-flat-color-1" href="#">
+                          <div id="divNotificacion1" style="border:1px solid #78909c" class="dropdown-menu" aria-labelledby="notification">
+                            <p id="numNotificaciones" class="red"></p>
+                            <!-- <a class="dropdown-item media bg-flat-color-1" href="#">
                                 <i class="fa fa-check"></i>
                                 <p>Server #1 overloaded.</p>
                             </a>
                             <a class="dropdown-item media bg-flat-color-4" href="#">
                                 <i class="fa fa-info"></i>
                                 <p>Server #2 overloaded.</p>
-                            </a>
-                            <a class="dropdown-item media bg-flat-color-5" href="#">
+                            </a>-->
+                            <!-- <a data-toggle="modal" data-target="#productoCaducarModal" class="dropdown-item media bg-flat-color-5" href="#">
                                 <i class="fa fa-warning"></i>
                                 <p>Server #3 overloaded.</p>
-                            </a>
+                            </a>  -->
                           </div>
                         </div>
 
@@ -203,12 +326,12 @@ tr.shown td.details-control:before {
                           <button class="btn btn-secondary dropdown-toggle" type="button"
                                 id="message"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ti-email"></i>
-                            <span class="count bg-primary">9</span>
+                            <i class="fa fa-archive"></i>
+                            <span id="not2" class="count bg-primary"></span>
                           </button>
-                          <div class="dropdown-menu" aria-labelledby="message">
-                            <p class="red">You have 4 Mails</p>
-                            <a class="dropdown-item media bg-flat-color-1" href="#">
+                          <div id="divNotificacion2" style="border:1px solid #78909c" class="dropdown-menu" aria-labelledby="message">
+                            <p class="red" id="numNotificaciones2"></p>
+                            <!-- <a class="dropdown-item media bg-flat-color-1" href="#">
                                 <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
                                 <span class="message media-body">
                                     <span class="name float-left">Jonathan Smith</span>
@@ -239,7 +362,7 @@ tr.shown td.details-control:before {
                                     <span class="time float-right">15 minutes ago</span>
                                         <p>Lorem ipsum dolor sit amet, consectetur</p>
                                 </span>
-                            </a>
+                            </a> -->
                           </div>
                         </div>
                     </div>
@@ -252,17 +375,17 @@ tr.shown td.details-control:before {
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                                <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
+                                <!-- <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
                                 <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
 
-                                <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
+                                <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a> -->
 
-                                <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                                <a class="nav-link" href="{{ route('logout') }}"><i class="fa fa-power -off"></i>Cerrar sesión</a>
                         </div>
                     </div>
 
-                    <div class="language-select dropdown" id="language-select">
+                    <!-- <div class="language-select dropdown" id="language-select">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
                             <i class="flag-icon flag-icon-us"></i>
                         </a>
@@ -280,7 +403,7 @@ tr.shown td.details-control:before {
                                 <i class="flag-icon flag-icon-it"></i>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -300,7 +423,8 @@ tr.shown td.details-control:before {
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <h6> Alexander Quinaluiza, <span class="badge badge-success">Administrador</span> </h6>
+                            <h6 id="h6UserName"> 
+                            <input id="idUsuario" value="{{ Auth::user()->ID_USU }}" type="hidden" >         {{ Auth::user()->NOMBRE_USU }}  {{ Auth::user()->APELLIDO_USU }} <span class="badge badge-success" id="spanRol"></span> </h6>
                            <!-- <li><a href="#">Dashboard</a></li>
                             <li><a href="#">UI Elements</a></li>
                             <li class="active">Modals</li>-->
@@ -313,6 +437,7 @@ tr.shown td.details-control:before {
         <div class="content mt-3">
             <div class="animated"  >
             @yield('contenido')
+           
             </div>  <!-- .animated -->
         </div>     <!-- .content -->
 
@@ -330,13 +455,12 @@ tr.shown td.details-control:before {
   <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/plugins.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.js"></script>
   
     
     <script src="assets/js/main.js"></script>
     <script src="js/app.js"></script>
-  
+ 
    
    <script>
        $('.entero').on('keydown', function(e){
@@ -356,6 +480,12 @@ tr.shown td.details-control:before {
      $('.decimal').keypress(function (event) {
             return isNumber(event, this)
         });
+
+// $('.menu-item-has-children').click(function(){
+// console.log('jaja');
+// });
+       
    </script>
+   <script src="assets/js/lib/data-table/notificacionesProductos.js"></script>
   </body>
 </html>

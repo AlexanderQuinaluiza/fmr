@@ -967,3 +967,4 @@ function llenarDetallesDescuento(id){
     //  document.getElementById('titulodescuento').innerHTML= '> '+ nombre;   
     llenarDetallesDescuento(iddesc);
    }
+   $('.table').attr('style','width:100%');

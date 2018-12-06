@@ -37,10 +37,23 @@ Vue.component('compra_comp', require('./components/CompraComponent.vue'));
 Vue.component('dev_compra_comp', require('./components/DevCompraComponent.vue'));
 Vue.component('apertura_caja_comp', require('./components/AperturaCajaComponent.vue'));
 Vue.component('cierre_caja_comp', require('./components/CierreCajaComponent.vue'));
+Vue.component('cierres_caja_comp', require('./components/CierreCajasComponent.vue'));
+Vue.component('configuracion_comp', require('./components/ConfiguracionComponent.vue'));
+Vue.component('inventario_comp', require('./components/InventarioComponent.vue'));
+Vue.component('estadistica_compras_comp', require('./components/EstadisticasComprasComponent.vue'));
+Vue.component('reportes_comp', require('./components/ReportesComponent.vue'));
+Vue.component('reporte_compras_comp', require('./components/ReporteComprasComponent.vue'));
+Vue.component('home', require('./components/Home.vue'));
 
 const app = new Vue({
     el: '#app',
     data:{
-        menu:16
-    }
+        menu:1,
+        id_usuario: parseInt($('#idUsuario').val()),
+    },
 });
+// import App from './components/App.vue';
+// const app = new Vue({
+//     router,               // Add this line
+//     render: h => h(App)
+//   }).$mount('#app')

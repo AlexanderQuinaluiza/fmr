@@ -1,82 +1,43 @@
 /**
  * FUNCIONES PARA LA GESTIÓN DE PEDIDOS
  */
+$('#loadingImage').hide();
+$('#loadingImage1').hide();
 
-function printData() {
-
-    //     var css = "";
-    //     var myStylesLocation = "/assets/css/bootstrap.min.css";
-    //     $.ajax({
-    //         url: myStylesLocation,
-    //         type: "POST",
-    //         async: false
-    //     }).done(function(data){
-    //         css += data;
-    //     }) 
-    //     mywindow= window.open("");
-
-    //     mywindow.document.write('<html><head><title></title>');
-    //  //   mywindow.document.write('<style type="text/css">'+css+' </style>');
-
-    //     mywindow.document.write('</head><body >');
-    //     //mywindow.document.write('<link rel="stylesheet" href="http://localhost:8000/assets/css/bootstrap.min.css" type="text/css" media="print"/>');
-
-    //     var myStyle = '<link rel="stylesheet" href="http://localhost:8000/assets/css/bootstrap.min.css" />';
-
-    //     mywindow.document.write('<h1>' + document.title  + '</h1>');
-    //     mywindow.document.write(document.getElementById('divCabecera').innerHTML);
-    //     mywindow.document.write(myStyle+'</body></html>');
-    //     mywindow.document.close(); // necessary for IE >= 10
-    //     mywindow.focus(); // necessary for IE >= 10*/
-
-    //     mywindow.print(); 
-    //     mywindow.close();
-
-    /**var css= '<link rel="stylesheet" href="http://localhost:8000/assets/css/bootstrap.min.css" />';
-    var printContent = document.getElementById("detalle");
-
-    var WinPrint = window.open('', '', 'width=900,height=650');
-    WinPrint.document.write(printContent.innerHTML);
-    WinPrint.document.head.innerHTML = css;
-    WinPrint.document.close();
-    WinPrint.focus();
-    WinPrint.print();
-    WinPrint.close();*/
-
-   
-    //instancia pestaña imprimir
-    //var WinPrint = window.open('', '', 'width=900,height=650');
-
-
-    var printContents = document.getElementById('detalle').innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-   document.body.innerHTML = originalContents;
-
-
-    
-
-    // var printContents = document.getElementById('detalle').innerHTML;
-    // var originalContents = document.body.innerHTML;
-    // mywindow = window.open("");
-    // mywindow.document.write(printContents);
-
-    // mywindow.print();
-    // mywindow.close();
-
-    /**var content1 = document.getElementById('divCabecera').innerHTML;
-    var content2 = document.getElementById('divDetalle').innerHTML;
-    // create our new div, pop the content in it, and give it an id
-    var combined = document.createElement('div');
-    combined.innerHTML = content1 + " " + content2; // a little spacing
-    combined.id = 'new';
-    newWin= window.open("");
-    newWin.document.write(combined.outerHTML);*/
+/**
+ * Permite obtener una vista previa del pedido
+ * con opcion de imprimir
+ */
+function vistaPreviaImprimir(elem) {
+    var context = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2)); 
+    var url =window.location.protocol+"//"+ window.location.host +context;
+    var mywindow = window.open();
+    var css = "";
+    var myStylesLocation = url+"/assets/css/bootstrap.min.css";
+    $.ajax({
+        url: myStylesLocation,
+        type: "POST",
+        async: false
+    }).done(function (data) {
+        css += data;
+    })
+    mywindow.document.write('<html><head><title>Pedidos</title>');
+    mywindow.document.write('<style type="text/css">' + css + ' </style>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write('<h1>' + 'Pedido: '+$('#lblID_PED').text() + '</h1>');
+    var contenido = document.getElementById(elem).innerHTML;
+    var $html = $('<div />',{html:contenido});
+    $html.find('button#btnPreview').hide();
+    $html.find('button#btnSendMail').hide();
+    $html.find('table#tabla-detalle>thead').attr('style','color:black;background:rgb(84, 110, 122);');
+    mywindow.document.write($html.html());
+    mywindow.document.write('</body></html>');
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+    mywindow.print();
+    mywindow.close();
+    return true;
 }
-
-
-
 
 /**
  *permite añadir un item a la tabla de detalle pedido 
@@ -141,46 +102,33 @@ function addItemTabla() {
  * Permite el registro de un pedido
  */
 function registrar() {
-    var totalFilas = tabla.page.info().recordsTotal;
-    var ID_PROV = $('#ddlProveedor option:selected').val().trim();;
-    if (totalFilas <= 0) {
-        var errorMostrarMsj = [];
-        $('#lstErrores').empty();
-       
-        if (!ID_PROV || ID_PROV == 0) errorMostrarMsj.push("Escoja un proveedor");
-        errorMostrarMsj.push("Añade al menos un item");
-        var lista = '';
-        for (var i = 0; i < errorMostrarMsj.length; i++) {
-            lista += '<li style="color: red !important">' + errorMostrarMsj[i] + '</li>';
-        }
-        $('#lstErrores').append(lista);
-    }
-    else {
-        $('#lstErrores').empty();
-        var OBSERVACION_PED = $('#OBSERVACION_PED').val().trim();
-        var data = new FormData();
-        data.append('datos', JSON.stringify(arreglo));
-        data.append('OBSERVACION_PED', OBSERVACION_PED);    
-        data.append('ID_PROV', ID_PROV);
-        axios.post('/pedidos/registrar', data).then(function (response) {
-            if (response.data > 0) {
-                toastr.success('Registrado correctamente!');
-                limpiarDatos();
-                tablaPedidos.ajax.reload();
-                tabla.clear().draw();
-                arreglo = [];
-            }
-            else {
-                toastr.error('No se ha podido guardar el registro.', 'Error!')
-            }
-            //console.log(response.data);
-        })
-            .catch(function (error) {
-                console.log(error);
-                toastr.error('No se ha podido guardar el registro.', 'Error!')
-            });
-    }
 
+    if (validarDatos()) {
+        return;
+    }
+    var ID_PROV = $('#ddlProveedor option:selected').val().trim();
+    var OBSERVACION_PED = $('#OBSERVACION_PED').val().trim();
+    var data = new FormData();
+    data.append('datos', JSON.stringify(arreglo));
+    data.append('OBSERVACION_PED', OBSERVACION_PED);
+    data.append('ID_PROV', ID_PROV);
+    axios.post('/pedidos/registrar', data).then(function (response) {
+        if (response.data > 0) {
+            toastr.success('Registrado correctamente!');
+            limpiarDatos();
+            tablaPedidos.ajax.reload();
+            tabla.clear().draw();
+            arreglo = [];
+        }
+        else {
+            toastr.error('No se ha podido guardar el registro.', 'Error!')
+        }
+        //console.log(response.data);
+    })
+        .catch(function (error) {
+            console.log(error);
+            toastr.error('No se ha podido guardar el registro.', 'Error!')
+        });
 }
 
 /**
@@ -279,17 +227,6 @@ function getDetalleByIdPedido(idRegistro) {
             $('#lblOBSERVACION_PED').text(response.data.data[0].OBSERVACION_PED);
             $('.fecha').text(response.data.data[0].FECHA_PED);
             $('.numero').text(response.data.data[0].ID_PED);
-
-
-            var ESTADO = response.data.data[0].ESTADO;
-            if (ESTADO > 0) {
-                $('#estado').text('Entregado');
-                $('#estado').prop('class', 'badge badge-success');
-            }
-            else {
-                $('#estado').text('Pendiente');
-                $('#estado').prop('class', 'badge badge-danger');
-            }
             $('#tabla-detalle').dataTable().fnClearTable();
             $('#tabla-detalle').dataTable().fnAddData(response.data.data);
         }
@@ -321,10 +258,12 @@ function cambiarTabActivo(idTab, clase) {
 /**
  * permite cambiar un tab de activo a inactivo o viceversa
  * @param {int} indice -indice de tab
- * @param {int} idRegistro -identificador de usuario
+ * @param {int} idRegistro -identificador de pedido
+ * @param {string} observacion -observación de pedido
+ * @param {string} proveedor -nombre de proveedor
  */
-function cambiarTab(indice, idRegistro) {
-    switch (indice) {
+function cambiarTab(indice, idRegistro, observacion, proveedor) {
+    switch (parseInt(indice)) {
         case 0: //tab listado
             {
                 cambiarTabActivo('#listado', 'active show');
@@ -337,11 +276,15 @@ function cambiarTab(indice, idRegistro) {
                 cambiarTabActivo('#detalle', 'active show');
                 cambiarTabActivo('#listado', '');
                 cambiarTabActivo('#editar', '');
-                getDetalleByIdPedido(idRegistro);
+                getDetalleByIdPedido(parseInt(idRegistro));
+                $('#lblOBSERVACION_PED').text(observacion);
+                $('#lblPROVEEDOR_PED').text(proveedor);
                 break;
             }
     }
 }
+
+
 /**
  * permite obtener datos para las listas desplegables de MARCA,
  * PRESENTACIÓN, PRODUCTO Y PROVEEDOR
@@ -380,19 +323,138 @@ function loadDataDropDownList() {
     });
 }
 
+/**
+ * Permite validar datos de entrada
+ */
+function validarDatos() {
+    var error = 0;
+    var errorMostrarMsj = [];
+    var totalFilas = tabla.page.info().recordsTotal;
+    var ID_PROV = $('#ddlProveedor option:selected').val().trim();;
+    if (totalFilas <= 0) errorMostrarMsj.push("Añade al menos un item");
+    if (!ID_PROV || ID_PROV == 0) errorMostrarMsj.push("Escoja un proveedor");
+
+    if (errorMostrarMsj.length) {
+        $('#lstErrores').empty();
+        error = 1;
+        var lista = '';
+        for (var i = 0; i < errorMostrarMsj.length; i++) {
+            lista += '<li style="color: red !important">' + errorMostrarMsj[i] + '</li>';
+        }
+        $('#lstErrores').append(lista);
+    }
+    else {
+        $('#lstErrores').empty();
+    }
+    return error;
+}
+
+/**
+ * Permite enviar un pedido al correo del proveedor
+ * dicho pedido NO ha sido previamente almacenado en la base de datos
+ */
+function enviarMailPedidoNoGuardado() {
+    var ID_PROV = $('#ddlProveedor option:selected').val().trim();;
+    if (validarDatos()) {
+        return;
+    }
+    var OBSERVACION_PED = $('#OBSERVACION_PED').val().trim();
+    var data = new FormData();
+    data.append('datos', JSON.stringify(arreglo));
+    data.append('OBSERVACION_PED', OBSERVACION_PED);
+    data.append('ID_PROV', ID_PROV);
+    $('#loadingImage').show();
+    $('#mailIcon').hide();
+    $('#btnText').text("Enviando..");
+
+    axios.post('/enviarCorreoPedidoNoGuardado', data).then(function (response) {
+        if (response.data > 0) {
+            toastr.success('Correo enviado correctamente!');
+            $('#loadingImage').hide();
+            $('#mailIcon').show();
+            $('#btnText').text("Enviar por correo");
+        }
+        else {
+            toastr.error('No se ha podido enviar el correo.', 'Error!')
+            $('#loadingImage').hide();
+            $('#mailIcon').show();
+            $('#btnText').text("Enviar por correo");
+        }
+    })
+        .catch(function (error) {
+            console.log(error);
+            $('#loadingImage').hide();
+            $('#mailIcon').show();
+            $('#btnText').text("Enviar por correo");
+            toastr.error('No se ha podido enviar el correo.', 'Error!')
+        });
+}
+
+/**
+ * Permite enviar un pedido al correo del proveedor
+ * dicho pedido ha sido previamente almacenado en la base de datos
+ */
+function enviarMailPedidoGuardado() {
+    var totalFilas = tablaDetallePedidos.page.info().recordsTotal;
+    if (totalFilas <= 0) {
+        toastr.warning('Añade al menos un item al pedido', 'Incompleto!')
+        return;
+    }
+    var data = new FormData();
+    data.append('ID_PED', $('#lblID_PED').text());
+    data.append('NOMBRE_PROV', $('#lblPROVEEDOR_PED').text());
+    $('#loadingImage1').show();
+    $('#mailIcon1').hide();
+    $('#btnText1').text("Enviando..");
+    axios.post('/enviarCorreoPedidoGuardado', data).then(function (response) {
+        if (response.data > 0) {
+            toastr.success('Correo enviado correctamente!');
+            $('#loadingImage1').hide();
+            $('#mailIcon1').show();
+            $('#btnText1').text("Enviar por correo");
+        }
+        else {
+            toastr.error('No se ha podido enviar el correo.', 'Error!')
+            $('#loadingImage1').hide();
+            $('#mailIcon1').show();
+            $('#btnText1').text("Enviar por correo");
+        }
+    })
+        .catch(function (error) {
+            console.log(error);
+            $('#loadingImage1').hide();
+            $('#mailIcon1').show();
+            $('#btnText1').text("Enviar por correo");
+            toastr.error('No se ha podido enviar el correo.', 'Error!')
+        });
+}
 //----------------------------------INICIALIZACIÓN DE MÉTODOS-------------------------
 $('#btnCancelarActualizar').hide();
 //tab activo por defecto
-cambiarTab(0, 0);
+cambiarTab(0, 0, 0, 0);
 
 loadDataDropDownList();
 $('#btnGuardar').click(function () {
     registrar();
 });
 
+$('#btnEnviarCorreo').click(function () {
+    enviarMailPedidoNoGuardado();
+});
+
 $('#btnAdd').click(function () {
     addItemTabla();
 });
+
+$('#btnSendMail').click(function () {
+    enviarMailPedidoGuardado();
+});
+
+$('#btnPreview').click(function () {
+   // vistaPreviaImprimir();
+   vistaPreviaImprimir('detalle');
+});
+
 
 //permite borrar un item de la tabla pedido cuando pulsa sobre el boton Eliminar
 $('#bootstrap-data-table tbody').on('click', 'button.delete', function () {
@@ -505,22 +567,30 @@ var tablaPedidos = $('#tabla-listado').DataTable(
                 var labelEstado = '';
                 for (var i = 0; i < json.data.length; i++) {
                     var ID_PED = json.data[i].ID_PED;
+                    var OBSERVACION_PED = json.data[i].OBSERVACION_PED;
+                    var NOMBRE_PROV = json.data[i].NOMBRE_PROV;
+
+                    var datos = "'1" + "'," + "'" + ID_PED + "','" + OBSERVACION_PED + "','" + NOMBRE_PROV + "'";
 
                     if (json.data[i].ESTADO > 0) {
-                        btn = '<button type="button" onclick="pendiente(' + ID_PED + ');" class="btn btn-danger"><span class="fa fa-pause"></span> </button>';
+                        //btn = '<button type="button" onclick="pendiente(' + ID_PED + ');" class="btn btn-danger"><span class="fa fa-pause"></span> Pendiente</button>';
+                        btn = '<button type="button" onclick="entregado(' + ID_PED + ')" class="btn btn-success"><span class="fa fa-check"></span> Entregado</button>';
+
                         labelEstado = '<span  class="badge badge-success">Entregado</span>';
                     }
                     else {
-                        btn = '<button type="button" onclick="entregado(' + ID_PED + ')" class="btn btn-success"><span class="fa fa-check"></span> </button>';
+                        // btn = '<button type="button" onclick="entregado(' + ID_PED + ')" class="btn btn-success"><span class="fa fa-check"></span> Entregado</button>';
+                        btn = '<button type="button" onclick="pendiente(' + ID_PED + ');" class="btn btn-danger"><span class="fa fa-pause"></span> Pendiente</button>';
+
                         labelEstado = '<span  class="badge badge-danger">Pendiente</span>';
                     }
-                    var btnVerDetalles = '<button type="button" onclick="cambiarTab(1,' + ID_PED + ');" class="btn btn-info"><span class="fa fa-info-circle"></span> Detalles</button>';
-                    buttons = '<div class="btn-group btn-group-sm">' + btnVerDetalles  + '</div>';
+                    var btnVerDetalles = '<button type="button" onclick="cambiarTab(' + datos + ');" class="btn btn-info"><span class="fa fa-info-circle"></span> Detalles</button>';
+                    buttons = '<div class="btn-group btn-group-sm">' + btnVerDetalles + '</div>';
                     return_data.push({
                         'ID_PED': json.data[i].ID_PED,
                         'FECHA_PED': json.data[i].FECHA_PED,
-                        'OBSERVACION_PED': json.data[i].OBSERVACION_PED,
-                        'PROVEEDOR': json.data[i].NOMBRE_PROV,
+                        'OBSERVACION_PED': OBSERVACION_PED,
+                        'PROVEEDOR': NOMBRE_PROV,
                         'ACCIONES_PED': buttons
                     })
                 }
@@ -615,11 +685,11 @@ var tablaDetallePedidos = $('#tabla-detalle').DataTable(
         "searching": false,
         "info": false,
         "ordering": false,
-       
+
         "columns": [
             { 'data': 'NOMBRE_PRO' },
-            { 'data': 'NOMBRE_PRS' },
             { 'data': 'NOMBRE_MAR' },
+            { 'data': 'NOMBRE_PRS' },
             { 'data': 'CANTIDAD_PRO' }
         ],
 
@@ -650,5 +720,5 @@ var tablaDetallePedidos = $('#tabla-detalle').DataTable(
     });
 
 
-$('.table').attr('style','width:100%');
+$('.table').attr('style', 'width:100%');
 

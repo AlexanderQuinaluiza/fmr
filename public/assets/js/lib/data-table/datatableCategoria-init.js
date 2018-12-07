@@ -337,3 +337,4 @@
              }
          }
  });
+ $('.table').attr('style','width:100%');

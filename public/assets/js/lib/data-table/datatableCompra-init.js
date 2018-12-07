@@ -991,7 +991,7 @@ var table = null;
  * permite cargas los pedidos, para su posterior importacion a tabla compra
  */
 function getPedidos() {
-    table = $('.datatables').DataTable({
+    table = $('#tablaPedido').DataTable({
         'ajax': {
             "type": "GET",
             "url": "pedidos",
@@ -1063,7 +1063,7 @@ function getPedidos() {
 } getPedidos();
 
 //permite desplegar un detalle en cada fila de la tabla pedidos
-$('.datatables tbody').on('click', 'td.details-control', function () {
+$('#tablaPedido tbody').on('click', 'td.details-control', function () {
     var tr = $(this).closest('tr'),
         row = table.row(tr);
 

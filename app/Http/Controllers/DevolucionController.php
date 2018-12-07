@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Devoluciones;
 use Illuminate\Support\Facades\DB;
+use Auth;
 class DevolucionController extends Controller
 {
     /**
@@ -43,7 +44,7 @@ class DevolucionController extends Controller
             $devolucion = new Devoluciones;
             $devolucion->TIPO_DOC = $tipoDocumento;
             $devolucion->ID_COMP = (int)$request->ID_COMP;
-            $devolucion->ID_USU = 1; //$request->ID_USU; //cambiar luego con Auth
+            $devolucion->ID_USU = Auth::user()->ID_USU;
             $devolucion->TOTAL_DEV = $request->TOTAL_DEV;
             $devolucion->NUMERO_NC = $request->NUM_NOTA_CREDITO;
             $devolucion->FECHA_DEV = $request->FECHA_DEV;

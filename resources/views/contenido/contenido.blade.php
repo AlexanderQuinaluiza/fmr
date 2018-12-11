@@ -1,6 +1,6 @@
     @extends('principal')
     @section('contenido')
-  <!--<template v-if="menu==0">
+  <template v-if="menu==0">
         <h3>Contenido dashboard, summary</h3>
        </template>
        
@@ -86,11 +86,11 @@
         <apertura_caja_comp></apertura_caja_comp>
         </template>   
 
-         -->
+         
 
 
-   <!-- <pedido_comp></pedido_comp>  -->
-  <compra_comp></compra_comp>  
+   <!-- <pedido_comp></pedido_comp> 
+  <compra_comp></compra_comp>   -->
   <!-- <producto_comp></producto_comp>  -->
   <!-- <dev_compra_comp></dev_compra_comp>  -->
   <!-- <caja_comp></caja_comp> -->
@@ -98,7 +98,7 @@
 
    <!-- <descuento_comp></descuento_comp> -->
   <!-- <cierre_caja_comp></cierre_caja_comp> -->
-  <!-- <cierres_caja_comp></cierres_caja_comp> -->
+   <cierres_caja_comp></cierres_caja_comp> 
 
   <!-- <configuracion_comp></configuracion_comp> -->
   <!-- <usuario_comp></usuario_comp> -->

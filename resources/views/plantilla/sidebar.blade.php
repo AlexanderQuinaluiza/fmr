@@ -18,128 +18,111 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)"  class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="menu-icon fa fa-laptop"></i>Almacen</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-puzzle-piece" ></i><a href="javascript: void(0)" @click="menu=1">Categorias</a></li>
-                            <li><i class="fa fa-id-badge" ></i><a href="javascript: void(0)" @click="menu=2">Descuentos</a></li>
-                            <li><i class="fa fa-bars" ></i><a href="javascript: void(0)" @click="menu=3">Presentaciones</a></li>
-                            <li><i class="fa fa-share-square-o"></i><a href="javascript: void(0)" @click="menu=4">Productos</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="javascript: void(0)" @click="menu=5">Marcas</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="javascript: void(0)" @click="menu=6">Agencias</a></li>
-                            <li><i class="fa fa-spinner"></i><a href="javascript: void(0)" @click="menu=7">Cajas</a></li>
-                           <!-- <li><i class="fa fa-fire"></i><a href="ui-modals.html">Modals</a></li>
-                            <li><i class="fa fa-book"></i><a href="ui-switches.html">Switches</a></li>
-                            <li><i class="fa fa-th"></i><a href="ui-grids.html">Grids</a></li>
-                            <li><i class="fa fa-file-word-o"></i><a href="ui-typgraphy.html">Typography</a></li> -->
+                            
+                            <li v-if="item.SECCION=='Almacén'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
+                            
+                             <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                                <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                              
+                            </li>
+                           
+                           
                         </ul>
                     </li>
-                   <!-- <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tables</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-table"></i><a href="tables-basic.html">Basic Table</a></li>
-                            <li><i class="fa fa-table"></i><a href="tables-data.html">Data Table</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Forms</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Basic Form</a></li>
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Advanced Form</a></li>
-                        </ul>
-                    </li>
--->
+                  
                     <h3 class="menu-title">Seguridad</h3><!-- /.menu-title -->
 
                     <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Usuarios y Accesos</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="javascript: void(0)" @click="menu=8">Módulos</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=9">Acceso</a></li>
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="javascript: void(0)" @click="menu=10">Roles</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="javascript: void(0)" @click="menu=11">Usuarios</a></li>
-                        
+                        <li v-if="item.SECCION=='Seguridad'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
+                            
+                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                               <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                             
+                           </li>
+                          
                         </ul>
                     </li>
-                   <!-- <li>
-                        <a href="widgets.html"> <i class="menu-icon ti-email"></i>Widgets </a>
-                    </li>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Charts</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-line-chart"></i><a href="charts-chartjs.html">Chart JS</a></li>
-                            <li><i class="menu-icon fa fa-area-chart"></i><a href="charts-flot.html">Flot Chart</a></li>
-                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="charts-peity.html">Peity Chart</a></li>
-                        </ul>
-                    </li> 
-
-                    <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>Maps</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="maps-gmap.html">Google Maps</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="maps-vector.html">Vector Maps</a></li>
-                        </ul>
-                    </li>-->
-                    <h3 class="menu-title">Transacciones</h3><!-- /.menu-title -->
+                   
+                    <h3 class="menu-title"></h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Compras</a>
                         <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-fort-awesome"></i><a href="javascript: void(0)" @click="menu=12">Proveedores</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=13">Pedidos</a></li>
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="javascript: void(0)" @click="menu=14">Compras</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="javascript: void(0)" @click="menu=15">Devoluciones</a></li>
+                        <li v-if="item.SECCION=='Compras'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
+                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                               <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                             
+                           </li>
+                    
                         </ul>
                        </li>
 
                        <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Ventas</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-table"></i><a href="javascript: void(0)" @click="menu=16">Clientes</a></li>
-                            <li><i class="fa fa-table"></i><a href="javascript: void(0)" @click="menu=17">Ventas</a></li>
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="javascript: void(0)" @click="menu=18">Devoluciones</a></li>
-
+                        <li v-if="item.SECCION=='Ventas'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
+                            
+                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                               <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                             
+                           </li>
+                        
+                      
                         </ul>
-                        <li>
-                        <a href="javascript: void(0)"  @click="menu=25"> <i class="menu-icon fa fa-lock"></i>Cierre caja (Vendedor)</a>
+                      </li>    
+                        <h3 class="menu-title"></h3><!-- /.menu-title -->
+                        <li class="menu-item-has-children dropdown">
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Contabilidad</a>
+                        <ul class="sub-menu children dropdown-menu">
+                        <li v-if="item.SECCION=='Contable'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
+                            
+                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                               <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                             
+                           </li>  
+                     
+                        </ul>
                        </li>
-                       <li>
-                        <a href="javascript: void(0)"  @click="menu=26"> <i class="menu-icon fa fa-lock"></i>Cierres caja (Admin) </a>
+                       <h3 class="menu-title"></h3><!-- /.menu-title -->
+                        <li class="menu-item-has-children dropdown">
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Inventarios</a>
+                        <ul class="sub-menu children dropdown-menu">
+                        <li v-if="item.SECCION=='Inventario'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
+                            
+                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                               <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                             
+                           </li>  
+                     
+                        </ul>
                        </li>
-                       <li>
-                        <a href="javascript: void(0)"  @click="menu=27"> <i class="menu-icon fa fa-unlock"></i>Apertura caja (Admin) </a>
-                       </li>
-                       
-
-                    <h3 class="menu-title">Inventarios</h3><!-- /.menu-title -->
-                    <li> 
-                     <a href="javascript: void(0)" @click="menu=19" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Kardex</a>
-                     </li> 
-                     <!--  <ul class="sub-menu children dropdown-menu">
-                    <li><i class="menu-icon fa fa-map-o" ></i><a  href="javascript: void(0)" @click="menu=19" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table">>Kardex</a></li>
-                       
-                    </li>
-                    </ul> -->
-
+                      
                     <h3 class="menu-title">Reportes</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Reportes Gerenciales</a>
                         <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-fort-awesome"></i><a href="javascript: void(0)" @click="menu=20">Reportes Ingresos</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=21">Reportes Egresos</a></li>
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="javascript: void(0)" @click="menu=22">Estadisticas</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="javascript: void(0)" @click="menu=23">Reportes Productividad</a></li>
+                        <li v-if="item.SECCION=='Reportes'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
+                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                               <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                             
+                           </li>  
                         </ul>
                        </li>
 
 
                        <h3 class="menu-title">Otros</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Información</a>
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Configuración</a>
                         <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-fort-awesome"></i><a href="javascript: void(0)" @click="menu=23">Configuraciones</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=24">Acerca de</a></li>
+                        <li v-if="item.SECCION=='Otros'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
-                         <!--   <li><i class="menu-icon fa fa-street-view"></i><a href="javascript: void(0)" @click="menu=23">Reportes Productos</a></li> -->
-                            
+                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                               <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                             
+                           </li>
                         </ul>
                        </li>
                 </ul>

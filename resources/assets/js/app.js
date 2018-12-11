@@ -49,12 +49,29 @@ Vue.component('home', require('./components/Home.vue'));
 const app = new Vue({
     el: '#app',
     data:{
-        menu:1,
+        menu:18,
         id_usuario: parseInt($('#idUsuario').val()),
+        mi_menu :[],
+        },
+    mounted(){
+        this.IntruciendoDato();
     },
+    methods:{
+        IntruciendoDato(){
+            let me = this;
+                    
+            // me.mi_menu='Cambiando la transaccion';
+            var url = 'menu';
+            axios.get(url).then(function (response){
+                me.mi_menu = response.data.menu;
+               // me.data.options = response.data;
+              // console.log('seteado',me.mi_menu);
+              // console.log(response.data.menu); 
+            })
+            .catch(function (error) {
+             console.log(error);
+            });
+           
+        }
+    }
 });
-// import App from './components/App.vue';
-// const app = new Vue({
-//     router,               // Add this line
-//     render: h => h(App)
-//   }).$mount('#app')

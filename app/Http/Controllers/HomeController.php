@@ -50,7 +50,7 @@ class HomeController extends Controller
         }
         else 
          {           
-            Session::flash('mensaje', 'Credenciales incorrectas!');
+           Session::flash('mensaje', 'Credenciales incorrectas!');
            return redirect("login");
          }
     }

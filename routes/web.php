@@ -222,3 +222,6 @@ Route::post('/login', 'HomeController@login');
 Route::get('logout','HomeController@logout');
 
 
+/**cargar menu */
+Route::get('menu','DetallesDevController@getMenu');
+

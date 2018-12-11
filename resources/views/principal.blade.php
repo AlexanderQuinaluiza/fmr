@@ -373,7 +373,7 @@ tr.shown td.details-control:before {
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
                         </a>
-
+                        
                         <div class="user-menu dropdown-menu">
                                 <!-- <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
@@ -424,10 +424,7 @@ tr.shown td.details-control:before {
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <h6 id="h6UserName"> 
-                            <input id="idUsuario" value="{{ Auth::user()->ID_USU }}" type="hidden" >         {{ Auth::user()->NOMBRE_USU }}  {{ Auth::user()->APELLIDO_USU }} <span class="badge badge-success" id="spanRol"></span> </h6>
-                           <!-- <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">UI Elements</a></li>
-                            <li class="active">Modals</li>-->
+                            <input id="idUsuario" value="{{ Auth::user()->ID_USU }}" type="hidden" > {{ Auth::user()->NOMBRE_USU }} {{ Auth::user()->APELLIDO_USU }} <span class="badge badge-success" id="spanRol"></span> </h6>
                         </ol>
                     </div>
                 </div>

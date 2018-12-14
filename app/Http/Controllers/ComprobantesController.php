@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comprobantes;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class ComprobantesController extends Controller
 {
     /**
@@ -14,17 +14,15 @@ class ComprobantesController extends Controller
      */
     public function index()
     {
-        //
+     
+        $comp= DB::select('call spSelectComprbantesFac()');
+         return response()->json(['data'=>$comp],200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function ncFacAnuladas(){
+        $comp= DB::select('call spSelectNcFacAnuladas()');
+         return response()->json(['data'=>$comp],200);
+        
     }
 
     /**
@@ -33,53 +31,9 @@ class ComprobantesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id)
+    public function store()
     {
-        //
+       
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Comprobantes  $comprobantes
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comprobantes $comprobantes)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Comprobantes  $comprobantes
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comprobantes $comprobantes)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comprobantes  $comprobantes
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Comprobantes $comprobantes)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Comprobantes  $comprobantes
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Comprobantes $comprobantes)
-    {
-        //
-    }
 }

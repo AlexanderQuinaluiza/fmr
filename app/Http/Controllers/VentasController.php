@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ventas;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,14 +27,14 @@ class VentasController extends Controller
     public function getApertura()
     {
         $id_caja = (int) $_GET['ID_CAJA'];
-        $id_user= (int) $_GET['ID_USER'];
+        $id_user= Auth::user()->ID_USU;
         $apertura = DB::select('call spGetApertura("'.$id_caja.'","'.$id_user.'")');
         return $apertura;
         //call spGetApertura(1,1);
     }
 
     public function getCabeceraFAC(){
-        $id_user= (int) $_GET['ID_USER'];
+        $id_user= Auth::user()->ID_USU;
         $cabecera = DB::select('call spGetCabeceraFac("'.$id_user.'")');
         return $cabecera;
     }
@@ -98,13 +99,34 @@ class VentasController extends Controller
         return response()->json(['result'=>$success,'miventa'=>$miventa,'detalles'=>$misdetalles],200);
        //return $success;
     }
-
+    public function getVenta($id)
+    {
+        //
+       
+        $venta = DB::select('call spSelectValoresFactura("'.$id.'")');
+       // return response()->json(['data'=>$venta],200);
+        return $venta;
+    }
+    public function getdetalleVentas($id)
+    {
+        //
+        $detalles = DB::select('call spSelectDetallesFactura("'.$id.'")');
+        //return response()->json(['data'=>$detalles],200);
+        return $detalles;
+    }
+     
+    public function detallesFactura(){
+        $id = (int)$_GET['ID_VEN'];
+        $detalles= (array) $this->getdetalleVentas($id);
+        return response()->json(['data'=>$detalles],200);
+    }
     /**
      * Display the specified resource.
      *
      * @param  \App\Ventas  $ventas
      * @return \Illuminate\Http\Response
      */
+    /*
     public function getDevVenta($id)
     {
         //
@@ -120,6 +142,29 @@ class VentasController extends Controller
         //return response()->json(['data'=>$detalles],200);
         return $detalles;
     }
+    */
+    /**
+     * actualiza el estado a anulado, cuando se realiza una anulación
+     */
+    public function updateState(Request $request){
+        $id_usu= Auth::user()->ID_USU;
+        $ven = Ventas::findOrFail($request->ID_VEN);
+        $ven->DESCRIPCION_VEN=$request->MOTIVO;
+        $ven->ESTADO = "Anulado";
+        $ven->save();
+        $micomprobante=(array)$this->comprobanteAnulacion($ven->ID_VEN);
+        $cabecera=(array)$this->getCabeceraFAC();
+        return response()->json(['result'=>$micomprobante,'cabecera'=>$cabecera],200);   
+    }
+    /** datos del comprobante anulado */
+    private function comprobanteAnulacion($id_venta){
+        $comprobante = DB::select('call spSelectCompAnulado("'.$id_venta.'")');
+        //return response()->json(['data'=>$detalles],200);
+        return $comprobante;
+        
+    }
 
+
+    
    
 }

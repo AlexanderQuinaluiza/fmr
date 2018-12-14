@@ -225,3 +225,8 @@ Route::get('logout','HomeController@logout');
 /**cargar menu */
 Route::get('menu','DetallesDevController@getMenu');
 
+/**routes comprobantes */
+Route::get('comprobantes','ComprobantesController@index');
+Route::get('ncFacAnuladas','ComprobantesController@ncFacAnuladas');
+Route::post('anular','VentasController@updateState');
+Route::get('ventas/detalles','VentasController@detallesFactura');

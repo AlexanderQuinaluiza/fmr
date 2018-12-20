@@ -230,3 +230,6 @@ Route::get('comprobantes','ComprobantesController@index');
 Route::get('ncFacAnuladas','ComprobantesController@ncFacAnuladas');
 Route::post('anular','VentasController@updateState');
 Route::get('ventas/detalles','VentasController@detallesFactura');
+/**reporte ventas */
+Route::get('reporte/ventas','VentasController@ventasTotales');
+Route::get('reporte/ventas/productos','VentasController@ventasProductos');

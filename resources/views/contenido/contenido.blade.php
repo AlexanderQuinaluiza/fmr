@@ -88,6 +88,9 @@
         <template v-if="menu==28">
         <comprobantes_comp></comprobantes_comp>
         </template> 
+        <template v-if="menu==29">
+        <reporteventas_comp></reporteventas_comp>
+        </template>
         
          
 

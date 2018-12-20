@@ -14,9 +14,21 @@ class VentasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function ventasTotales()
     {
         //
+        //$id_caja = (int) $_GET['ID_CAJA'];
+        //$id_user= Auth::user()->ID_USU;
+        $reporte = DB::select('call spSelectRepVentasTotales()');
+        return $reporte;
+    }
+    public function ventasProductos()
+    {
+        //
+        //$id_caja = (int) $_GET['ID_CAJA'];
+        //$id_user= Auth::user()->ID_USU;
+        $reporte = DB::select('call spSelectRepProductosVentas()');
+        return $reporte;
     }
 
     /**

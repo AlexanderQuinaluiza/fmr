@@ -47,10 +47,12 @@ Vue.component('reporte_compras_comp', require('./components/ReporteComprasCompon
 Vue.component('home', require('./components/Home.vue'));
 Vue.component('comprobantes_comp', require('./components/ComprobantesComponent.vue'));
 
+Vue.component('reporteventas_comp', require('./components/ReporteVentasComponent.vue'));
+
 const app = new Vue({
     el: '#app',
     data:{
-        menu:28,
+        menu:29,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu :[],
         },

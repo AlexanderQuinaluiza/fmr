@@ -840,7 +840,7 @@ function llenarDetallesDescuento(id){
                   // var ID_PRO = json.data[i].ID_PRO;
                  // var NOMBRE_PRO = '"'+String(json.data[i].NOMBRE_PRO)+'"';
                   
-               /*   var checkbox=' <div class="form-check">   <label class="form-check-label"> <input type="checkbox" name="sld" onchange="calcular();" class="form-check-input" value="" data-toggle="tooltip"  title="Seleciona todos los productos"></label> </div>';
+                  /* var checkbox=' <div class="form-check">   <label class="form-check-label"> <input type="checkbox" name="sld" onchange="calcular();" class="form-check-input" value="" data-toggle="tooltip"  title="Seleciona todos los productos"></label> </div>';
                   var btnVerDetalles = '<button type="button" data-toggle="modal" data-target="#modalDescuentoDetalles" onclick="detallandoDescuentos('+ID_PRO+');" class="btn btn-info btn-sm"><span class="fa fa-info-circle"></span> Detalles </button>';
                   var btnAgregarEjemplar = "<button type='button' data-toggle='modal' data-target='#addEjemplarModal' onclick='mostrarModalEjemplar("+ID_PRO+","+NOMBRE_PRO+");' class='btn btn-success'><span class='fa fa-plus'></span> </button>";
                   */ /*
@@ -961,10 +961,10 @@ function llenarDetallesDescuento(id){
         
 }
 
-   function detallesdesc(iddesc){
+    function detallesdesc(iddesc){
      // alert(titulomodal);
     document.getElementById("titulodescuento").innerHTML = "Productos seleccionados del descuento con ID: ["+iddesc+"]"; 
-   // document.getElementById('titulodescuento').innerHTML= '> '+ nombre;   
+    //  document.getElementById('titulodescuento').innerHTML= '> '+ nombre;   
     llenarDetallesDescuento(iddesc);
    }
    $('.table').attr('style','width:100%');

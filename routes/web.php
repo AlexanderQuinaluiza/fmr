@@ -121,6 +121,14 @@ Route::get('descuentos/byid','DescuentosController@getDescuentoById');
 Route::post('descuentos/actualizar','DescuentosController@update');
 Route::get('descuentos/productosDescontados','ProductoController@productoDescuentos');
 
+// ROUTES VENTAS 
+Route::get('ventas/productosventas', 'ProductoController@productosVentas');
+Route::get('ventas/cabecera', 'VentasController@getCabeceraFAC');
+Route::get('ventas/apertura', 'VentasController@getApertura');
+Route::get('ventas/cliente', 'VentasController@clienteFAC');
+Route::get('ventas/ejemplares', 'ProductoController@productoEjemplar');
+Route::post('ventas/registrar','VentasController@store');
+
 Route::get('roles', 'RolController@index');
 Route::get('roles/byid', 'RolController@rolById');
 Route::get('roles/modulos', 'RolController@getModulosDeRol');

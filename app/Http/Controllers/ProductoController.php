@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use App\File;
-use Auth;
 class ProductoController extends Controller
 {
     /**
@@ -47,11 +46,26 @@ class ProductoController extends Controller
         ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
         ->where('p.ID_PRO', '=', $id)
         ->get();
+
+       // $producto[0]->PRECIO_PROMOCIONAL_PRO;
+      /// $idproducto = (int)$producto[0]->ID_PRO;
+      // $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+//
+   ///  $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+      //  $descuento = $porcentajeDesc * $precioVenta;
+      //  $precioConDescuento = $precioVenta - $descuento;
+      //  $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+        //return round($precioConDescuento,2);
+
+       // $id = (int) $_GET['ID_PRO'];
+       // $producto = Productos::findOrFail($id);
       return response()->json($producto,200);
     }
 /** productos ventas, metodo que se usa en el modulo de ventas */
+
 public function productosVentas()
 {
+   //$id = (int) $_GET['ID_PRO'];
     $producto =  DB::table('PRODUCTOS as p')
     ->select('p.ID_PRO','p.NOMBRE_PRO','p.ID_CAT','p.ID_PRS',
     'p.ID_MAR','p.DESCRIPCION_PRO','p.COSTO_PRO',
@@ -68,18 +82,30 @@ public function productosVentas()
     ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
     ->where('p.ESTADO_PRO', '=', 1)
     ->get();
-   $idproducto = (int)$producto[0]->ID_PRO;
-   $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-    $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-    $descuento = $porcentajeDesc * $precioVenta;
-    $precioConDescuento = $precioVenta - $descuento;
-    $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+
+   // $producto[0]->PRECIO_PROMOCIONAL_PRO;
+   //$idproducto = (int)$producto[0]->ID_PRO;
+   //$precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
+//
+   // $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
+   // $descuento = $porcentajeDesc * $precioVenta;
+   // $precioConDescuento = $precioVenta - $descuento;
+   // $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+
+    //return round($precioConDescuento,2);
+
+   // $id = (int) $_GET['ID_PRO'];
+   // $producto = Productos::findOrFail($id);
    return response()->json(['data'=>$producto],200);
+
+    /**->join('PRESENTACIONES pr')
+    ->join('CATEGORIAS c')*/
 }
+
 /**** metodo para extaer la informacion de un producto en base al codigo de barras */
 public function productoEjemplar()
 {  
-      $producto='';
+      //$producto='';
     try{
         $id = $_GET['CODEBAR'];
         $producto =  DB::table('PRODUCTOS as p')

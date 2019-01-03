@@ -29,6 +29,7 @@ Vue.component('categoria_comp', require('./components/CategoriaComponent.vue'));
 Vue.component('agencia_comp', require('./components/AgenciaComponent.vue'));
 Vue.component('caja_comp', require('./components/CajaComponent.vue'));
 Vue.component('descuento_comp', require('./components/DescuentoComponent.vue'));
+Vue.component('ventas_comp', require('./components/VentasComponent.vue'));
 
 Vue.component('pedido_comp', require('./components/PedidoComponent.vue'));
 Vue.component('modulo_comp', require('./components/ModuloComponent.vue'));

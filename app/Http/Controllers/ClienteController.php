@@ -26,7 +26,8 @@ class ClienteController extends Controller
         $cliente = Clientes::findOrFail($id);
         return $cliente;
     }
-
+     
+  
     /**
      * Store a newly created resource in storage.
      *

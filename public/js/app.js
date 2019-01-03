@@ -1441,7 +1441,7 @@ Vue.component('reportedevventas_comp', __webpack_require__(178));
 var app = new Vue({
     el: '#app',
     data: {
-        menu: 29,
+        menu: 31,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu: []
     },

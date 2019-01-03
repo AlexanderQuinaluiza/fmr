@@ -33,7 +33,7 @@
         <caja_comp></caja_comp>
         </template>
      
-       
+        
        <template v-if="menu==8">
         <h3> Modulos</h3>
         </template>
@@ -94,8 +94,10 @@
         <template v-if="menu==30">
         <reportedevventas_comp></reportedevventas_comp>
         </template>
+        <template v-if="menu==31">
+        <ventas_comp></ventas_comp>
+        </template>
         
-         
 
 
    <!-- <pedido_comp></pedido_comp> 

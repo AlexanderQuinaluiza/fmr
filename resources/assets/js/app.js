@@ -53,7 +53,7 @@ Vue.component('reportedevventas_comp', require('./components/ReporteDevVentasCom
 const app = new Vue({
     el: '#app',
     data:{
-        menu:29,
+        menu:31,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu :[],
         },

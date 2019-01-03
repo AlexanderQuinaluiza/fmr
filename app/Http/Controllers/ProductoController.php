@@ -131,13 +131,13 @@ public function productoEjemplar()
        // $producto[0]->PRECIO_PROMOCIONAL_PRO;
     
        
-     $idproducto = (int)$producto[0]->ID_PRO;
+    /* $idproducto = (int)$producto[0]->ID_PRO;
      $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
     
        $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
        $descuento = $porcentajeDesc * $precioVenta;
        $precioConDescuento = $precioVenta - $descuento;
-       $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+       $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);*/
     }catch(Exeption $e){
        $producto='';
     }
@@ -164,13 +164,13 @@ public function productoEjemplar()
         ->join('DETALLES_DESCUENTOS as dd', 'dd.ID_PRO','=','p.ID_PRO')
         ->where('dd.ID_DESC', '=', $id)
         ->get();
-        $idproducto = (int)$producto[0]->ID_PRO;
+       /* $idproducto = (int)$producto[0]->ID_PRO;
         $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
      
          $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
          $descuento = $porcentajeDesc * $precioVenta;
          $precioConDescuento = $precioVenta - $descuento;
-         $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
+         $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);*/
          return response()->json(['data'=>$producto],200);
     }
      

@@ -380,3 +380,20 @@ ALTER TABLE `DETALLE_COMPRAS` ADD COLUMN IVA FLOAT NOT NULL DEFAULT 0.00;
 ALTER TABLE `DETALLE_COMPRAS` ADD COLUMN TOTAL_CON_IVA FLOAT NOT NULL DEFAULT 0.00;
 ALTER TABLE `DETALLE_COMPRAS` DROP COLUMN INCLUYE_IVA;
 ALTER TABLE `COMPRAS` ADD COLUMN TOTAL_CON_DESCUENTO FLOAT AS (TOTAL_COMP - (TOTAL_COMP*DESCUENTO_COMP));
+
+
+/***********************************2018-12-11*********************************************************/
+ ALTER TABLE `CAJAS` ADD `VALOR` FLOAT NOT NULL DEFAULT '0' COMMENT 'saldo actual de caja' AFTER `DESCRIPCION_CAJA`;
+   CREATE TABLE `MOVIMIENTO` (
+     `ID` bigint NOT NULL auto_increment,
+     `TOTAL` decimal(20,2) NOT NULL,
+     `COMENTARIO` varchar(255) NOT NULL,
+     `TIPO` int NOT NULL COMMENT '1 - Entrada\n2 - Salida',
+     `ESTADO` int NOT NULL COMMENT '0 - Eliminado\n1 - Vigente',
+     `CAJ_ID` int NOT NULL COMMENT 'id de caja',
+     `VEN_ID` bigint DEFAULT '0' COMMENT 'id de venta',
+     `COM_ID` bigint DEFAULT 0 COMMENT 'id de compra',
+     `NCR_ID` bigint DEFAULT 0 COMMENT 'id de nota de credito-devolucion venta',
+     DEV_ID bigint DEFAULT 0 COMMENT 'id de devolucion-compra',
+     primary key (ID)
+   ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -95,7 +95,7 @@
    <!-- <pedido_comp></pedido_comp>  -->
    <!-- <movimiento_caja></movimiento_caja>  -->
   <!-- <compra_comp></compra_comp>   -->
-  <producto_comp></producto_comp> 
+  <!-- <producto_comp></producto_comp>  -->
    <!-- <dev_compra_comp></dev_compra_comp>   -->
   <!-- <caja_comp></caja_comp> -->
 
@@ -112,7 +112,7 @@
    
     <!-- <escritorio_comp></escritorio_comp> -->
      <!-- <reporte_compras_comp></reporte_compras_comp> -->
-     
+     <ventas_comp></ventas_comp>
      <!-- <home></home> -->
      <!-- <reporte_productos_comp></reporte_productos_comp> -->
     @endsection

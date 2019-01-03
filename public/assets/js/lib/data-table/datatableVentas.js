@@ -594,7 +594,7 @@ return error_ruc;
        }
       
       
-       aperturarCaja();
+       //aperturarCaja();
        datosFac();
        validarcedula();
 
@@ -748,7 +748,7 @@ function registrarVenta(){
 
         axios.post(url,data).then(function(response){
          
-         //console.log(response.data.result);   
+         console.log(response.data.result);   
          //console.log(response.data.detalles); 
          //console.log(response.data.miventa);
          if(response.data.result>0){
@@ -817,6 +817,9 @@ function finalizarVenta(){
 
 /** funcion para crear la factura  */
 function crearFactura(miventa,misdetalles){
+    console.log("_______________________________");
+    console.log(miventa);
+    console.log(misdetalles);
     var conten=document.getElementById("ridefac");
     var numcomprobante=document.getElementById("numfac").innerHTML;
     var nuevocomp=numcomprobante.replace('###',miventa[0].NUMERO_COM);

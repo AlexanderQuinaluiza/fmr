@@ -10,5 +10,5 @@ class Agencias extends Model
     protected $table = 'AGENCIAS';
   protected  $primaryKey = 'ID_AGE';
   public $timestamps = false;
-  protected $fillable = ['NOMBRE_AGE', 'DIRECCION_AGE', 'RUC_AGE', 'CIUDAD_AGE', 'TELEFONO_AGE', 'CORREO_AGE', 'lOGO_AGE', 'ESTADO_AGE'];
+  protected $fillable = ['NOMBRE_AGE', 'DIRECCION_AGE', 'RUC_AGE', 'CIUDAD_AGE', 'TELEFONO_AGE', 'CORREO_AGE', 'LOGO_AGE', 'ESTADO_AGE'];
 }

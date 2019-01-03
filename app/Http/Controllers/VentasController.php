@@ -30,7 +30,16 @@ class VentasController extends Controller
         $reporte = DB::select('call spSelectRepProductosVentas()');
         return $reporte;
     }
+    public function ventasUtilidades()
+    {
+        //
+        //$id_caja = (int) $_GET['ID_CAJA'];
+        //$id_user= Auth::user()->ID_USU;
+        $reporte = DB::select('call  spSelectRepUtilidades()');
+        return $reporte;
+    }
 
+   
     /**
      * el metodo retorna  0 si no se encuentra abierta la caja aun,.
      *

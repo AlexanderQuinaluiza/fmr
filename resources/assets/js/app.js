@@ -48,6 +48,7 @@ Vue.component('home', require('./components/Home.vue'));
 Vue.component('comprobantes_comp', require('./components/ComprobantesComponent.vue'));
 
 Vue.component('reporteventas_comp', require('./components/ReporteVentasComponent.vue'));
+Vue.component('reportedevventas_comp', require('./components/ReporteDevVentasComponent.vue'));
 
 const app = new Vue({
     el: '#app',

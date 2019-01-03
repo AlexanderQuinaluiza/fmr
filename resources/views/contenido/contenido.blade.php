@@ -91,6 +91,9 @@
         <template v-if="menu==29">
         <reporteventas_comp></reporteventas_comp>
         </template>
+        <template v-if="menu==30">
+        <reportedevventas_comp></reportedevventas_comp>
+        </template>
         
          
 

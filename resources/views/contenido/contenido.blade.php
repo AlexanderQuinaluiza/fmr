@@ -85,7 +85,16 @@
         <template v-if="menu==27">
         <apertura_caja_comp></apertura_caja_comp>
         </template>   
-
+        <template v-if="menu==28">
+        <comprobantes_comp></comprobantes_comp>
+        </template> 
+        <template v-if="menu==29">
+        <reporteventas_comp></reporteventas_comp>
+        </template>
+        <template v-if="menu==30">
+        <reportedevventas_comp></reportedevventas_comp>
+        </template>
+        
          
 
 
@@ -98,7 +107,7 @@
 
    <!-- <descuento_comp></descuento_comp> -->
   <!-- <cierre_caja_comp></cierre_caja_comp> -->
-   <cierres_caja_comp></cierres_caja_comp> 
+   <!--<cierres_caja_comp></cierres_caja_comp> -->
 
   <!-- <configuracion_comp></configuracion_comp> -->
   <!-- <usuario_comp></usuario_comp> -->

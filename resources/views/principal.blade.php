@@ -26,12 +26,10 @@
     
     <link rel="stylesheet" href="assets/css/styleButtonExport.css">
 
-
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
 <link href="assets/css/toastr.min.css" rel="stylesheet">
-
 <link href="EasyAutocomplete/easy-autocomplete.css" rel="stylesheet">
 <link href="EasyAutocomplete/easy-autocomplete.themes.css" rel="stylesheet">
 
@@ -44,6 +42,12 @@
 <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 <!-- style datepiker -->
 <!--fin-->
+
+
+  
+
+
+ <!-- fin external libs from cdnjs for pivotjtable -->
 <style>
 .container .details-row td {
   padding: 0;

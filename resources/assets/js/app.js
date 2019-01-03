@@ -45,11 +45,15 @@ Vue.component('estadistica_compras_comp', require('./components/EstadisticasComp
 Vue.component('reportes_comp', require('./components/ReportesComponent.vue'));
 Vue.component('reporte_compras_comp', require('./components/ReporteComprasComponent.vue'));
 Vue.component('home', require('./components/Home.vue'));
+Vue.component('comprobantes_comp', require('./components/ComprobantesComponent.vue'));
+
+Vue.component('reporteventas_comp', require('./components/ReporteVentasComponent.vue'));
+Vue.component('reportedevventas_comp', require('./components/ReporteDevVentasComponent.vue'));
 
 const app = new Vue({
     el: '#app',
     data:{
-        menu:18,
+        menu:29,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu :[],
         },

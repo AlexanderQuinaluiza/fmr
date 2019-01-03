@@ -225,3 +225,16 @@ Route::get('logout','HomeController@logout');
 /**cargar menu */
 Route::get('menu','DetallesDevController@getMenu');
 
+/**routes comprobantes */
+Route::get('comprobantes','ComprobantesController@index');
+Route::get('ncFacAnuladas','ComprobantesController@ncFacAnuladas');
+Route::post('anular','VentasController@updateState');
+Route::get('ventas/detalles','VentasController@detallesFactura');
+/**reporte ventas */
+Route::get('reporte/ventas','VentasController@ventasTotales');
+Route::get('reporte/ventas/productos','VentasController@ventasProductos');
+Route::get('reporte/utilidades','VentasController@ventasUtilidades');
+
+/**reporte devoluciones */
+Route::get('reporte/devoluciones_ventas','DevolucionesVentasController@reporteDevVentas');
+Route::get('reporte/devoluciones_ventas/productos','DevolucionesVentasController@reporteDevVentasProductos');

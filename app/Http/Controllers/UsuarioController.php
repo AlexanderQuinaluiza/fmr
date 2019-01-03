@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Usuarios;
 use App\UsuarioRol;
 use Illuminate\Support\Facades\DB;
+use Auth;
 class UsuarioController extends Controller
 {
     /**
@@ -168,6 +169,13 @@ class UsuarioController extends Controller
     // Roles::find($request->ID_ROL)->delete();
     }
    
+    public function asignarRol(Request $request)
+    {
+     $usuario = Usuarios::findOrFail( $request->ID_USU); 
+     $usuario->ID_CAJA = $request->ID_CAJA;
+     $usuario->save();
+    }
+
     public function desactivar(Request $request)
     {
      $usuario = Usuarios::findOrFail($request->ID_USU);

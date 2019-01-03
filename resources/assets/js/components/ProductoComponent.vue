@@ -58,7 +58,7 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label class="lblProducto">Venta con receta: </label>
-                                            <label id="lblVENTA_CON_RECETA" class="form-label datoProducto"></label>
+                                             <i class="fa fa-times" id="lblVENTA_CON_RECETA" style="color:#c82333" aria-hidden="true"></i>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="lblProducto">Imagen: </label>
@@ -92,7 +92,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="lblProducto">Aplica IVA: </label>
-                                                <label id="lblAPLICA_IVA_PRO" class="form-label datoProducto"></label>
+                                                <i class="fa fa-times" id="lblAPLICA_IVA_PRO" style="color:#c82333" aria-hidden="true"></i>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -265,8 +265,10 @@
                                             <input type="text" id="EXISTENCIA_MIN_PRO" maxlength="10" class="form-control entero" value="0" placeholder="Existencia mínima">
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label style="font-weight:bold">Ganancia (%)</label>
-                                            <input type="text" id="GANANCIA_PRO" maxlength="10" class="form-control decimal" value="0" placeholder="Ganancia de producto">                                        
+                                            <label style="font-weight:bold">Ganancia&nbsp;</label>
+                                            <i class="fa fa-question-circle" data-toggle="tooltip" title="Ganancia en el rango: 0.01 - 1" style="color:#007bff"></i>
+                                            <input type="number" id="GANANCIA_PRO" placeholder="Ganancia de producto" class="form-control decimal" required name="price" min="0" maxlength="5" max="1" value="0" step="0.01" title="Ganancia" pattern="^\d+(?:\.\d{1,2})?$" onblur="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'#dc3545'">
+                                                                 
                                         </div>
                                     </div>
                                     <div class="form-row">

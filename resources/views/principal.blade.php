@@ -42,6 +42,7 @@
 
 <!-- JQuery DataTable Css -->
 <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
+
 <!-- style datepiker -->
 <!--fin-->
 </head>
@@ -99,9 +100,9 @@ tr.shown td.details-control:before {
 }
 
      </style> 
-<body class="open">
+<body >
  <div id="app">
-        <!-- Left Panel -->
+        <!-- Left Panel class="open" -->
     @include('plantilla.sidebar')
    <!-- /#left-panel -->
 
@@ -255,7 +256,7 @@ tr.shown td.details-control:before {
                             <i class="fa fa-bell"></i>
                             <span id="not1" class="count bg-danger"></span>
                           </button>
-                          <div id="divNotificacion1" style="border:1px solid #78909c" class="dropdown-menu" aria-labelledby="notification">
+                          <div id="divNotificacion1" style="border:1px solid rgba(0,0,0,.15);" class="dropdown-menu" aria-labelledby="notification">
                             <p id="numNotificaciones" class="red"></p>
                             <!-- <a class="dropdown-item media bg-flat-color-1" href="#">
                                 <i class="fa fa-check"></i>
@@ -279,7 +280,7 @@ tr.shown td.details-control:before {
                             <i class="fa fa-archive"></i>
                             <span id="not2" class="count bg-primary"></span>
                           </button>
-                          <div id="divNotificacion2" style="border:1px solid #78909c" class="dropdown-menu" aria-labelledby="message">
+                          <div id="divNotificacion2" style="border:1px solid rgba(0,0,0,.15);box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);" class="dropdown-menu" aria-labelledby="message">
                             <p class="red" id="numNotificaciones2"></p>
                             <!-- <a class="dropdown-item media bg-flat-color-1" href="#">
                                 <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
@@ -405,12 +406,15 @@ tr.shown td.details-control:before {
   <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/plugins.js"></script>
+    <!-- <script src="assets/js/widgets.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.js"></script>
   
     
     <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="js/app.js"></script>
- 
+   
+    
    
    <script>
        $('.entero').on('keydown', function(e){
@@ -434,8 +438,29 @@ tr.shown td.details-control:before {
 // $('.menu-item-has-children').click(function(){
 // console.log('jaja');
 // });
+
+// Restricts input for the given jQuery object to the given inputFilter.
+function setInputFilter(obj, inputFilter) {
+  obj.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+    if (inputFilter(this.value)) {
+      this.oldValue = this.value;
+      this.oldSelectionStart = this.selectionStart;
+      this.oldSelectionEnd = this.selectionEnd;
+    } else if (this.hasOwnProperty("oldValue")) {
+      this.value = this.oldValue;
+      this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+    }
+  });
+}
+function setPatternFilter(obj, pattern) {
+  setInputFilter(obj, function(value) { return pattern.test(value); });
+}
+setPatternFilter($("#PRECIO_COMP"), /^-?\d*\.?\d{0,2}$/);
+setPatternFilter($("#EDIT_PRECIO_COMP"), /^-?\d*\.?\d{0,2}$/);
+
        
    </script>
    <script src="assets/js/lib/data-table/notificacionesProductos.js"></script>
+   
   </body>
 </html>

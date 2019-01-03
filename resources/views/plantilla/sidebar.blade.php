@@ -98,13 +98,13 @@
 
                         </ul>
                         <li>
-                        <a href="javascript: void(0)"  @click="menu=25"> <i class="menu-icon fa fa-lock"></i>Cierre caja (Vendedor)</a>
+                        <a href="javascript: void(0)"  @click="menu=25"> <i class="menu-icon fa fa-lock"></i>Cierre caja</a>
                        </li>
                        <li>
-                        <a href="javascript: void(0)"  @click="menu=26"> <i class="menu-icon fa fa-lock"></i>Cierres caja (Admin) </a>
+                        <a href="javascript: void(0)"  @click="menu=26"> <i class="menu-icon fa fa-lock"></i>Cierres caja (Cuadre) </a>
                        </li>
                        <li>
-                        <a href="javascript: void(0)"  @click="menu=27"> <i class="menu-icon fa fa-unlock"></i>Apertura caja (Admin) </a>
+                        <a href="javascript: void(0)"  @click="menu=27"> <i class="menu-icon fa fa-money"></i>Movimiento Caja </a>
                        </li>
                        
 
@@ -123,29 +123,26 @@
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Reportes Gerenciales</a>
                         <ul class="sub-menu children dropdown-menu">
                         <li><i class="menu-icon fa fa-fort-awesome"></i><a href="javascript: void(0)" @click="menu=20">Reportes Ingresos</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=21">Reportes Egresos</a></li>
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="javascript: void(0)" @click="menu=22">Estadisticas</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="javascript: void(0)" @click="menu=23">Reportes Productividad</a></li>
-                            
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=21">Reportes Compras</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=28">Reportes Productos</a></li>
+                            <li><i class="menu-icon fa fa-map-o"></i><a href="javascript: void(0)" @click="menu=22">Estadisticas Compras</a></li>
+                            <li><i class="menu-icon fa fa-street-view"></i><a href="javascript: void(0)" @click="menu=23">Reportes Productividad</a></li>                         
                         </ul>
                        </li>
-
-
-                       <h3 class="menu-title">Otros</h3><!-- /.menu-title -->
+                    <h3 class="menu-title">Otros</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Información</a>
                         <ul class="sub-menu children dropdown-menu">
                         <li><i class="menu-icon fa fa-fort-awesome"></i><a href="javascript: void(0)" @click="menu=23">Configuraciones</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=24">Acerca de</a></li>
-                            
-                         <!--   <li><i class="menu-icon fa fa-street-view"></i><a href="javascript: void(0)" @click="menu=23">Reportes Productos</a></li> -->
-                            
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="javascript: void(0)" @click="menu=24">Acerca de</a></li>                           
+                         <!--   <li><i class="menu-icon fa fa-street-view"></i><a href="javascript: void(0)" @click="menu=23">Reportes Productos</a></li> -->                          
                         </ul>
                        </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
     </aside>
+    
     <script src="js/toastr.min.js"></script>
     
     <script src="assets/js/lib/data-table/datatables.min.js"></script>
@@ -165,11 +162,25 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<!-- external libs from cdnjs for pivotjtable -->
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="https://cdn.plot.ly/plotly-basic-latest.min.js"></script>
+
+ <link rel="stylesheet" type="text/css" href="assets/css/pivot.css">
+  <script type="text/javascript" src="assets/js/pivot.js"></script>
+ 
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.22.0/plotly_renderers.min.js"></script>
+
+  <!-- PivotTable.js libs from ../dist -->
 
 <script src="assets/js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
 <script src="assets/js/lib/bootstrap/es.js"></script>
 
-
+ 
+ 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>

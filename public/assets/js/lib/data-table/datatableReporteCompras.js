@@ -1,33 +1,6 @@
 /**
- * FUNCIONES PARA REPORTES
+ * FUNCIONES PARA REPORTES COMPRASS
  */
-
-//objeto que permite almacenar los item agregados a la compra
-var jsonItemsDevolver = {};
-var iva = 0;
-/**
- * FUNCION PARA LEER DATOS DE CONFIGURACIONES DADO UN ID
- * @param {string} key --nombre de configuracion
- */
-function getSetting(key) {
-    $.ajax({
-        async: false,
-        cache: false,
-        dataType: "html",
-        type: 'GET',
-        url: "/settings",
-        data: { setting: key },
-        success: function (respuesta) {
-            iva =  parseFloat(respuesta.trim());
-        },
-        beforeSend: function () { },
-        error: function (objXMLHttpRequest) { }
-    });
-}getSetting('iva');
-//contador para generar identificador de filas del objeto que almacena items compra
-var indiceItemDevolver = 1;
-var indiceItemDevolverSeleccionado = -1;
-var cantidadProductoCompradoSeleccionado = 0;
 
 
 /**
@@ -42,45 +15,48 @@ function consultarComprasGeneral() {
     var TOTAL_DEVOLUCIONES = 0;
     axios.get(url, {
         params: {
-            FECHA_INICIO:FECHA_INICIO,
-            FECHA_FIN:FECHA_FIN
+            FECHA_INICIO: FECHA_INICIO,
+            FECHA_FIN: FECHA_FIN
         }
     }).then(function (response) {
-        $.each(response.data,function(key,value){
+        $.each(response.data, function (key, value) {
             console.log(value);
-            TOTAL_COMPRAS+=value.TOTAL;
-            TOTAL_DEVOLUCIONES+=value.DEVOLUCION;
-               tablaGeneralCompras.row.add({
-                    "DOCUMENTO": value.FACTURA_PROV,
-                    "FECHA": value.FECHA,
-                    "PROVEEDOR": value.PROVEEDOR,
-                    "USUARIO": value.USUARIO,
-                    "TOTAL": '$ '+value.TOTAL,
-                    "ITEMS": value.ITEMS,
-                    "DEVOLUCION": '$ '+value.DEVOLUCION
-                }).draw();
+            TOTAL_COMPRAS += value.TOTAL;
+            TOTAL_DEVOLUCIONES += value.DEVOLUCION;
+            tablaGeneralCompras.row.add({
+                "DOCUMENTO": value.FACTURA_PROV,
+                "FECHA": value.FECHA,
+                "PROVEEDOR": value.PROVEEDOR,
+                "USUARIO": value.USUARIO,
+                "CAJA": value.CAJA,
+                "TOTAL": '$ ' + value.TOTAL.toFixed(2),
+                "ITEMS": value.ITEMS,
+                "DEVOLUCION": '$ ' + value.DEVOLUCION.toFixed(2)
+            }).draw();
         });
 
-        if(TOTAL_COMPRAS>0){
-        tablaGeneralCompras.row.add({
-            "DOCUMENTO": '&nbsp;',
-            "FECHA": '&nbsp;',
-            "PROVEEDOR": '&nbsp;',
-            "USUARIO": '<strong>TOTAL</strong>',
-            "TOTAL": '$ '+TOTAL_COMPRAS,
-            "ITEMS": '',
-            "DEVOLUCION": '$ ' + TOTAL_DEVOLUCIONES
-        }).draw();
-        tablaGeneralCompras.row.add({
-            "DOCUMENTO": '&nbsp;',
-            "FECHA": '&nbsp;',
-            "PROVEEDOR": '&nbsp;',
-            "USUARIO": '<strong>TOTAL GENERAL</strong>',
-            "TOTAL": '$ '+(TOTAL_COMPRAS-TOTAL_DEVOLUCIONES),
-            "ITEMS": '',
-            "DEVOLUCION": '&nbsp;'
-        }).draw();
-    }
+        if (TOTAL_COMPRAS > 0) {
+            tablaGeneralCompras.row.add({
+                "DOCUMENTO": '&nbsp;',
+                "FECHA": '&nbsp;',
+                "PROVEEDOR": '&nbsp;',
+                "USUARIO": '<strong>TOTAL</strong>',
+                "CAJA": '',
+                "TOTAL": '$ ' + TOTAL_COMPRAS.toFixed(2),
+                "ITEMS": '',
+                "DEVOLUCION": '$ ' + TOTAL_DEVOLUCIONES.toFixed(2)
+            }).draw();
+            tablaGeneralCompras.row.add({
+                "DOCUMENTO": '&nbsp;',
+                "FECHA": '&nbsp;',
+                "PROVEEDOR": '&nbsp;',
+                "USUARIO": '<strong>TOTAL GENERAL</strong>',
+                "CAJA": '',
+                "TOTAL": '$ ' + (TOTAL_COMPRAS - TOTAL_DEVOLUCIONES).toFixed(2),
+                "ITEMS": '',
+                "DEVOLUCION": '&nbsp;'
+            }).draw();
+        }
     })
         .catch(function (error) {
             console.log(error);
@@ -98,30 +74,61 @@ function consultarComprasProductos() {
     var FECHA_FIN = $('#FECHA_FIN_RPRODUCTO').val();
     axios.get(url, {
         params: {
-            FECHA_INICIO:FECHA_INICIO,
-            FECHA_FIN:FECHA_FIN
+            FECHA_INICIO: FECHA_INICIO,
+            FECHA_FIN: FECHA_FIN
         }
     }).then(function (response) {
-        $.each(response.data,function(key,value){
-            if(value.CANTIDAD_PRO!=null)
-            {
+        $.each(response.data, function (key, value) {
+            if (value.CANTIDAD_PRO != null) {
                 tablaComprasProducto.row.add({
                     "ID": value.ID_PRO,
-                    "PRODUCTO": value.NOMBRE_PRO,
+                    "PRODUCTO": value.PRODUCTO,
                     "MARCA": value.MARCA,
                     "PRESENTACION": value.PRESENTACION,
                     "CATEGORIA": value.CATEGORIA,
-                    "CANTIDAD": value.CANTIDAD_PRO
+                    "CANTIDAD": value.CANTIDAD_PRO,
+                    "PRECIO": '$ ' + value.PRECIO_COMP_CON,
+                    "TOTAL": '$ ' + value.SUBTOTAL_CON
                 }).draw();
             }
-            
-           
+
+
         });
     })
         .catch(function (error) {
             console.log(error);
         });
 }
+
+/**
+ * Permite obtener las existencias de productos y almacenarlos 
+ * en la cache del navegador
+ */
+function consultarExistenciaProductos() {
+    var url = '/productos';
+    var jsonItems = {};
+    var Myindice = 0;
+    axios.get(url).then(function (response) {
+        var longitud = Object.keys(response.data.data).length;
+        for (var i = 0; i < longitud; i++) {
+            var item = {};
+            item.ID = response.data.data[i].ID_PRO;
+            item.PRODUCTO = response.data.data[i].NOMBRE_PRO;
+            item.UBICACION = response.data.data[i].UBICACION_PRO;
+            item.MINIMO = response.data.data[i].EXISTENCIA_MIN_PRO;
+            item.MAXIMO = response.data.data[i].EXISTENCIA_MAX_PRO;
+            item.EXISTENCIA = response.data.data[i].STOCK_PRO;
+            jsonItems[Myindice] = item;
+            Myindice++;
+        }
+        localStorage.setItem("existenciaProductos", JSON.stringify(jsonItems));
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
+} consultarExistenciaProductos();
+
+
 
 
 /**
@@ -164,7 +171,7 @@ function cambiarTab(indice, idRegistro) {
             }
         case 2: //tab detalle
             {
-               // cambiarTabActivo('#editar', 'active show');
+                // cambiarTabActivo('#editar', 'active show');
                 cambiarTabActivo('#listado', '');
                 cambiarTabActivo('#detalleReportePorProducto', '');
                 // getDetalleByIdCompra(idRegistro);
@@ -176,12 +183,12 @@ function cambiarTab(indice, idRegistro) {
 function vistaPreviaImprimir(elem) {
     var FECHA_INICIO = $('#FECHA_INICIO').val();
     var FECHA_FIN = $('#FECHA_FIN').val();
-    var PERIODO = '<strong>Período:</strong> Del '+FECHA_INICIO+' al '+FECHA_FIN;
-    var context = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2)); 
-    var url =window.location.protocol+"//"+ window.location.host +context;
+    var PERIODO = '<strong>Período:</strong> Del ' + FECHA_INICIO + ' al ' + FECHA_FIN;
+    var context = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+    var url = window.location.protocol + "//" + window.location.host + context;
     var mywindow = window.open();
     var css = "";
-    var myStylesLocation = url+"/assets/css/bootstrap.min.css";
+    var myStylesLocation = url + "/assets/css/bootstrap.min.css";
     $.ajax({
         url: myStylesLocation,
         type: "POST",
@@ -192,18 +199,18 @@ function vistaPreviaImprimir(elem) {
     mywindow.document.write('<html><head><title>Reporte General Ventas</title>');
     mywindow.document.write('<style type="text/css">' + css + ' </style>');
     mywindow.document.write('</head><body >');
-    mywindow.document.write('<h6>' + 'Reporte General Compras&nbsp;&nbsp;&nbsp;&nbsp;   '+PERIODO+' </h6>');
-    
+    mywindow.document.write('<h6>' + 'Reporte General Compras&nbsp;&nbsp;&nbsp;&nbsp;   ' + PERIODO + ' </h6>');
+
     var contenido = document.getElementById(elem).innerHTML;
-    var $html = $('<div />',{html:contenido});
+    var $html = $('<div />', { html: contenido });
     $html.find('div#divInputFechas').hide();
     $html.find('div#tabla-reporte-general-compras_length').hide();
     $html.find('div.dt-buttons').hide();
     $html.find('div#tabla-reporte-general-compras_paginate').hide();
     $html.find('div#tabla-reporte-general-compras_info').hide();
-    
+
     $html.find('div#tabla-reporte-general-compras_filter').hide();
-    $html.find('table#tabla-reporte-general-compras>thead').attr('style','color:black;background:rgb(84, 110, 122);');
+    $html.find('table#tabla-reporte-general-compras>thead').attr('style', 'color:black;background:rgb(84, 110, 122);');
     mywindow.document.write($html.html());
     mywindow.document.write('</body></html>');
     mywindow.document.close(); // necessary for IE >= 10
@@ -232,26 +239,26 @@ $('#btnComprasxProductos').click(function () {
 var tablaGeneralCompras = $('#tabla-reporte-general-compras').DataTable(
     {
         "ordering": false,
-        "columns": 
-        [
-            {
-                className: 'details-control',
-                defaultContent: '',
-                data: null,
-                orderable: false
-            },
-            { data: 'DOCUMENTO' },
-            { data: 'FECHA' },
-            { data: 'PROVEEDOR' },
-            { data: 'USUARIO' },
-            { data: 'TOTAL' },
-            { data: 'ITEMS' },
-            { data: 'DEVOLUCION' }
-        ], //permite que la columna con indice 6 no se muestre
+        "columns":
+            [
+                {
+                    className: 'details-control',
+                    defaultContent: '',
+                    data: null,
+                    orderable: false
+                },
+                { data: 'FECHA' },
+                { data: 'PROVEEDOR' },
+                { data: 'USUARIO' },
+                { data: 'CAJA' },
+                { data: 'TOTAL' },
+                { data: 'ITEMS' },
+                { data: 'DEVOLUCION' }
+            ], //permite que la columna con indice 6 no se muestre
         "columnDefs": [
             { "visible": false, "targets": 6 }
         ],
-        
+
         dom: 'lBfrtip',
         lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "Todo"]],
         buttons: [
@@ -269,7 +276,7 @@ var tablaGeneralCompras = $('#tabla-reporte-general-compras').DataTable(
                 titleAttr: 'Imprimir',
                 title: 'Reporte General Compras',
                 className: 'btn btn-info btn-xs',
-                action: function ( e, dt, node, config ) {
+                action: function (e, dt, node, config) {
                     // Copy an array based DataTables' data to another element
                     vistaPreviaImprimir('listado');
                 }
@@ -301,62 +308,64 @@ var tablaGeneralCompras = $('#tabla-reporte-general-compras').DataTable(
         }
     });
 
-    var tablaComprasProducto = $('#tabla-reporte-compra-productos').DataTable(
-        {
-            "ordering": false,
-            "columns": 
+var tablaComprasProducto = $('#tabla-reporte-compra-productos').DataTable(
+    {
+        "ordering": false,
+        "columns":
             [
                 { data: 'ID' },
                 { data: 'PRODUCTO' },
                 { data: 'MARCA' },
                 { data: 'PRESENTACION' },
                 { data: 'CATEGORIA' },
-                { data: 'CANTIDAD' }
-            ], //permite que la columna con indice 6 no se muestre            
-            dom: 'lBfrtip',
-            lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "Todo"]],
-            buttons: [
-                {
-                    extend: 'copyHtml5',
-                    text: '<i class="fa fa-files-o"></i> Copiar',
-                    titleAttr: 'Copiar',
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
-                },
-                {
-                    extend: 'print',
-                    text: '<i class="fa fa-print"></i> Imprimir',
-                    titleAttr: 'Imprimir',
-                    title: 'Reporte Compras Productos',
-                    className: 'btn btn-info btn-xs'
-                }
+                { data: 'CANTIDAD' },
+                { data: 'PRECIO' },
+                { data: 'TOTAL' }
             ],
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        dom: 'lBfrtip',
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "Todo"]],
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                text: '<i class="fa fa-files-o"></i> Copiar',
+                titleAttr: 'Copiar',
+                exportOptions: {
+                    columns: 'th:not(:last-child)'
                 }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> Imprimir',
+                titleAttr: 'Imprimir',
+                title: 'Reporte Productos Comprados',
+                className: 'btn btn-info btn-xs'
             }
-        });
+        ],
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
 
 /**
  * Permite crear una sección de detalle para cada fila de la tabla pedidos
@@ -364,27 +373,23 @@ var tablaGeneralCompras = $('#tabla-reporte-general-compras').DataTable(
  */
 function format(data) {
     var filas = '';
-    var estilo = "";
     var longitud = Object.keys(data.ITEMS).length;
     for (var index = 0; index < longitud; index++) {
         var subtotalMasIva = data.ITEMS[index].SUBTOTAL;
-        if(data.ITEMS[index].INCLUYE_IVA>0)
-        {
-            subtotalMasIva += data.ITEMS[index].SUBTOTAL*iva;
+        if (data.ITEMS[index].INCLUYE_IVA > 0) {
+            subtotalMasIva += data.ITEMS[index].SUBTOTAL * iva;
         }
-        estilo = index == longitud - 1 ? "" : "border-bottom: 1px solid #cfd8dc";
-        filas = filas + '<tr >' +
-            '<td style="border-top:none ;padding:0px" class="title">Producto:</td>' +
-            '<td style="border-top:none;padding:0px">' + data.ITEMS[index].NOMBRE_PRO + '</td>' +
-            '</tr>' +
-            '<tr style="' + estilo + '">' +
-            '<td style="border-top:none ;padding:0px" class="title">Precio:</td>' +
-            '<td style="border-top:none;padding:0px"> $ ' + data.ITEMS[index].PRECIO_COMP + '</td>' +
-            '<td style="border-top:none ;padding:0px" class="title">Cantidad:</td>' +
-            '<td style="border-top:none;padding:0px">' + data.ITEMS[index].CANTIDAD_PRO + '</td>' +
-            '<td style="border-top:none ;padding:0px" class="title">Subtotal:</td>' +
-            '<td style="border-top:none;padding:0px"> $ ' + subtotalMasIva + '</td>' +
-            '</tr>';
+        filas = filas + '<tr style="background-color:white" >' +
+        '<td style="border-top:none ;padding:0px" class="title">Producto:</td>' +
+        '<td style="border-top:none;padding:0px">' + data.ITEMS[index].NOMBRE_PRO + '</td>' +
+      
+        '<td style="border-top:none ;padding:0px" class="title">Precio:</td>' +
+        '<td style="border-top:none;padding:0px" class="text-center"> $ ' + data.ITEMS[index].PRECIO_COMP_CON + '</td>' +
+        '<td style="border-top:none ;padding:0px" class="title">Cantidad:</td>' +
+        '<td style="border-top:none;padding:0px" class="text-center">' + data.ITEMS[index].CANTIDAD_PRO + '</td>' +
+        '<td style="border-top:none ;padding:0px" class="title">Subtotal:</td>' +
+        '<td style="border-top:none;padding:0px" class="text-center"> $ ' + subtotalMasIva + '</td>' +
+        '</tr>';
     }
     return '<div class="details-container">' +
         '<table cellpadding="5" cellspacing="0" border="0" class="details-table ">' +
@@ -393,12 +398,11 @@ function format(data) {
 
 //permite desplegar un detalle en cada fila de la tabla pedidos
 $('#tabla-reporte-general-compras tbody').on('click', 'td.details-control', function () {
-    
+
     var tr = $(this).closest('tr'),
         row = tablaGeneralCompras.row(tr);
-        
-    if(row.data().ITEMS.length>0)
-    {
+
+    if (row.data().ITEMS.length > 0) {
         if (row.child.isShown()) {
             tr.next('tr').removeClass('details-row');
             row.child.hide();
@@ -410,16 +414,13 @@ $('#tabla-reporte-general-compras tbody').on('click', 'td.details-control', func
             tr.addClass('shown');
         }
     }
-});    
+});
 //columna ID de tabla detalle compra, se hace no visible
 //tablaDetalleCompra.column(1).visible(false);
 // tablaDetalleCompra.column(2).visible(false);
 $('.table').attr('style', 'width:100%');
 
 
-$('#FECHA_INICIO').datepicker("setDate", new Date());
-$('#FECHA_FIN').datepicker("setDate", new Date());
-$('#FECHA_INICIO_RPRODUCTO').datepicker("setDate", new Date());
-$('#FECHA_FIN_RPRODUCTO').datepicker("setDate", new Date());
+$('.fecha-report').datepicker("setDate", new Date());
 
 

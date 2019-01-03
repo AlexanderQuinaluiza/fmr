@@ -66,7 +66,7 @@
         export default {
             data(){
                 return{
-                   cabeceras : ["Id","Descripción","Agencia","Estado","Acciones"]
+                   cabeceras : ["Id","Descripción","Agencia","Saldo actual","Estado","Acciones"]
                 }
             },
             mounted() {              

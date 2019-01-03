@@ -12,21 +12,22 @@
                             <a class="nav-item nav-link" id="listado-tab" data-toggle="tab" href="#listado" role="tab" aria-controls="listado" aria-selected="true"><i class="fa fa-list"></i> Listado</a>
                             <a class="nav-item nav-link" id="editar-tab" data-toggle="tab" href="#editar" role="tab" aria-controls="editar" aria-selected="false"><i class="fa fa-plus"></i> Nuevo</a>
                             <a class="nav-item nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false"><i class="fa fa-key"></i> Cambiar Contraseña</a>
+                            <a class="nav-item nav-link" id="caja-tab" data-toggle="tab" href="#caja" role="tab" aria-controls="caja" aria-selected="false"><i class="fa lock"></i> Asignar Caja</a>
                             </div>
                         </nav>
                         <div class="tab-content pl-3 pt-2" id="nav-tabContent">
                             <div class="tab-pane fade" id="listado" role="tabpanel" aria-labelledby="listado-tab">
-                            <br>                          
-                            <table id="bootstrap-data-table" class="table table-bordered table-striped table-hover dataTable js-exportable">
-                                <thead style="color:#fff;background:#546e7a">
-                                    <tr>
-                                        <th v-for="cabecera in cabeceras" :key="cabecera">{{ cabecera }}</th>                                      
-                                    </tr>
-                                </thead>
-                                <tbody>                                                              
-                                </tbody>
-                             </table>                          
-                        </div>                       
+                                <br>                          
+                                <table id="bootstrap-data-table" class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                    <thead style="color:#fff;background:#546e7a">
+                                        <tr>
+                                            <th v-for="cabecera in cabeceras" :key="cabecera">{{ cabecera }}</th>                                      
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                                              
+                                    </tbody>
+                                </table>                          
+                            </div>                       
                             <div class="tab-pane fade" id="editar" role="tabpanel" aria-labelledby="editar-tab">
                                 <br>
                                 <form  id="formRegistro">
@@ -110,8 +111,8 @@
                                  <form>
                                 <input type="hidden" id="id" value="">
                                 <div class="row form-group">
-                                    <label class="col-md-3 form-control-label">Usuario</label>
-                                    <label class="col-md-9 form-control-label" style="weight-bol" id="lblUsuario"> </label>                                       
+                                    <label class="col-md-3 form-control-label">Usuario seleccionado</label>
+                                    <label class="col-md-9 form-control-label username" style="weight-bol" id="lblUsuario"> </label>                                       
                                 </div>
                                 <div class="row form-group">
                                     <label class="col-md-3 form-control-label">Contraseña actual</label>
@@ -145,6 +146,24 @@
                            
                             </div> 
 
+                            <div class="tab-pane fade" id="caja" role="tabpanel" aria-labelledby="caja-tab">
+                                <br>
+
+                                <form  id="formAsignarCaja">
+                                    <div class="row form-group">
+                                        <label class="col-md-3 form-control-label">Usuario seleccionado:</label>
+                                        <label class="col-md-9 form-control-label username" style="weight-bol"> </label>                                       
+                                    </div>                                 
+                                    <div class="row form-group">
+                                        <div class="col-md-10">                                          
+                                            <label>Seleccione la caja para asignación a usuario:</label><br>
+                                            <div id="divCajasAsignar"></div>   
+                                        </div>
+                                    </div>                                                                                                                           
+                                    <button type="button" id="btnGuardarAsignarCaja" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                </form>                       
+                            </div>  
+
                         </div>
                     </div>
                 </div>
@@ -176,6 +195,76 @@
 .div-error{
 display: flex;
 justify-content: center;
+}
+input[type="radio"] + .label-text:before{
+	content: "\f10c";
+	font-family: "FontAwesome";
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing:antialiased;
+	width: 1em;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+input[type="radio"]:checked + .label-text:before{
+	content: "\f192";
+	color: #8e44ad;
+	animation: effect 250ms ease-in;
+}
+
+input[type="radio"]:disabled + .label-text{
+	color: #aaa;
+}
+
+input[type="radio"]:disabled + .label-text:before{
+	content: "\f111";
+	color: #ccc;
+}
+
+/*Radio Toggle*/
+
+.toggle input[type="radio"] + .label-text:before{
+	content: "\f204";
+	font-family: "FontAwesome";
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing:antialiased;
+	width: 1em;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.toggle input[type="radio"]:checked + .label-text:before{
+	content: "\f205";
+	color: #16a085;
+	animation: effect 250ms ease-in;
+}
+
+.toggle input[type="radio"]:disabled + .label-text{
+	color: #aaa;
+}
+
+.toggle input[type="radio"]:disabled + .label-text:before{
+	content: "\f204";
+	color: #ccc;
+}
+.toggle{
+font-size: 18px;
+}
+@keyframes effect{
+	0%{transform: scale(0);}
+	25%{transform: scale(1.3);}
+	75%{transform: scale(1.4);}
+	100%{transform: scale(1);}
 }
 </style>
 

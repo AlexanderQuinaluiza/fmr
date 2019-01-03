@@ -12,8 +12,10 @@ class DetalleCompras extends Model
     protected $fillable = [
     'ID_PRO',
     'ID_COMP',
-    'PRECIO_COMP',
+    'PRECIO_COMP_SIN',
+    'PRECIO_COMP_CON',
     'CANTIDAD_PRO',
-    'INCLUYE_IVA'
+    'SUBTOTAL_SIN',
+    'SUBTOTAL_CON'
     ];
 }

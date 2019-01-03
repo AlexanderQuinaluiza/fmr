@@ -6,7 +6,7 @@ var inputCantidades = [];
 var inputTotales = [];
 var labelDenominaciones = [];
 var subtotalesCalculados = [];
-var ID_CCJ,ID_USU;ID_CCJ=ID_USU=0;
+var ID_CAJA,TOTAL;ID_CAJA=TOTAL=0;
  /**
  * Permite obtener el total contado
  */
@@ -79,11 +79,11 @@ function getDiferencia() {
 function getCajasParaCierre()
 {
     var ddlCaja = $('#ddlCaja');
-      $.getJSON('/cajasParaCierre', function (data) {
-        ddlCaja.append($('<option></option>').attr('value', '0').text('--Seleccione caja--'));
+    ddlCaja.append($('<option></option>').attr('value', '0').text('--Seleccione caja--'));
+      $.getJSON('/cajasCierre', function (data) {
           $.each(data.data, function (key, entry) {
-            var datos = entry.ID_USU+'_'+entry.ID_CCJ;
-            ddlCaja.append($('<option></option>').attr('value', datos).text(entry.CAJA));
+            var datos = entry.ID_CAJA+'_'+entry.VALOR;
+            ddlCaja.append($('<option></option>').attr('value', datos).text(entry.DESCRIPCION_CAJA));
           })
     });
 }
@@ -105,14 +105,13 @@ function getCierreCajaById(idRegistro) {
             $('#lblFECHA_CCJ').text(response.data.data[0].FECHA_CIERRE_CCJ);
             $('#lblCAJA_CCJ').text(response.data.data[0].CAJA);
             $('#lblRESPONSABLE_CCJ').text(response.data.data[0].NOMBRE_USU+' '+response.data.data[0].APELLIDO_USU);
-            $('#lblINICIAL_CCJ').text(response.data.data[0].DEPOSITO);
-            $('#lblCONTADO_CCJ').text(response.data.data[0].CONTADO_CCJ);
-            $('#lblCALCULADO_CCJ').text(response.data.data[0].CALCULADO_CCJ);
-            $('#lblDIFERENCIA_CCJ').text(response.data.data[0].DIFERENCIA_CCJ);
-            $('#lblRETIRADO_CCJ').text(response.data.data[0].RETIRO_CCJ);
+            $('#lblCONTADO_CCJ').text('$ '+response.data.data[0].CONTADO_CCJ);
+            $('#lblCALCULADO_CCJ').text('$ '+response.data.data[0].CALCULADO_CCJ);
+            $('#lblDIFERENCIA_CCJ').text('$ '+response.data.data[0].DIFERENCIA_CCJ);
+            $('#lblRETIRADO_CCJ').text('$ '+response.data.data[0].RETIRO_CCJ);
 
             var diferencia = response.data.data[0].DIFERENCIA_CCJ;
-            $('#DIFERENCIA_CCJ').text(diferencia);
+            $('#DIFERENCIA_CCJ').text('$ '+diferencia);
             if (diferencia < 0) {          
                 $('#DIFERENCIA_CCJ').prop('class', 'badge badge-danger');
             }
@@ -172,29 +171,55 @@ function cambiarTab(indice, idRegistro) {
  */
 function corteDeCaja()
 {
-    var CONTADO = $('#CONTADO').val().trim(); if(!CONTADO) CONTADO=0;
-    var CALCULADO = $('#CALCULADO').val().trim(); if(!CALCULADO) CALCULADO = 0;
-    var DIFERENCIA = $('#DIFERENCIA').val().trim(); if(!DIFERENCIA) DIFERENCIA = 0;
-    var RETIRADO = $('#RETIRADO').val().trim(); if(!RETIRADO) RETIRADO = 0;
-    if(ID_CCJ==0 && ID_USU==0)
+    var CONTADO =0;
+    var CALCULADO = 0;
+    var DIFERENCIA = 0;
+    var RETIRADO = 0;
+    try {
+        CONTADO = parseFloat($('#CONTADO').val().trim()); if(!CONTADO) CONTADO=0;
+        CALCULADO = parseFloat($('#CALCULADO').val().trim()); if(!CALCULADO) CALCULADO = 0;
+        DIFERENCIA = parseFloat($('#DIFERENCIA').val().trim()); if(!DIFERENCIA) DIFERENCIA = 0;
+        RETIRADO = parseFloat($('#RETIRADO').val().trim()); if(!RETIRADO) RETIRADO = 0;
+    } catch (error) {
+        
+    }
+    if(ID_CAJA==0 && TOTAL==0)
     {
         toastr.warning('Seleccione una caja para el cierre!','Incompleto')
         return;
     }
-    axios.post('/cierreCaja/actualizar', {
-        'ID_CCJ': ID_CCJ,
+    if((!CONTADO || CONTADO<=0) || (!CALCULADO || CALCULADO<=0) || 
+    (!RETIRADO || RETIRADO<=0))
+    {
+        toastr.warning('Complete todos los datos requeridos para el cierre!','Incompleto')
+        return;
+    }
+    if(RETIRADO>CONTADO)
+    {
+        toastr.warning('No puede retirar una cantidad superior a lo existente en CAJA','Incorrecto')
+        return;
+    }
+    axios.post('/cierreCaja/registrar', {
+        'ID_CAJA': ID_CAJA,
         'CONTADO_CCJ': CONTADO,
         'CALCULADO_CCJ': CALCULADO,
         'DIFERENCIA_CCJ':DIFERENCIA,
         'RETIRO_CCJ': RETIRADO
     }).then(function (response) {
-        toastr.success('Se realizó el corte de caja correctamente!');
-        $('#ddlCaja')[0].options.length = 0;
-        getCajasParaCierre();
-        ID_CCJ=ID_USU=0;
-        $('#CALCULADO').val("0");
-        $('#RETIRADO').val("0");
-        $('#DIFERENCIA').val("0");
+        if(response.data===1)
+        {
+            toastr.success('Se realizó el corte de caja correctamente!');
+            tablaCierres.ajax.reload();
+            $('#ddlCaja')[0].options.length = 0;
+            getCajasParaCierre();
+            ID_CAJA=TOTAL=0;
+            $('#CALCULADO').val("0.00");
+            $('#RETIRADO').val("0.00");
+            $('#DIFERENCIA').val("0.00");
+            $('#CONTADO').val("0.00");
+        }
+        else
+        toastr.error('No se ha podido realizar el corte de caja.'+response.data, 'Error!');
     })
         .catch(function (error) {
             console.log(error);
@@ -202,54 +227,25 @@ function corteDeCaja()
     });
 }
 
-/**
- * Permite obtener el total de ventas realizadas por un usuario
- */
-function getTotalVentasPorUsuario() {
-    var url = '/cierreCaja/ventasPorUsuario';
-    axios.get(url, { params: { ID_USU: ID_USU } }).then(function (response) {
-        $('#CALCULADO').val(response.data);
-        $('#RETIRADO').val(response.data);
-        getDiferencia();
-    })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
 
 $('#ddlCaja').change(function () {
         var datos = $(this).val();
         var items = datos.split('_');
-        ID_CCJ=ID_USU=0;
+        ID_CAJA=TOTAL=0;
         try {
-            ID_USU = parseInt(items[0]);
-            ID_CCJ = parseInt(items[items.length-1]);
+            ID_CAJA = parseInt(items[0]);
+            TOTAL = parseInt(items[items.length-1]);
         } catch (error) {
             console.log('Error al leer datos para cierre de caja');
-        }
-        
-        if(ID_CCJ>0 && ID_USU>0)
-        {
-            getTotalVentasPorUsuario();
         }    
-        else
-        {
-            $('#CALCULADO').val("0");
-            $('#RETIRADO').val("0");
-            $('#DIFERENCIA').val("0");
-        }
-       
+        $('#CALCULADO').val(TOTAL);
+        getDiferencia();
 });
 
 //----------------------------------INICIALIZACIÓN DE MÉTODOS-------------------------
 getDenominacionesDinero();
 
 getCajasParaCierre();
-
-
-
-
-
 
 $('#btnCancelarActualizar').hide();
 //tab activo por defecto
@@ -272,7 +268,7 @@ $('.inputcaja').keyup(function () {
 });
 
 //configuración inicial para tabla listado de CIERRES DE CAJA
-var tablaPedidos = $('#tabla-listado').DataTable(
+var tablaCierres = $('#tabla-listado').DataTable(
     {
         'ajax': {
             "type": "GET",

@@ -10,42 +10,20 @@
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link" id="listado-tab" data-toggle="tab" href="#listado" role="tab" aria-controls="listado" aria-selected="true" ><i class="fa fa-list"></i> General</a>
-                            <a class="nav-item nav-link" id="editar-tab" data-toggle="tab" href="#editar" role="tab" aria-controls="editar" aria-selected="false"><i class="fa fa-info-circle"></i> Kardex</a>
+                            <a class="nav-item nav-link" id="editar-tab" data-toggle="tab" href="#editar" role="tab" aria-controls="editar" aria-selected="false"><i class="fa fa-truck"></i> Proveedores</a>
+                            <a class="nav-item nav-link" id="devolucion-tab" data-toggle="tab" href="#devolucion" role="tab" aria-controls="devolucion" aria-selected="false"><i class="fa fa-line-chart"></i> Compras vs Devoluciones</a>
                             </div>
                         </nav>
                         <div class="tab-content pl-3 pt-2" id="nav-tabContent">
                             <div class="tab-pane fade" id="listado" role="tabpanel" aria-labelledby="listado-tab">
                             <br>
-
-                            <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>Tipo de gráfico:&nbsp;</label>
-                                            <select class="form-control" id="typeGraphic">
-                                                <option value="column">Columna</option>
-                                                <option value="bar">Barra</option>
-                                                <option value="pie">Pastel</option>
-                                                <option value="line">Linea</option>
-                                            </select>                                 
-                                        </div>                                                                        
-                            </div>
-    
-                            <div id="container" ></div>
-                                                     
+                            <div id="output"></div>                                                    
                         </div>                       
                             <div class="tab-pane fade" id="editar" role="tabpanel" aria-labelledby="editar-tab">
-                                <br>
-
-                                    <div class="form-row">
-                                        <div class="form-group col-md-12">
-                                            <label>Inventario producto:&nbsp;</label><label style="font-weight:bold"  id="lblNombreProducto"></label>                                    
-                                        </div>                                                                        
-                                    </div>
-
-                                    <iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
-
-                               
-
-                               
+                                <br>                                                                                             
+                            </div>
+                            <div class="tab-pane fade" id="devolucion" role="tabpanel" aria-labelledby="devolucion-tab">
+                                <br>                                                                                             
                             </div>
                         </div>
                     </div>

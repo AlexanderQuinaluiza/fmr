@@ -91,7 +91,7 @@
                                                     <label class="form-label lblPedido">Fecha:&nbsp; </label><label class="form-label" id="lblFECHA_CCJ"></label><br>
                                                     <label class="form-label lblPedido">Caja:&nbsp; </label><label class="form-label" id="lblCAJA_CCJ"></label><br>
                                                     <label class="form-label lblPedido">Responsable:&nbsp; </label><label class="form-label" id="lblRESPONSABLE_CCJ"></label><br>
-                                                    <label class="form-label lblPedido">Depósito/Inicial:&nbsp; </label><label class="form-label" id="lblINICIAL_CCJ"></label>                                             
+                                                                                                 
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
 
                                     <div class="form-row">
                                         <div class="form-group col-lg-4">
-                                            <label>Contado</label>
+                                            <label>Contado (*)</label>
                                             <div class="row">
                                                 <div class="form-group col-lg-2">
                                                     <button type="button" data-toggle="modal" data-target="#denominacionEfectivoModal" class="btn btn-info"><span class="fa fa-calculator"></span> </button>
@@ -135,7 +135,7 @@
                                            
                                         </div>
                                         <div class="form-group col-lg-4">
-                                            <label>Calculado</label>
+                                            <label>Calculado (*)</label>
                                            <div class="row">
                                                <div class="form-group col-lg-12">
                                                  <input type="text" id="CALCULADO" maxlength="13" class="form-control decimal inputcaja" placeholder="0.00" value="0.00">
@@ -143,17 +143,17 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-4">
-                                            <label>Diferencia</label>
+                                            <label>Diferencia (*)</label>
                                             <div class="row">
                                                 <div class="form-group col-lg-12">
-                                                 <input type="text" id="DIFERENCIA" maxlength="13" class="form-control" placeholder="0.00">
+                                                 <input type="text" id="DIFERENCIA" maxlength="13" class="form-control" placeholder="0.00" value="0.00">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                      <div class="form-row">
                                           <div class="form-group col-lg-12">
-                                            <label>Retiro por corte</label>
+                                            <label>Retiro por corte (*)</label>
                                             <div class="row">
                                                 <div class="form-group col-lg-12">
                                                     <input type="text" id="RETIRADO" maxlength="13" class="form-control decimal" placeholder="0.00" value="0.00">

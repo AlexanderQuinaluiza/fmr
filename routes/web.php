@@ -101,7 +101,8 @@ Route::post('agencias/activar', 'AgenciasController@activar');
 
 Route::get('cajas', 'CajasController@index');
 Route::get('cajasParaAbrir', 'CajasController@getCajasParaApertura');
-Route::get('cajasParaCierre', 'CajasController@getCajasParaCierre');
+Route::get('cajasParaCierre', 'CajasController@getCajaUsuarioCierre');
+Route::get('cajasCierre', 'CajasController@getCajasCierre');
 Route::get('cajas/agencias', 'CajasController@onlyAgencias');
 Route::post('cajas/registrar', 'CajasController@store');
 Route::get('cajas/byid', 'CajasController@cajasbyid');
@@ -136,6 +137,7 @@ Route::get('usuarios', 'UsuarioController@index');
 Route::get('usuarios/byid', 'UsuarioController@usuarioById');
 Route::post('usuarios/registrar', 'UsuarioController@store');
 Route::post('usuarios/actualizar', 'UsuarioController@update');
+Route::post('usuarios/asignarRol', 'UsuarioController@asignarRol');
 Route::post('usuarios/desactivar', 'UsuarioController@desactivar');
 Route::post('usuarios/activar', 'UsuarioController@activar');
 Route::post('usuarios/actualizarClave', 'UsuarioController@actualizarClave');
@@ -160,6 +162,7 @@ Route::post('modulos/activar', 'ModuloController@activar');
 Route::get('compras', 'CompraController@index');
 Route::get('compras/detalle/byid', 'DetalleCompraController@getDetalleById');
 Route::get('compras/byid', 'CompraController@getById');
+Route::get('compras/ultimoPrecioProducto', 'CompraController@getUltimoPrecioCompra');
 Route::post('compras/registrar', 'CompraController@store');
 
 Route::get('agencias', 'AgenciasController@index');
@@ -173,13 +176,14 @@ Route::get('config', 'ConfiguracionController@index');
 Route::get('settings', 'ConfiguracionController@getSetting');
 Route::post('config/update', 'ConfiguracionController@update');
 
+Route::get('devolucion-compra', 'DevolucionController@index');
+Route::get('devolucion-compra/byid', 'DevolucionController@getById');
+Route::get('devolucion-compra/detalle/byid', 'DetalleDevolucionController@getDetalleById');
 Route::post('devolucion-compra/registrar', 'DevolucionController@store');
 
 Route::get('cierreCajas', 'CierreCajaController@index');
 Route::get('cierreCajas/byid', 'CierreCajaController@getCierreCajaById');
-Route::get('cierreCaja/ventasPorUsuario', 'CierreCajaController@getTotalVendidoPorUsuario');
 Route::post('cierreCaja/registrar', 'CierreCajaController@store');
-Route::post('cierreCaja/actualizar', 'CierreCajaController@update');
 
 Route::get('denominacionDinero', 'DenominacionDineroController@index');
 
@@ -192,10 +196,14 @@ Route::get('password/email', 'Auth\PasswordController@getEmail');
 Route::get('inventarios', 'InventarioController@getInventarioByProducto');
 
 Route::get('reportes/generalventas', 'ReporteController@reporteGeneralVentas');
-
 Route::get('reportes/generalcompras', 'ReporteComprasController@getReporteComprasByFechas');
 Route::get('reportes/productocompras', 'ReporteComprasController@getReporteComprasByProductos');
-Route::get('estadisticas/compras', 'ReporteComprasController@getEstadisticasCompras');
+Route::get('reportes/inventarioproducto', 'ReporteComprasController@getReporteInventarioCompProductos');
+// Route::get('estadisticas/compras', 'ReporteComprasController@getEstadisticasCompras');
+// Route::get('estadisticas/comprasProveedor', 'ReporteComprasController@getEstadiComprasProvee');
+// Route::get('estadisticas/devoluciones', 'ReporteComprasController@getEstadiDevoluciones');
+
+Route::get('reportes/comprasdevoluciones', 'ReporteComprasController@getDatosCustomComprasDev');
 
 Route::get('notificacion/productosProximoCaducar', 'NotificacionController@getProductosProximosCaducar');
 Route::get('notificacion/ejemplaresByProductoProximoCaducar', 'NotificacionController@getProductosEjemplaresProximosCaducar');
@@ -208,5 +216,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/login', 'HomeController@login');
 Route::get('logout','HomeController@logout');
+Route::get('reset','HomeController@getResetPassword');
+Route::post('reset', 'HomeController@setResetPassword');
+Route::get('random','HomeController@generateRandomString');
 
-
+Route::get('movimientos','MovimientoCajaController@getMovimientosCaja');
+Route::post('movimientos/registrar', 'MovimientoCajaController@store');

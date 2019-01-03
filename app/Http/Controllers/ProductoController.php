@@ -243,4 +243,10 @@ public function productoEjemplar()
      $producto->ESTADO_PRO = 1;
      $producto->save();
     }
+    public function actualizarIncluyeIVA($ID_PRO,$APLICA_IVA)
+    {
+     $producto = Productos::findOrFail($ID_PRO);
+     $producto->APLICA_IVA_PRO = $APLICA_IVA;
+     $producto->save();
+    }
 }

@@ -15,7 +15,6 @@ class Compras extends Model
     'FACTURA_PROV',
     'DESCRIPCION_COMP',
     'TOTAL_COMP',
-    'IVA_COMP',
-    'DESCUENTO_COMP'
+    'ID_CAJA'
     ];
 }

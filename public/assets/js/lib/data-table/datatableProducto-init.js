@@ -2,6 +2,27 @@
  * FUNCIONES PARA LA GESTIÓN DE PRODUCTOS
  */
 
+var iva = 0;
+/**
+ * FUNCION PARA LEER DATOS DE CONFIGURACIONES DADO UN ID
+ * @param {string} key --nombre de configuracion
+ */
+function getSetting(key) {
+    $.ajax({
+        async: false,
+        cache: false,
+        dataType: "html",
+        type: 'GET',
+        url: "/settings",
+        data: { setting: key },
+        success: function (respuesta) {
+            iva =  parseFloat(respuesta.trim());
+        },
+        beforeSend: function () { },
+        error: function (objXMLHttpRequest) { }
+    });
+}getSetting('iva');
+
  /**
  * permite obtener un producto dado su id
  * @param {int} idRegistro - id de producto
@@ -13,6 +34,17 @@ function getRegistroById(idRegistro,opcion){
         try {
         if(opcion==1) //detalles de producto
         {
+            var precioConIVA = 0;
+            var precioPromocionalConIVA = 0;
+            if(response.data[0].APLICA_IVA_PRO>0)
+            {
+                precioConIVA = (response.data[0].PRECIO_VENTA_PRO*iva)+response.data[0].PRECIO_VENTA_PRO;
+                precioPromocionalConIVA = (response.data[0].PRECIO_PROMOCIONAL_PRO*iva)+response.data[0].PRECIO_PROMOCIONAL_PRO;
+            }
+            else{
+                precioConIVA = response.data[0].PRECIO_VENTA_PRO;
+                precioPromocionalConIVA = response.data[0].PRECIO_PROMOCIONAL_PRO;
+            } 
             $('#lblNOMBRE_PRO').text(response.data[0].NOMBRE_PRO);
             $('#lblDESCRIPCION_PRO').text(response.data[0].DESCRIPCION_PRO);
             $('#lblPRESENTACION_PRO').text(response.data[0].PRESENTACION_PRO);
@@ -24,11 +56,19 @@ function getRegistroById(idRegistro,opcion){
             $('#lblLOTE_PRO').text(response.data[0].LOTE_PRO);
             $('#lblCOSTO_PRO').text('$ '+response.data[0].COSTO_PRO);
             $('#lblGANANCIA_PRO').text(response.data[0].GANANCIA_PRO);
-            $('#lblPRECIO_VENTA_PRO').text('$ '+response.data[0].PRECIO_VENTA_PRO);
+            $('#lblPRECIO_VENTA_PRO').text('$ '+precioConIVA.toFixed(2));
             $('#lblEXISTENCIA_MIN_PRO').text(response.data[0].EXISTENCIA_MIN_PRO);
             $('#lblEXISTENCIA_MAX_PRO').text(response.data[0].EXISTENCIA_MAX_PRO);
-            if(response.data[0].APLICA_IVA_PRO==0)$('#lblAPLICA_IVA_PRO').text('No');
-            else $('#lblAPLICA_IVA_PRO').text('Si');
+            if(response.data[0].APLICA_IVA_PRO==0)
+            {
+                $('#lblAPLICA_IVA_PRO').attr('class','fa fa-times');
+                $('#lblAPLICA_IVA_PRO').attr('style','color:#c82333;font-size: 23px');
+            }
+            else
+            {
+                $('#lblAPLICA_IVA_PRO').attr('class','fa fa-check');
+                $('#lblAPLICA_IVA_PRO').attr('style','color:#17a2b8;font-size: 23px');
+            } 
             $('#lblSTOCK_PRO').text(response.data[0].STOCK_PRO);
             $('#lblLABORATORIO_PRO').text(response.data[0].LABORATORIO_PRO);
             if(response.data[0].ESTADO_PRO==0) 
@@ -43,9 +83,16 @@ function getRegistroById(idRegistro,opcion){
             } 
             $('#lblFECHA_REGISTRO_PRO').text(response.data[0].FECHA_REGISTRO_PRO);
             $('#lblTIPO_PRO').text(response.data[0].TIPO_PRO);
-            $('#lblPRECIO_PROMOCIONAL_PRO').text('$ '+response.data[0].PRECIO_PROMOCIONAL_PRO);
-            if(response.data[0].VENTA_CON_RECETA==0)$('#lblVENTA_CON_RECETA').text('No');
-            else $('#lblVENTA_CON_RECETA').text('Si');
+            $('#lblPRECIO_PROMOCIONAL_PRO').text('$ '+precioPromocionalConIVA.toFixed(2));
+            if(response.data[0].VENTA_CON_RECETA==0)
+            {
+                $('#lblVENTA_CON_RECETA').attr('class','fa fa-times');
+                $('#lblVENTA_CON_RECETA').attr('style','color:#c82333;font-size: 23px');
+            }
+            else {
+                $('#lblVENTA_CON_RECETA').attr('class','fa fa-check');
+                $('#lblVENTA_CON_RECETA').attr('style','color:#17a2b8;font-size: 23px');
+            }
             $('#lblUSU_REGISTRO').text(response.data[0].NOMBRE_USU+" "+response.data[0].APELLIDO_USU);
         }
         else //editar

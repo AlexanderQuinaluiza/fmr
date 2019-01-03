@@ -58,6 +58,16 @@ function cambiarTab(indice,idRegistro)
             $('#lstErroresUpdateClave').empty();
             break;
         }
+        case 3: //tab cambiar asignar caja
+        {
+            cambiarTabActivo('#caja','active show');
+            cambiarTabActivo('#listado','');
+            cambiarTabActivo('#editar','');
+            cambiarTabActivo('#password','');
+            getUsuarioById(idRegistro,3);
+            $('#lstErroresUpdateClave').empty();
+            break;
+        }
     }
 }
 
@@ -152,6 +162,32 @@ function  limpiarCheckRoles()
     }
 }
 
+function validarcedula() {
+    var error_ruc = 0;
+    var i;
+    var cedula;
+    var acumulado;
+    cedula = $("#CED_RUC_USU").val();
+    var instancia;
+    acumulado = 0;
+    for (i = 1; i <= 9; i++) {
+        if (i % 2 != 0) {
+            instancia = cedula.substring(i - 1, i) * 2;
+            if (instancia > 9) instancia -= 9;
+        }
+        else instancia = cedula.substring(i - 1, i);
+        acumulado += parseInt(instancia);
+    }
+    while (acumulado > 0)
+        acumulado -= 10;
+    if (cedula.substring(9, 10) != (acumulado * -1)) {
+        error_ruc = 0;
+    } else {
+        error_ruc = 1;
+    }
+    return error_ruc;
+}
+
 /**
  * permite validar que los campos para guardar usuario no esten vacíos
  * @param {int} opcion - 1=datos para registrar,  2=datos para actualizar
@@ -161,7 +197,12 @@ function validarDatosUsuario(opcion)
 {
     var error = 0;
     var errorMostrarMsj = [];
-    if(!$('#CED_RUC_USU').val().trim()) errorMostrarMsj.push("La cédula/ruc no puede estar vacío");
+    if(!$('#CED_RUC_USU').val().trim()){
+    errorMostrarMsj.push("La cédula/ruc no puede estar vacío");
+    }
+    else{
+        if(validarcedula()==0)  errorMostrarMsj.push("La cédula/ruc de usuario no es válido");
+    }
     if(!$('#NOMBRE_USU').val().trim()) errorMostrarMsj.push("El nombre de usuario no puede estar vacío");
     if(!$('#APELLIDO_USU').val().trim()) errorMostrarMsj.push("El apellido de usuario no puede estar vacío");
     if(!$('#ALIAS_USU').val().trim()) errorMostrarMsj.push("El alias de usuario no puede estar vacío");
@@ -393,6 +434,17 @@ function desactivar(idRegistro)
 function getUsuarioById(idRegistro,operacion){
     var url = '/usuarios/byid';
     axios.get(url, { params: { ID_USU: idRegistro } }).then(function (response){
+
+        $.each($('input[type=radio][name=radioCaja]'),function(){
+            var currentValue = parseInt($(this).val());
+            if(currentValue===parseInt(response.data.ID_CAJA))
+            {
+                console.log('igual');
+                $(this).prop('checked',true);
+                return;
+            }
+            else  $(this).prop('checked',false);
+        })
         if(operacion==1) //mostrar datos para editar
         {
             $('#id').val(response.data.ID_USU);
@@ -405,22 +457,58 @@ function getUsuarioById(idRegistro,operacion){
             $('#CORREO_USU').val(response.data.CORREO_USU);
             $('#divPassword').hide();
             $('#btnCancelarActualizar').show();
-            $('#lblUsuario').text(response.data.NOMBRE_USU+" "+response.data.APELLIDO_USU);
+            $('.username').text(response.data.NOMBRE_USU+" "+response.data.APELLIDO_USU);
             $('#oldPassword').val(response.data.CLAVE_USU);
             listarRolesUpdate(idRegistro);        
         }
         else if(operacion==2) //mostrar datos para actualizar contraseña
         {
             $('#id').val(response.data.ID_USU);
-            $('#lblUsuario').text(response.data.NOMBRE_USU+" "+response.data.APELLIDO_USU);
+            $('.username').text(response.data.NOMBRE_USU+" "+response.data.APELLIDO_USU);
             $('#oldPassword').val(response.data.CLAVE_USU);
             $('#newPassword').val('');
+        }
+        else if(operacion==3) //mostrar datos para actualizar asignar caja
+        {
+            $('#id').val(response.data.ID_USU);
+            $('.username').text(response.data.NOMBRE_USU+" "+response.data.APELLIDO_USU);
         }
                                                                                                                           
     })
     .catch(function (error) {
         console.log(error);
     });                     
+}
+
+/**
+ * Permite mostrar las cajas disponibles en controles tipo radiobuttom
+ */
+function getCajas()
+{
+    var url = '/cajas';
+    var ESTADO_CAJA = 0;
+    var itemsRadioCajas = '';
+    var numeroRadios = 0;
+    axios.get(url).then(function (response) {
+        $.each(response.data.data,function(key,value){
+            ESTADO_CAJA = value.ESTADO;
+            if(ESTADO_CAJA>0)
+            {
+                var DESCRIPCION_CAJA = value.DESCRIPCION_CAJA;
+                var ID_CAJA = value.ID_CAJA;
+                var itemRadio='<div class="form-check"><label class="toggle"><input hidden type="radio" name="radioCaja" value="'+ID_CAJA+'" class="radioBtnCaja"> <span class="label-text">'+DESCRIPCION_CAJA+'</span></label></div>';
+                itemsRadioCajas+=itemRadio;
+                numeroRadios++;
+            }
+        });
+        $('#divCajasAsignar').append(itemsRadioCajas);
+        //si existe una única caja marque por defecto
+        if(numeroRadios==1)
+        $('.radioBtnCaja').prop('checked',true);
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
 /**
@@ -461,6 +549,35 @@ function verPasswdUsuarioEditar()
      });
 }
 
+ /**
+  * permite actualizar el id de caja asignado a un usuario
+  */
+ function asignarCaja()
+ {
+     var ID_CAJA = $('input[name=radioCaja]:checked', '#formAsignarCaja').val();
+     var ID_USU = $('#id').val();
+     !$('#CED_RUC_USU').val().trim()
+     if(!ID_CAJA || ID_CAJA==0)
+     {
+        toastr.warning('Seleccione una caja!')
+         return;
+     }
+     if(!ID_USU || ID_USU==0)
+     {
+        toastr.warning('Seleccione un usuario de la lista!')
+         return;
+     }
+     axios.post('/usuarios/asignarRol',{
+      'ID_USU':ID_USU,   
+     'ID_CAJA': ID_CAJA
+     }).then(function (response){
+        toastr.success('Caja asignada con éxito!')   
+     })
+     .catch(function (error) {
+     console.log(error);
+     toastr.error('No se ha podido asignar la caja.', 'Error!')
+     });
+ }
 //----------------------------------INICIALIZACIÓN DE MÉTODOS-------------------------
 //Listar roles disponibles para asignar a usuario
 listarRolesCrearUsuario();
@@ -468,12 +585,19 @@ $('#btnCancelarActualizar').hide();
 //tab activo por defecto
 cambiarTab(0,0);
 
+getCajas();
+
 $('#btnGuardarUsuario').click(function(){
     var esEditar = $('#id').val().trim();
     if(!esEditar)
     registrarUsuario();
     else actualizarUsuario();
 });
+
+$('#btnGuardarAsignarCaja').click(function(){
+   asignarCaja();
+});
+
 
 $('#btnUpdateP').click(function(){
     actualizarClave();
@@ -518,7 +642,8 @@ var tabla =   $('#bootstrap-data-table').DataTable(
            }          
            buttons = '<div class="btn-group btn-group-sm">'+
            '<button class="btn btn-primary" onclick="cambiarTab(1,'+ID_USU+');"><span class="fa fa-pencil-square-o"></span> Editar</button>'+
-           '<button class="btn btn-warning" onclick="cambiarTab(2,'+ID_USU+');" ><span class="fa fa-key"></span> Cambiar Clave</button>'+btn
+           '<button class="btn btn-warning" onclick="cambiarTab(2,'+ID_USU+');" ><span class="fa fa-key"></span> Clave</button>'+
+           '<button class="btn btn-info" onclick="cambiarTab(3,'+ID_USU+');" ><span class="fa fa-lock"></span> Caja</button>'+btn
            '</div>';
            //console.log("jaja");
            return_data.push({

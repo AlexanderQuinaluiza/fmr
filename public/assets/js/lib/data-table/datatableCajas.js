@@ -276,6 +276,7 @@ function listarAgencias(){
               'ID_CAJA': json.data[i].ID_CAJA,
               'DESCRIPCION_CAJA'  : json.data[i].DESCRIPCION_CAJA,
               'AGENCIA'  : json.data[i].AGENCIA,
+              'VALOR'  : '$ '+json.data[i].VALOR,
               'ESTADO' : labelEstado,
               'ACCIONES' : buttons
             })
@@ -287,6 +288,7 @@ function listarAgencias(){
         {'data': 'ID_CAJA'},
         {'data': 'DESCRIPCION_CAJA'},
         {'data': 'AGENCIA'},
+        {'data': 'VALOR'},
         {'data': 'ESTADO'},
         {'data': 'ACCIONES'}
       ],
@@ -362,3 +364,4 @@ function listarAgencias(){
              }
          }
  });
+ $('.table').attr('style','width:100%');

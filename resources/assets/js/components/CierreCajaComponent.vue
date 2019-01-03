@@ -64,7 +64,14 @@
 
                                     <div class="form-row">
                                         <div class="form-group col-lg-12">
-                                            <label>Contado</label>
+                                                <label>Caja</label>
+                                                <select id="ddlCaja" style="width:100%" data-placeholder="Escoja una caja..." class="form-control" data-live-search="true">                                              
+                                                </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-lg-12">
+                                            <label>Contado (*)</label>
                                             <div class="row">
                                                 <div class="form-group col-lg-1">
                                                     <button type="button" data-toggle="modal" data-target="#denominacionEfectivoModal" class="btn btn-info"><span class="fa fa-calculator"></span> </button>
@@ -74,26 +81,11 @@
                                                  </div>
                                             </div>                                          
                                         </div>
-                                        <!-- <div class="form-group col-lg-4">
-                                            <label>Calculado</label>
-                                           <div class="row">
-                                               <div class="form-group col-lg-12">
-                                                 <input type="text" id="CALCULADO" maxlength="13" class="form-control decimal inputcaja" placeholder="0.00" value="0.00">
-                                               </div>
-                                            </div>
-                                        </div> -->
-                                        <!-- <div class="form-group col-lg-4">
-                                            <label>Diferencia</label>
-                                            <div class="row">
-                                                <div class="form-group col-lg-12">
-                                                 <input type="text" id="DIFERENCIA" maxlength="13" class="form-control" placeholder="0.00">
-                                                </div>
-                                            </div>
-                                        </div> -->
-                                    </div>
+                                        
+                                    </div>                                 
                                      <div class="form-row">
                                           <div class="form-group col-lg-12">
-                                            <label>Retiro por corte</label>
+                                            <label>Retiro por corte (*)</label>
                                             <div class="row">
                                                 <div class="form-group col-lg-12">
                                                     <input type="text" id="RETIRADO" maxlength="13" class="form-control decimal" placeholder="0.00" value="0.00">
@@ -133,7 +125,7 @@ export default {
   },
   mounted() {
     let datatable = document.createElement("script");
-    datatable.setAttribute("src", "assets/js/lib/data-table/aperturaCaja.js");
+    datatable.setAttribute("src", "assets/js/lib/data-table/cierreCaja.js");
     document.head.appendChild(datatable);
   }
 };

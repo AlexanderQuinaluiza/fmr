@@ -3,7 +3,9 @@
  */
 
 //objeto que permite almacenar los item agregados a la compra
+localStorage.clear();
 var jsonItems = {};
+var objCostosProducto = {};
 var iva = 0;
 /**
  * FUNCION PARA LEER DATOS DE CONFIGURACIONES DADO UN ID
@@ -61,9 +63,11 @@ function editar(idFila) {
     $.each(dataItems, function (key, value) {
         if (key == idFila) {
             $('#EDIT_CANTIDAD_PRO').val(value.CANTIDAD_PRO);
-            $('#EDIT_PRECIO_COMP').val(value.PRECIO_COMP);
-            if (value.INCLUYE_IVA == 0) $('#editivan').prop('checked', true);
-            else $('#editivas').prop('checked', true);
+            $('#EDIT_PRECIO_COMP').val(value.PRECIO_SIN_IVA);
+            $('#ivaedit').prop('checked',value.APLICA_IVA==1?true:false);
+            $('#ultimoPrecioedit').text('$ '+value.ULTIMO_PRECIO_COMPRA);
+            $('#precioSinIVAedit').text(value.PRECIO_SIN_IVA);
+            $('#precioConIVAedit').text(value.PRECIO_CON_IVA);
         }
     });
 }
@@ -79,7 +83,7 @@ function verificarPreciosCalculados() {
     var banderin = 0;
     $.each(dataItems, function (key, value) {
         cantidadItem = parseInt(value.CANTIDAD_PRO);
-        precioItem = parseFloat(value.PRECIO_COMP);
+        precioItem = parseFloat(value.PRECIO_CON_IVA);
         if (cantidadItem <= 0 || precioItem <= 0) {
             banderin = 1;
             return false;
@@ -98,40 +102,18 @@ function reloadTablaDetalleCompras() {
     tabla.clear();
     var datos = JSON.parse(localStorage.getItem("localStore"));
     $.each(datos, function (key, value) {
-        var etiquetIVA = value.INCLUYE_IVA == 0 ? '<i class="fa fa-times" style="color:#c82333" aria-hidden="true"></i>' : '<i class="fa fa-check" style="color:#17a2b8" aria-hidden="true"></i>';
-        var precioXcantidad = value.CANTIDAD_PRO * value.PRECIO_COMP;
+        var precioXcantidad = value.CANTIDAD_PRO * value.PRECIO_CON_IVA;
         btnEditar = '<button data-toggle="modal" data-target="#itemCompraModal" class="btn btn-primary" onclick="editar(' + value.ID + ');"><span class="fa fa-pencil-square-o"></span> Editar</button>';
         var buttons = '<div class="btn-group btn-group-sm">' + btnEditar + btnEliminar + '</div>';
         tabla.row.add({
             "ID": key,
             "NOMBRE_PRODUCTO": value.NOMBRE_PRO,
-            "PRECIO": '$ ' + value.PRECIO_COMP,
+            "PRECIO": '$ ' + value.PRECIO_CON_IVA,
             "CANTIDAD": value.CANTIDAD_PRO,
             "SUBTOTAL": '$ ' + (precioXcantidad).toFixed(2),
-            "IVA": etiquetIVA,
             "ACCIONES": buttons
         }).draw();
     })
-    //fila subtotal
-    tabla.row.add({
-        "ID": -1,
-        "NOMBRE_PRODUCTO": '',
-        "PRECIO": '',
-        "CANTIDAD": '<strong>SUBTOTAL</strong>',
-        "SUBTOTAL": '$ ' + getSubTotales(1),
-        "IVA": '',
-        "ACCIONES": ''
-    }).draw();
-    //fila IVA
-    tabla.row.add({
-        "ID": -1,
-        "NOMBRE_PRODUCTO": '',
-        "PRECIO": '',
-        "CANTIDAD": '<strong>IVA ('+iva+')</strong>',
-        "SUBTOTAL": '$ ' + getSubTotales(2),
-        "IVA": '',
-        "ACCIONES": ''
-    }).draw();
     //fila TOTAL
     tabla.row.add({
         "ID": -1,
@@ -150,35 +132,20 @@ function reloadTablaDetalleCompras() {
 function guardarCambiosEditItem() {
     var CANTIDAD_PRO = $('#EDIT_CANTIDAD_PRO').val().trim();
     var PRECIO_COMP = $('#EDIT_PRECIO_COMP').val().trim();
-    var APLICA_IVA = $('input[name=editiva]:checked').val();
-    var errorMostrarMsj = [];
-    if (!PRECIO_COMP || PRECIO_COMP == 0) errorMostrarMsj.push("Precio de compra no puede estar vacío");
-    if (!APLICA_IVA) errorMostrarMsj.push("Marque si incluye o no IVA");
-    if (!CANTIDAD_PRO || CANTIDAD_PRO == 0) errorMostrarMsj.push("Cantidad de producto no puede estar vacío");
-    if (errorMostrarMsj.length) {
-        $('#lstErroresEditItem').empty();
-        var lista = '';
-        for (var i = 0; i < errorMostrarMsj.length; i++) {
-            lista += '<li style="color: red !important">' + errorMostrarMsj[i] + '</li>';
-        }
-        $('#lstErroresEditItem').append(lista);
+    if((!PRECIO_COMP || PRECIO_COMP == 0) || (!CANTIDAD_PRO || CANTIDAD_PRO == 0))
+    {
+        toastr.warning('Complete todos los campos requeridos COSTO & CANTIDAD','Campos incompletos');
+        return;
     }
-    else {
-        $('#lstErroresEditItem').empty();
         try {
             var dataItems = JSON.parse(localStorage.getItem("localStore"));
             $.each(dataItems, function (key, value) {
                 if (key == indiceSeleccionado) {
-                    value.CANTIDAD_PRO = $('#EDIT_CANTIDAD_PRO').val();
-                    value.PRECIO_COMP = $('#EDIT_PRECIO_COMP').val();
-                    value.INCLUYE_IVA = $('input[name=editiva]:checked').val();
-                    var sub = value.CANTIDAD_PRO * value.PRECIO_COMP;
-                    var porcentajeIVA = 0;
-                    if (value.INCLUYE_IVA > 0)//item si incluye IVA
-                    {
-                        porcentajeIVA = (iva * sub);
-                    }
-                    value.PORCENTAJE_PRECIO_IVA = porcentajeIVA;
+                    value.CANTIDAD_PRO = parseInt($('#EDIT_CANTIDAD_PRO').val());
+                    value.PRECIO_COMP = parseFloat($('#EDIT_PRECIO_COMP').val());
+                    value.PRECIO_SIN_IVA = parseFloat($('#precioSinIVAedit').text());
+                    value.PRECIO_CON_IVA = parseFloat($('#precioConIVAedit').text());
+                    value.APLICA_IVA =  $('#ivaedit').is(':checked')?1:0;
                     toastr.success('Item modificado correctamente!');
                 }
             });
@@ -187,7 +154,6 @@ function guardarCambiosEditItem() {
         } catch (error) {
             toastr.error('Error al modificar el item!' + " " + error);
         }
-    }
 }
 
 $('#btnModificarItem').click(function () {
@@ -200,46 +166,32 @@ function addItemTabla() {
     var ID_PRO = $('#ddlProducto option:selected').val().trim();
     var CANTIDAD_PRO = $('#CANTIDAD_PRO').val().trim();
     var PRECIO_COMP = $('#PRECIO_COMP').val().trim();
-    var APLICA_IVA = $('input[name=iva]:checked').val();
-    var errorMostrarMsj = [];
-    if (!ID_PRO || ID_PRO == 0) errorMostrarMsj.push("Escoja una producto");
-    if (!PRECIO_COMP || PRECIO_COMP == 0) errorMostrarMsj.push("Precio de compra no puede estar vacío");
-    if (!APLICA_IVA) errorMostrarMsj.push("Marque si incluye o no IVA");
-    if (!CANTIDAD_PRO || CANTIDAD_PRO == 0) errorMostrarMsj.push("Cantidad de producto no puede estar vacío");
-    if (errorMostrarMsj.length) {
-        $('#lstErrores').empty();
-        var lista = '';
-        for (var i = 0; i < errorMostrarMsj.length; i++) {
-            lista += '<li style="color: red !important">' + errorMostrarMsj[i] + '</li>';
-        }
-        $('#lstErrores').append(lista);
+    if (!ID_PRO || ID_PRO == 0)
+    {
+        toastr.warning('Escoja un producto de la lista','Campos incompletos');
+        return;
     }
-    else {
-        $('#lstErrores').empty();
+    if ((!PRECIO_COMP || PRECIO_COMP == 0) || (!CANTIDAD_PRO || CANTIDAD_PRO == 0))
+    {
+        toastr.warning('Complete todos los campos requeridos COSTO & CANTIDAD','Campos incompletos');
+        return;
+    }
         var NOMBRE_PRO = $('#ddlProducto option:selected').text().trim();
         var item = {};
         item.ID = Myindice;
-        item.ID_PRO = ID_PRO;
-        item.PRECIO_COMP = PRECIO_COMP;
+        item.ID_PRO = parseInt(ID_PRO);
+        item.PRECIO_SIN_IVA = parseFloat($('#precioSinIVA').text());
+        item.PRECIO_CON_IVA = parseFloat($('#precioConIVA').text());
         item.NOMBRE_PRO = NOMBRE_PRO;
-        item.CANTIDAD_PRO = CANTIDAD_PRO;
-        item.DESCUENTO = '0';
-        item.INCLUYE_IVA = APLICA_IVA;
-        item.APLICA_IVA = APLICA_IVA == 0 ? 'No' : 'Si';
-        var precioXcantidad = CANTIDAD_PRO * PRECIO_COMP;
-        var porcentajeIVA = 0;
-        if (APLICA_IVA > 0)//item si incluye IVA
-        {
-            porcentajeIVA = (iva * precioXcantidad);               
-        }
-        item.PORCENTAJE_PRECIO_IVA = porcentajeIVA;
-
+        item.CANTIDAD_PRO = parseInt(CANTIDAD_PRO);
+        item.ULTIMO_PRECIO_COMPRA = parseFloat($('#ultimoPrecio').text());
+        item.APLICA_IVA = $('#iva').is(':checked');
         if (verificarRepetido(ID_PRO)) {
             var dataItems = JSON.parse(localStorage.getItem("localStore"));
             $.each(dataItems, function (key, value) {
                 if (value.ID_PRO == ID_PRO) {
                     value.CANTIDAD_PRO = parseInt(value.CANTIDAD_PRO) + parseInt(CANTIDAD_PRO);
-                    value.PRECIO_COMP = PRECIO_COMP;
+                    value.PRECIO_CON_IVA = parseFloat(PRECIO_CON_IVA);
                     return false;
                 }
             });
@@ -252,14 +204,13 @@ function addItemTabla() {
         }
         reloadTablaDetalleCompras();
         $('#formulario')[0].reset();
-    }
 }
 
 /**
  * permite eliminar la fila seleccionada de la tabla detalle compra
  * @param {int} idFila --representa el indice de la fila seleccionada
  */
-function elimiarFilaCompra(idFila) {
+function eliminarFilaCompra(idFila) {
     deleteItem(idFila);
     localStorage.setItem("localStore", JSON.stringify(jsonItems));
     reloadTablaDetalleCompras();
@@ -270,13 +221,45 @@ function elimiarFilaCompra(idFila) {
     }
 }
 
+function validarcedula() {
+    var error_ruc = 0;
+    var i;
+    var cedula;
+    var acumulado;
+    cedula = $("#RUC_PROV").val();
+    var instancia;
+    acumulado = 0;
+    for (i = 1; i <= 9; i++) {
+        if (i % 2 != 0) {
+            instancia = cedula.substring(i - 1, i) * 2;
+            if (instancia > 9) instancia -= 9;
+        }
+        else instancia = cedula.substring(i - 1, i);
+        acumulado += parseInt(instancia);
+    }
+    while (acumulado > 0)
+        acumulado -= 10;
+    if (cedula.substring(9, 10) != (acumulado * -1)) {
+        error_ruc = 0;
+    } else {
+        error_ruc = 1;
+    }
+    return error_ruc;
+}
+
 /**
   *permite validar los datos de entrada para proveedor 
   */
 function validarDatosProveedor() {
     var error = 0;
     var errorMostrarMsj = [];
-    if (!$('#RUC_PROV').val().trim()) errorMostrarMsj.push("El RUC de proveedor no puede estar vacío");
+    if (!$('#RUC_PROV').val().trim()){
+    errorMostrarMsj.push("El RUC de proveedor no puede estar vacío");
+    }
+    else
+    {
+        if(validarcedula()==0)  errorMostrarMsj.push("El RUC de proveedor no es válido");
+    }
     if (!$('#NOMBRE_PROV').val().trim()) errorMostrarMsj.push("El nombre de proveedor no puede estar vacío");
     if (!$('#RAZON_SOCIAL_PROV').val().trim()) errorMostrarMsj.push("La razón social de proveedor no puede estar vacío");
     if (!$('#DIRECCION_PROV').val().trim()) errorMostrarMsj.push("La dirección de proveedor no puede estar vacío");
@@ -311,12 +294,25 @@ function limpiarDatosProveedor() {
  * PRODUCTO Y PROVEEDOR
  */
 function loadDataDropDownList() {
+    objCostosProducto = {};
     var ddlProductos = $('#ddlProducto');
-    $.getJSON('/productos/activos', function (data) {
-        ddlProductos.append($('<option></option>').attr('value', '0').text('--Seleccione producto--'));
-        $.each(data.data, function (key, entry) {
-            ddlProductos.append($('<option></option>').attr('value', entry.ID_PRO).text(entry.NOMBRE_PRO));
-        })
+    $.ajax({
+        async: false,
+        cache: false,
+        dataType: "json",
+        type: 'GET',
+        url: "/productos/activos",
+        success: function (respuesta) {
+            ddlProductos.append($('<option></option>').attr('value', '0').text('--Seleccione producto--'));
+            $.each(respuesta.data, function (key, entry) {
+                var itemProducto = {};
+                itemProducto.APLICA_IVA_PRO = entry.APLICA_IVA_PRO;
+                objCostosProducto[entry.ID_PRO] = itemProducto;
+                ddlProductos.append($('<option></option>').attr('value', entry.ID_PRO).text(entry.NOMBRE_PRO));
+            })
+        },
+        beforeSend: function () { },
+        error: function (objXMLHttpRequest) { }
     });
     var ddlProveedor = $('#ddlProveedor');
     $.getJSON('/proveedores/activos', function (data) {
@@ -379,10 +375,7 @@ function getSubTotales(opcion) {
     var subtotal = 0;
     var subtotalIVA = 0;
     $.each(dataItems, function (key, value) {
-        itemSubtotal = parseInt(value.CANTIDAD_PRO) * parseFloat(value.PRECIO_COMP);
-        if (value.INCLUYE_IVA > 0) {
-            subtotalIVA += (iva * itemSubtotal);
-        }
+        itemSubtotal = parseInt(value.CANTIDAD_PRO) * parseFloat(value.PRECIO_CON_IVA);
         subtotal += itemSubtotal;
     });
     if (opcion == 1)
@@ -399,84 +392,29 @@ function getSubTotales(opcion) {
  * Permite el registro de una compra
  */
 function registrar() {
-    var error = 0;
     var totalFilas = tabla.page.info().recordsTotal;
-    var errorMostrarMsj = [];
     if (totalFilas <= 0) {
-        $('#lstErrores').empty();
-        errorMostrarMsj.push("Añada al menos un item");
-        var lista = '';
-        for (var i = 0; i < errorMostrarMsj.length; i++) {
-            lista += '<li style="color: red !important">' + errorMostrarMsj[i] + '</li>';
-        }
-        $('#lstErrores').append(lista);
+        toastr.warning("Añada al menos un item a la compra","Incompleto");
+        return;
     }
-    else {
-
-        if (verificarPreciosCalculados() == 1) //no todas las filas tienen cantidad y precio dieferente de 0
-        {
-            toastr.warning("Complete todos los valores para cada item de compra CANTIDAD & PRECIO");
-            $('#lstErrores').empty();
-        }
-        else {
-            $('#lstErroresCompra').empty();
-            errorMostrarMsj = [];
-            var ID_PROV = $('#ddlProveedor option:selected').val().trim();
-            var DESCRIPCION_COMP = $('#DESCRIPCION_COMP').val().trim();
-            var DESCUENTO = $('#DESCUENTO').val().trim();
-            if (!DESCUENTO) DESCUENTO = 0;
-            var FACTURA_PROV = $('#FACTURA_PROV').val().trim();
-            if (!ID_PROV || ID_PROV == 0) {
-                errorMostrarMsj.push("Seleccione un proveedor de la lista");
-                error = 1;
-            }
-            if (!FACTURA_PROV) {
-                errorMostrarMsj.push("Ingrese la factura proporcionado por proveedor");
-                error = 1;
-            }
-            var lista = '';
-            for (var i = 0; i < errorMostrarMsj.length; i++) {
-                lista += '<li style="color: red !important">' + errorMostrarMsj[i] + '</li>';
-            }
-            $('#lstErroresCompra').append(lista);
-            if (error == 0) { //si no hay ningún error
-                var dataItems = JSON.parse(localStorage.getItem("localStore"));
-                var arreglo = [];
-                $.each(dataItems, function (key, value) {
-                    arreglo.push(value);
-                });
-                var data = new FormData();
-                data.append('datos', JSON.stringify(arreglo));
-                data.append('ID_PROV', ID_PROV);
-                data.append('DESCRIPCION_COMP', DESCRIPCION_COMP);
-                data.append('DESCUENTO_COMP', DESCUENTO);
-                data.append('FACTURA_PROV', FACTURA_PROV);
-                data.append('IVA_COMP', getSubTotales(2));
-                data.append('TOTAL_COMP', getSubTotales(3));
-                axios.post('/compras/registrar', data).then(function (response) {
-                    if (response.data > 0) {
-                        toastr.success('Compra registrado correctamente!');
-                        limpiarDatos();
-                        $('#secondFormCompra')[0].reset();
-                        $('#lstErrores').empty();
-                        $('#lstErroresCompra').empty();
-                        tablaCompras.ajax.reload();
-                        tabla.clear().draw();
-                        jsonItems = {};
-                        localStorage.clear();
-                    }
-                    else {
-                        console.log(response.data);
-                        toastr.error('No se ha podido guardar el registro.', 'Error!')
-                    }
-                })
-                    .catch(function (error) {
-                        console.log(error);
-                        toastr.error('No se ha podido guardar el registro.', 'Error!')
-                    });
-            }
-        }
+    if (verificarPreciosCalculados() == 1) //no todas las filas tienen cantidad y precio dieferente de 0
+    {
+        toastr.warning("Complete todos los valores para cada item de compra COSTO & CANTIDAD");
+        return;
     }
+       
+    var ID_PROV = $('#ddlProveedor option:selected').val().trim();
+    var DESCRIPCION_COMP = $('#DESCRIPCION_COMP').val().trim();
+    var FACTURA_PROV = $('#FACTURA_PROV').val().trim();
+    if (!ID_PROV || ID_PROV == 0) {
+        toastr.warning('Seleccione un proveedor de la lista','Campos incompletos');
+        return;
+    }
+    if (!FACTURA_PROV || FACTURA_PROV==0) {
+        toastr.warning('Ingrese la factura proporcionado por proveedor','Campos incompletos');
+        return;
+    }
+    finalizarCompra(ID_PROV,DESCRIPCION_COMP,FACTURA_PROV);
 }
 
 /**
@@ -489,7 +427,6 @@ function verificarRepetido(ID_PRO) {
     var dataItems = JSON.parse(localStorage.getItem("localStore"));
     console.log(dataItems);
     if(dataItems!=null){
-    // console.log(Object.keys(dataItems).length);
     $.each(dataItems, function (key, value) {
         if (value.ID_PRO == ID_PRO) {
             igual = true;
@@ -524,16 +461,6 @@ function getCompraById(idRegistro) {
         $('#lblNOMBRE_USU').html(response.data.data[0].NOMBRE_USU + " " + response.data.data[0].APELLIDO_USU);
         $('#lblFACTURA_PROV').html(response.data.data[0].FACTURA_PROV);
         $('#lblFECHA_COMP').html(response.data.data[0].FECHA_COMP);
-        var porcentajeDescuento = response.data.data[0].DESCUENTO_COMP;
-        var totalCompra = response.data.data[0].TOTAL_COMP;
-        var descuentoPorc = porcentajeDescuento * totalCompra;
-        var totalConDescuento = totalCompra - descuentoPorc;
-        $('#lblTOTALCONDESCUENTO').html(totalConDescuento);
-        $('#lblDESCUENTO_COMP').html(porcentajeDescuento);
-        if (!porcentajeDescuento)
-            $('#divDescuento').hide();
-        else
-            $('#divDescuento').show();
     })
         .catch(function (error) {
             console.log(error);
@@ -554,50 +481,31 @@ function getDetalleByIdCompra(idRegistro) {
         }
     }).then(function (response) {
         var longitud = Object.keys(response.data.data).length;
-        var subtotal = 0;
-        var subtotalIVA = 0;
-        var total = 0;
-        var itemIVA = 0;
+        var SUBTOTAL = 0;
+        var TOTAL = 0;
+        var SUBTOTAL_IVA = 0;
+        $('#tabla-detalle').dataTable().fnClearTable();
         for (var index = 0; index < longitud; index++) {
-            if (response.data.data[index].INCLUYE_IVA > 0) {
-                itemIVA = (iva * parseFloat(response.data.data[index].SUBTOTAL));
-                console.log(response.data.data[index].SUBTOTAL);
-            }
-            else itemIVA = 0;
-            subtotalIVA += itemIVA;
-            response.data.data[index].INCLUYE_IVA = response.data.data[index].INCLUYE_IVA == 0 ? '<i class="fa fa-times" style="color:#c82333" aria-hidden="true"></i>' : '<i class="fa fa-check" style="color:#17a2b8" aria-hidden="true"></i>';
-            subtotal += parseFloat(response.data.data[index].SUBTOTAL);
-            response.data.data[index].PRECIO_COMP = '$ ' + response.data.data[index].PRECIO_COMP;
-            response.data.data[index].SUBTOTAL = '$ ' + response.data.data[index].SUBTOTAL;
+            var NOMBRE_PRO = response.data.data[index].NOMBRE_PRO;
+            var PRECIO_COMPRA_SIN = parseFloat(response.data.data[index].PRECIO_COMP_SIN);
+            var CANTIDAD_PRO = parseInt(response.data.data[index].CANTIDAD_PRO);
+            var SUBTOTAL_CON = parseFloat(response.data.data[index].SUBTOTAL_CON);
+            SUBTOTAL+=SUBTOTAL_CON;
+            tablaDetallePedidos.row.add({
+                "NOMBRE_PRO": NOMBRE_PRO,
+                "PRECIO_COMP": '$ '+PRECIO_COMPRA_SIN,
+                "CANTIDAD_PRO": CANTIDAD_PRO,
+                "SUBTOTAL": '$ ' + (SUBTOTAL_CON).toFixed(2)
+            }).draw();
         }
-        total = subtotal + subtotalIVA;
+        TOTAL = SUBTOTAL;
         if (longitud > 0) {
-            $('#tabla-detalle').dataTable().fnClearTable();
-            $('#tabla-detalle').dataTable().fnAddData(response.data.data);
-
-            //fila subtotal
             tablaDetallePedidos.row.add({
                 "NOMBRE_PRO": '&nbsp;',
                 "PRECIO_COMP": '&nbsp;',
-                "CANTIDAD_PRO": '<strong>SUBTOTAL</strong>',
-                "SUBTOTAL": '$ ' + (subtotal).toFixed(2),
-                "INCLUYE_IVA": ''
-            }).draw();
-            //fila IVA
-            tablaDetallePedidos.row.add({
-                "NOMBRE_PRO": '&nbsp;',
-                "PRECIO_COMP": '&nbsp;',
-                "CANTIDAD_PRO": '<strong>IVA ('+iva+')</strong>',
-                "SUBTOTAL": '$ ' + (subtotalIVA).toFixed(2),
-                "INCLUYE_IVA": ''
-            }).draw();
-            //fila TOTAL
-            tablaDetallePedidos.row.add({
-                "NOMBRE_PRO": '&nbsp;',
-                "PRECIO_COMP": '&nbsp;',
+                "PRECIO_CON_IVA": '&nbsp;',
                 "CANTIDAD_PRO": '<strong>TOTAL</strong>',
-                "SUBTOTAL": '$ ' + (total).toFixed(2),
-                "INCLUYE_IVA": ''
+                "SUBTOTAL": '$ ' + (TOTAL.toFixed(2))
             }).draw();
         }
     })
@@ -656,6 +564,43 @@ function cambiarTab(indice, idRegistro) {
 }
 
 
+function finalizarCompra(ID_PROV,DESCRIPCION_COMP,FACTURA_PROV)
+{
+        var dataItems = JSON.parse(localStorage.getItem("localStore"));
+        var arreglo = [];
+        $.each(dataItems, function (key, value) {
+            arreglo.push(value);
+        });
+        var data = new FormData();
+        data.append('datos', JSON.stringify(arreglo));
+        data.append('ID_PROV', ID_PROV);
+        data.append('DESCRIPCION_COMP', DESCRIPCION_COMP);
+        //data.append('DESCUENTO_COMP', DESCUENTO);
+        data.append('FACTURA_PROV', FACTURA_PROV);
+        data.append('TOTAL_COMP', getSubTotales(3));
+        axios.post('/compras/registrar', data).then(function (response) {
+            if (response.data > 0) {
+                toastr.success('Compra registrado correctamente!');
+                limpiarDatos();
+                $('#secondFormCompra')[0].reset();
+                $('#lstErrores').empty();
+                $('#lstErroresCompra').empty();
+                tablaCompras.ajax.reload();
+                tabla.clear().draw();
+                jsonItems = {};
+                localStorage.clear();
+            }
+            else {
+                console.log(response.data);
+                toastr.error('No se ha podido guardar el registro.', 'Error!')
+            }
+        })
+            .catch(function (error) {
+                console.log(error);
+                toastr.error('No se ha podido guardar el registro.', 'Error!')
+            });
+}
+
 
 //----------------------------------INICIALIZACIÓN DE MÉTODOS-------------------------
 $('#btnCancelarActualizar').hide();
@@ -665,7 +610,12 @@ cambiarTab(0, 0);
 loadDataDropDownList();
 
 $('#btnGuardar').click(function () {
-    registrar();
+  registrar();
+//   var dataItems = JSON.parse(localStorage.getItem("localStore"));
+//             $.each(dataItems, function (key, value) {
+//                 console.log(value);
+//             });
+
 });
 
 $('#btnAdd').click(function () {
@@ -704,7 +654,7 @@ $('#deCantidad').click(function () {
 $('#bootstrap-data-table tbody').on('click', 'button.delete', function () {
     var datoFila = tabla.row($(this).parents('tr')).data();
     var idFila = datoFila.ID;
-    elimiarFilaCompra(idFila);
+    eliminarFilaCompra(idFila);
 });
 
 //configuración inicial para tabla COMPRA NUEVA
@@ -720,7 +670,6 @@ var tabla = $('#bootstrap-data-table').DataTable(
             { 'data': 'PRECIO' },
             { 'data': 'CANTIDAD' },
             { 'data': 'SUBTOTAL' },
-            { 'data': 'IVA' },
             { 'data': 'ACCIONES' }
         ],
         lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "Todo"]],
@@ -869,8 +818,7 @@ var tablaDetallePedidos = $('#tabla-detalle').DataTable(
             { 'data': 'NOMBRE_PRO' },
             { 'data': 'PRECIO_COMP' },
             { 'data': 'CANTIDAD_PRO' },
-            { 'data': 'SUBTOTAL' },
-            { 'data': 'INCLUYE_IVA' }
+            { 'data': 'SUBTOTAL' }
         ],
 
 
@@ -932,6 +880,79 @@ function format(data) {
         filas + '</table>' + '</div>';
 };
 
+
+/**
+ * Permite obtener el precio más reciente de un producto dado
+ */
+function getUltimoPrecioCompra(ID_PRO) {
+    var url = '/compras/ultimoPrecioProducto';
+    var ultimosPrecios = [];
+    $.ajax({
+        async: false,
+        cache: false,
+        dataType: "json",
+        type: 'GET',
+        url: url,
+        data: { ID_PRO: ID_PRO },
+        success: function (respuesta) {
+            ultimosPrecios =  respuesta.data[0];
+        },
+        beforeSend: function () { },
+        error: function (objXMLHttpRequest) { }
+    });
+    return ultimosPrecios;
+}
+
+$('#ddlProducto').change(function(){
+    try {
+        $('#ultimoPrecio').text(getUltimoPrecioCompra($(this).val()).PRECIO_COMP_CON);
+    } catch (error) {
+        var default_ = 0;
+        $('#ultimoPrecio').text(default_.toFixed(2));  
+    }
+    
+    setPrecioCompraSinIVA();
+    $('#iva').prop('checked',objCostosProducto[$(this).val()].APLICA_IVA_PRO==1?true:false);
+});
+
+/**
+ * Permite mostrar el precio de compra sin iva de un producto
+ * @param {int} -- opcion 1=iva add, 2=iva edit
+ */
+function setPrecioCompraSinIVA(opcion)
+{
+    var ivaChecked = opcion==1?$('#iva').is(':checked'):$('#ivaedit').is(':checked');
+    var costoInput = opcion==1?parseFloat($('#PRECIO_COMP').val()):parseFloat($('#EDIT_PRECIO_COMP').val());
+    if(!costoInput) costoInput = 0;
+    var costoConIVA = 0;
+    if(ivaChecked)  
+    costoConIVA = costoInput + (costoInput * iva);
+    else costoConIVA = costoInput;
+    if(opcion==1) 
+    {
+        $('#precioSinIVA').text(costoInput.toFixed(2));
+        $('#precioConIVA').text(costoConIVA.toFixed(2));
+    }else
+    {
+        $('#precioSinIVAedit').text(costoInput.toFixed(2));
+        $('#precioConIVAedit').text(costoConIVA.toFixed(2));
+    }
+}
+$('#iva').change(function(){
+    setPrecioCompraSinIVA(1);
+});
+
+$('#PRECIO_COMP').keyup(function(){
+    setPrecioCompraSinIVA(1);
+});
+
+$('#EDIT_PRECIO_COMP').keyup(function(){
+    setPrecioCompraSinIVA(2);
+});
+$('#ivaedit').change(function(){
+    setPrecioCompraSinIVA(2);
+});
+
 /**
  * Permite obtener los detalles de un pedido, para cargarlos a la tabla detalle compra
  * @param {int} idRegistro -identificador de pedido
@@ -952,19 +973,26 @@ function getDetalleByIdPedido(idRegistro) {
                 var item = {};
                 item.ID = Myindice;
                 item.ID_PRO = response.data.data[i].ID_PRO;
-                item.PRECIO_COMP = 0;
+                item.PRECIO_CON_IVA = 0;
                 item.NOMBRE_PRO = response.data.data[i].NOMBRE_PRO;
-                item.CANTIDAD_PRO = response.data.data[i].CANTIDAD_PRO;
-                item.DESCUENTO = '0';
-                item.INCLUYE_IVA = 0;
-                item.APLICA_IVA = item.INCLUYE_IVA == 0 ? 'No' : 'Si';
-                item.PORCENTAJE_PRECIO_IVA = 0;
+                item.CANTIDAD_PRO = parseInt(response.data.data[i].CANTIDAD_PRO);
+                item.DESCUENTO = 0;
+                item.APLICA_IVA = objCostosProducto[response.data.data[i].ID_PRO].APLICA_IVA_PRO;
+                var default_ = 0;
+                try {
+                    item.ULTIMO_PRECIO_COMPRA = getUltimoPrecioCompra(response.data.data[i].ID_PRO).PRECIO_COMP_CON;
+                } catch (error) {
+                    item.ULTIMO_PRECIO_COMPRA = default_.toFixed(2);
+                }
+                
+                item.PRECIO_SIN_IVA = 0;
                 jsonItems[Myindice] = item;
                 Myindice++;
             }
             localStorage.setItem("localStore", JSON.stringify(jsonItems));
             reloadTablaDetalleCompras();
             toastr.success('Items importados correctamente!');
+            $('#lstErrores').empty();
         }
     })
         .catch(function (error) {
@@ -1079,3 +1107,8 @@ $('#tablaPedido tbody').on('click', 'td.details-control', function () {
     }
 });
 $('.table').attr('style','width:100%');
+
+$('#infoFacturaCompra').popover({title:"Saludo",content:"Hola mundo",trigger:"hover"});
+
+$('#infoFacturaCompra').popover({title: "¿Cómo aplicar descuentos? ", content: "sasa",html:true, trigger: "hover"}); 
+//title="Número de factura proporcionado por proveedor"

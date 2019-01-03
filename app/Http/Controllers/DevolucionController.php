@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Devoluciones;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use App\Usuarios;
 class DevolucionController extends Controller
 {
     /**
@@ -15,9 +16,33 @@ class DevolucionController extends Controller
      */
     public function index()
     {
-        //
+        $devoluciones = DB::table('DEVOLUCIONES as d')
+        ->join('COMPRAS as c','c.ID_COMP','=','d.ID_COMP')
+        ->join('USUARIOS as u','u.ID_USU','=','d.ID_USU')
+        ->join('CAJAS as cj','cj.ID_CAJA','=','d.ID_CAJA')
+        ->select('d.ID_DEV','u.NOMBRE_USU','u.APELLIDO_USU',
+        'd.TOTAL_DEV','d.OBSERVACION_DEV',DB::raw('DATE(d.FECHA_DEV) as FECHA_DEV'),
+        'cj.DESCRIPCION_CAJA',
+        DB::raw("fGetNombreProveedir(c.ID_PROV) as PROVEEDOR"))
+        ->get();
+        return response()->json(['data'=>$devoluciones],200);
     }
 
+    public function getById()
+    {
+        $ID_DEV = $_GET['ID_DEV'];
+        $devolucion = DB::table('DEVOLUCIONES as d')
+        ->join('COMPRAS as c','c.ID_COMP','=','d.ID_COMP')
+        ->join('USUARIOS as u','u.ID_USU','=','d.ID_USU')
+        ->join('CAJAS as cj','cj.ID_CAJA','=','d.ID_CAJA')
+        ->select('d.ID_DEV','d.NUMERO_NC','u.NOMBRE_USU','u.APELLIDO_USU',
+        'd.TOTAL_DEV','d.OBSERVACION_DEV',DB::raw('DATE(d.FECHA_DEV) as FECHA_DEV'),
+        'cj.DESCRIPCION_CAJA',
+        DB::raw("fGetNombreProveedir(c.ID_PROV) as PROVEEDOR"))
+        ->where('d.ID_DEV', '=', $ID_DEV)
+        ->get();
+        return response()->json(['data'=>$devolucion],200);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -53,10 +78,9 @@ class DevolucionController extends Controller
             {
                 $observacion = 'Devolución de compra número '.$request->ID_COMP;
             }
-            $devolucion->OBSERVACION_DEV = $observacion;
-           // $devolucion->NUMERO_NC = (int)app('App\Http\Controllers\DocumentoController')->getNumeroActualByIdDoc($tipoDocumento);
-           
-            //$compra->DESCRIPCION_COMP = $request->DESCRIPCION_COMP;
+            $devolucion->OBSERVACION_DEV = $observacion; 
+            $usuario = Usuarios::findOrFail(Auth::user()->ID_USU);   
+            $devolucion->ID_CAJA = $usuario->ID_CAJA;
             $devolucion->save();
             app('App\Http\Controllers\DetalleDevolucionController')->store($data,$devolucion->ID_DEV);
         DB::commit();

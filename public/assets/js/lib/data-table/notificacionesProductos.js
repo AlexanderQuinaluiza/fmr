@@ -138,15 +138,17 @@ function getProductoStockMinimo() {
     var url = '/notificacion/productosStockMinimo';
     var numeroProductos = 0;
     var itemNotificacion = '';
+    var estilo = '';
     axios.get(url).then(function (response) {
         $.each(response.data,function(key,value){
+            estilo = numeroProductos==0?"border-top: 1px solid #eee;border-bottom: 1px solid #eee;":"border-bottom: 1px solid #eee;";
             numeroProductos++;
-            itemNotificacion += '<a id="'+value.ID_PRO+'" data-toggle="modal" data-target="#productoAgotarModal" class="dropdown-item media bg-flat-color-'+(numeroProductos+1)+' stock" href="#">'+
+            itemNotificacion += '<a style="'+estilo+'" id="'+value.ID_PRO+'" data-toggle="modal" data-target="#productoAgotarModal" class="dropdown-item media stock table-striped" href="#">'+
             '<span class="photo media-left"><img alt="'+value.NOMBRE_PRO+'" src="'+value.IMAGEN_PRO+'"></span>'+
             '<span class="message media-body">'+
-                '<span class="name float-left" style="color:#455a64">'+value.NOMBRE_PRO+'</span>'+
-                '<span class="time float-right" style="color:#455a64">'+value.STOCK_PRO+' en stock</span>'+
-                    '<p style="color:#455a64">'+value.DESCRIPCION_PRO+'</p>'+
+                '<span class="name float-left" style="color:#455a64;font-weight:bold;font-size:14px">'+value.NOMBRE_PRO+'</span>'+
+                '<span class="time float-right" style="color:#aaa;font-size:12px">'+value.STOCK_PRO+' en stock</span>'+
+                    '<p style="color:#455a64;font-size:14px">'+value.DESCRIPCION_PRO+'</p>'+
             '</span></a>';
          
         });

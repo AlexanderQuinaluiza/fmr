@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Cajas;
 use Illuminate\Http\Request;
 use DB;
+use App\Usuarios;
+use Auth;
 class CajasController extends Controller
 {
     /**
@@ -16,9 +18,9 @@ class CajasController extends Controller
     {
         $cajas = DB::table('CAJAS')
         ->join('AGENCIAS', 'CAJAS.ID_AGE' ,'=','AGENCIAS.ID_AGE' )                  
-       ->select('ID_CAJA', 'CAJAS.ID_AGE','AGENCIAS.NOMBRE_AGE as AGENCIA', 'DESCRIPCION_CAJA', 'ESTADO')
+       ->select('ID_CAJA', 'CAJAS.ID_AGE','AGENCIAS.NOMBRE_AGE as AGENCIA', 'DESCRIPCION_CAJA','VALOR' ,'ESTADO')
        ->where( 'AGENCIAS.ESTADO_AGE','=',1)  
-       ->orderBy('ID_CAJA','desc')
+       ->orderBy('ID_CAJA','asc')
        ->get();
        return response()->json(['data'=>$cajas],200);
     }
@@ -42,14 +44,28 @@ class CajasController extends Controller
        return response()->json(['data'=>$cajas],200);
     }
 
-    public function getCajasParaCierre()
+    public function getCajaUsuarioCierre()
     {
-       $cajas = DB::table('CIERRE_CAJA as c')
-        ->select('c.ID_CCJ','c.ID_CAJA','cj.DESCRIPCION_CAJA as CAJA','c.ID_USU')
-        ->join('CAJAS as cj','c.ID_CAJA','=','cj.ID_CAJA')
-        ->where('c.ESTADO_CCJ', '=', 0)
-        ->orderBy('c.ID_CAJA','desc')
-        ->get();
+        $usuario = Usuarios::findOrFail(Auth::user()->ID_USU);
+        $cajas = DB::table('CAJAS as c')                 
+       ->select('c.ID_CAJA', 'c.DESCRIPCION_CAJA','c.VALOR')
+       ->where( 'c.ESTADO','=',1)
+       ->where( 'c.VALOR','>',0)
+       ->where('c.ID_CAJA','=',$usuario->ID_CAJA)
+       ->orderBy('ID_CAJA','asc')
+       ->get();
+       return response()->json(['data'=>$cajas],200);
+    }
+
+    public function getCajasCierre()
+    {
+        $usuario = Usuarios::findOrFail(Auth::user()->ID_USU);
+        $cajas = DB::table('CAJAS as c')                 
+       ->select('c.ID_CAJA', 'c.DESCRIPCION_CAJA','c.VALOR')
+       ->where( 'c.ESTADO','=',1)
+       ->where( 'c.VALOR','>',0)
+       ->orderBy('ID_CAJA','asc')
+       ->get();
        return response()->json(['data'=>$cajas],200);
     }
 

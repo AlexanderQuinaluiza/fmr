@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Compras;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use App\Usuarios;
 class CompraController extends Controller
 {
     /**
@@ -19,7 +20,7 @@ class CompraController extends Controller
         $compras = DB::table('COMPRAS as c')
         ->join('PROVEEDORES as prov','prov.ID_PROV','=','c.ID_PROV')
         ->select('c.ID_COMP','c.ID_PROV','prov.NOMBRE_PROV','c.ID_USU','c.FACTURA_PROV',
-        DB::raw('DATE(c.FECHA_COMP) as FECHA_COMP'),'c.DESCRIPCION_COMP','c.TOTAL_COMP','c.IVA_COMP','c.DESCUENTO_COMP')
+        DB::raw('DATE(c.FECHA_COMP) as FECHA_COMP'),'c.DESCRIPCION_COMP','c.TOTAL_COMP')
         ->get();
         return response()->json(['data'=>$compras],200);
     }
@@ -31,7 +32,7 @@ class CompraController extends Controller
         ->join('PROVEEDORES as prov','prov.ID_PROV','=','c.ID_PROV')
         ->join('USUARIOS as u','u.ID_USU','=','c.ID_USU')
         ->select('c.ID_COMP','prov.NOMBRE_PROV','u.NOMBRE_USU','u.APELLIDO_USU','c.FACTURA_PROV',
-        'c.FECHA_COMP','c.DESCRIPCION_COMP','c.TOTAL_COMP','c.IVA_COMP','c.DESCUENTO_COMP')
+        'c.FECHA_COMP','c.DESCRIPCION_COMP','c.TOTAL_COMP')
         ->where('c.ID_COMP', '=', $ID_COMP)
         ->get();
         return response()->json(['data'=>$compra],200);
@@ -60,9 +61,9 @@ class CompraController extends Controller
             }
             $compra->DESCRIPCION_COMP = $descripcion;
             $compra->TOTAL_COMP = $request->TOTAL_COMP;
-            $compra->IVA_COMP = $request->IVA_COMP;
-            $compra->DESCUENTO_COMP = $request->DESCUENTO_COMP;
-            //$compra->DESCRIPCION_COMP = $request->DESCRIPCION_COMP;
+            //$compra->DESCUENTO_COMP = $request->DESCUENTO_COMP;
+            $usuario = Usuarios::findOrFail(Auth::user()->ID_USU);   
+            $compra->ID_CAJA = $usuario->ID_CAJA;
             $compra->save();
             app('App\Http\Controllers\DetalleCompraController')->store($data,$compra->ID_COMP);
         DB::commit();
@@ -74,6 +75,17 @@ class CompraController extends Controller
        return $success;
     }
 
+    public function getUltimoPrecioCompra()
+    {
+        $ID_PRO = $_GET['ID_PRO'];
+        $ultimoPrecio = DB::table('DETALLE_COMPRAS as dt')
+        ->select('dt.PRECIO_COMP_SIN','dt.PRECIO_COMP_CON')
+        ->where('dt.ID_PRO','=',$ID_PRO)
+        ->orderBy('dt.ID_DETC', 'desc')
+        ->take(1)
+        ->get();
+        return response()->json(['data'=>$ultimoPrecio],200);
+    }
     /**
      * Display the specified resource.
      *

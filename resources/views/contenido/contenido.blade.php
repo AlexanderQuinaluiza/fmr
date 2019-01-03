@@ -1,7 +1,7 @@
     @extends('principal')
     @section('contenido')
-  <!--<template v-if="menu==0">
-        <h3>Contenido dashboard, summary</h3>
+ <!-- <template v-if="menu==0">
+      <escritorio_comp></escritorio_comp>
        </template>
        
           <template v-if="menu==1"> 
@@ -72,6 +72,10 @@
         <reporte_compras_comp></reporte_compras_comp>
         </template>
 
+         <template v-if="menu==22">
+         <estadistica_compras_comp></estadistica_compras_comp>
+        </template>
+
          <template v-if="menu==25">
          <cierre_caja_comp></cierre_caja_comp>
         </template>
@@ -79,33 +83,37 @@
          <cierres_caja_comp></cierres_caja_comp>
         </template>
         <template v-if="menu==27">
-        <apertura_caja_comp></apertura_caja_comp>
-        </template>   
-
-         -->
+         <movimiento_caja></movimiento_caja>
+        </template>
+        <template v-if="menu==28">
+        <reporte_productos_comp></reporte_productos_comp>
+        </template> 
+            -->
+       
 
 
    <!-- <pedido_comp></pedido_comp>  -->
-  <compra_comp></compra_comp>  
-  <!-- <producto_comp></producto_comp>  -->
-  <!-- <dev_compra_comp></dev_compra_comp>  -->
+   <!-- <movimiento_caja></movimiento_caja>  -->
+  <!-- <compra_comp></compra_comp>   -->
+  <producto_comp></producto_comp> 
+   <!-- <dev_compra_comp></dev_compra_comp>   -->
   <!-- <caja_comp></caja_comp> -->
-  <!-- <apertura_caja_comp></apertura_caja_comp> -->
 
    <!-- <descuento_comp></descuento_comp> -->
   <!-- <cierre_caja_comp></cierre_caja_comp> -->
   <!-- <cierres_caja_comp></cierres_caja_comp> -->
 
   <!-- <configuracion_comp></configuracion_comp> -->
-  <!-- <usuario_comp></usuario_comp> -->
-  <!-- <rol_comp></rol_comp>  -->
+  <!-- <usuario_comp></usuario_comp>  -->
+  <!-- <rol_comp></rol_comp>--> 
   <!-- <proveedor_comp></proveedor_comp> -->
     <!-- <inventario_comp></inventario_comp> -->
     <!-- <estadistica_compras_comp></estadistica_compras_comp> -->
-     <!-- <reportes_comp></reportes_comp> -->
-
+   
+    <!-- <escritorio_comp></escritorio_comp> -->
      <!-- <reporte_compras_comp></reporte_compras_comp> -->
-     <!-- <home></home> -->
      
+     <!-- <home></home> -->
+     <!-- <reporte_productos_comp></reporte_productos_comp> -->
     @endsection
  

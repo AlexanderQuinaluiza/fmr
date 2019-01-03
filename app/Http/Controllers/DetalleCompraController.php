@@ -13,12 +13,20 @@ class DetalleCompraController extends Controller
       $detalleCompras = DB::table('DETALLE_COMPRAS as dc')
       ->join('COMPRAS as c','c.ID_COMP','=','dc.ID_COMP')
       ->join('PRODUCTOS as pr','pr.ID_PRO','=','dc.ID_PRO')
-      ->select('dc.ID_PRO','pr.NOMBRE_PRO','dc.PRECIO_COMP','dc.CANTIDAD_PRO',
-      DB::raw("TRUNCATE(dc.PRECIO_COMP*dc.CANTIDAD_PRO,2) as SUBTOTAL"),
-      'dc.INCLUYE_IVA')
+      ->select('dc.ID_PRO','pr.NOMBRE_PRO','dc.PRECIO_COMP_SIN','dc.PRECIO_COMP_CON','dc.CANTIDAD_PRO',
+      "dc.SUBTOTAL_CON","dc.SUBTOTAL_SIN")
       ->where('dc.ID_COMP', '=', $ID_COMP)
       ->get();
+      foreach ($detalleCompras as $compra) {
+         $compra->DEVUELTO = $this->getNumProductosDevuelto($ID_COMP,$compra->ID_PRO);
+      }
       return response()->json(['data'=>$detalleCompras],200);
+    }
+
+    public function getNumProductosDevuelto($idCompra,$idProducto)
+    {
+      $cantidad_devuelto = DB::select("SELECT fgetNumProductoDevuelto($idCompra,$idProducto) as cantidad");
+      return $cantidad_devuelto[0]->cantidad;
     }
 
     /**
@@ -39,13 +47,12 @@ class DetalleCompraController extends Controller
             $detalleCompra = new DetalleCompras;
             $detalleCompra->ID_COMP = $id;
             $ID_PRO = $data[$i]['ID_PRO'];
-            $PRECIO_COMP = $data[$i]['PRECIO_COMP'];
-            $CANTIDAD_PRO = $data[$i]['CANTIDAD_PRO'];
-            $INCLUYE_IVA = $data[$i]['INCLUYE_IVA'];
+            $APLICA_IVA = $data[$i]['APLICA_IVA'];
             $detalleCompra->ID_PRO = $ID_PRO;
-            $detalleCompra->PRECIO_COMP = $PRECIO_COMP;
-            $detalleCompra->CANTIDAD_PRO = $CANTIDAD_PRO;
-            $detalleCompra->INCLUYE_IVA = $INCLUYE_IVA;
+            $detalleCompra->PRECIO_COMP_SIN = $data[$i]['PRECIO_SIN_IVA'];
+            $detalleCompra->PRECIO_COMP_CON = $data[$i]['PRECIO_CON_IVA'];
+            $detalleCompra->CANTIDAD_PRO = $data[$i]['CANTIDAD_PRO'];
+            app('App\Http\Controllers\ProductoController')->actualizarIncluyeIVA($ID_PRO,$APLICA_IVA);
             $detalleCompra->save();
         }
     }

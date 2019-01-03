@@ -95,6 +95,41 @@
                         </div>
                     </div><!--fin modal agregar proveedor -->
 
+                    <!--inicio modal finalizar compra 
+                    <div class="modal fade" id="finCompraModal" tabindex="-1" role="dialog" aria-labelledby="finCompraModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-primary" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header modal-header-primary">
+                                    <h5 class="modal-title" id="finCompraModalLabel">PAGO COMPRA</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    	<form id="formFinCompra">
+				<div id="divCajasCompra">
+                <label>Seleccione la caja desde donde se va a realizar el pago:</label>
+
+                    
+				</div>
+                <br>
+                 <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Total pago compra:</label>
+                        <label style="font-weight:bold" id="TOTAL_PAGO_COMPRA"/>
+                    </div>
+                </div>			
+			</form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>                               
+                                    <button type="button" class="btn btn-primary" id="btnFinCompra" >
+                                        <span class="fa fa-money"></span> Finalizar Compra</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>fin modal finalizar compra -->
+
                     <!--inicio modal buscar pedidos -->
                     <div class="modal fade" id="buscarPedidosModal" tabindex="-1" role="dialog" aria-labelledby="buscarPedidosModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-primary" role="document">
@@ -146,8 +181,12 @@
                                      <form id="formEditarItem">
                                         <div class="form-row">                           
                                             <div class="form-group col-md-3">
-                                                <label>Precio compra</label>
+                                                <label>Costo</label>
                                                 <input type="text" id="EDIT_PRECIO_COMP" required class="form-control decimal" placeholder="Precio de compra" maxlength="9">
+                                            </div>
+                                             <div class="form-group col-md-2 text-center" style="padding-top:15px">  <br>                            
+                                                <label>I.V.A.</label>  
+                                                <label class="radio-inline"><input type="checkbox" name="ivaedit" id="ivaedit" value="0"></label>                           
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label>Cantidad</label>
@@ -160,13 +199,24 @@
                                                    
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-3">                               
-                                                <label>Incluye IVA </label>   <br>
-                                                <label class="radio-inline"><input type="radio" name="editiva" id="editivan" checked value="0">No</label>
-                                                <label class="radio-inline"><input type="radio" name="editiva" id="editivas" value="1">Si</label>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-5" style="border-right:#cfd8dc 1px solid">                                              
+                                                <label ><span style="color:#007bff">Precio de compra sin I.V.A.: &nbsp;</span>$</label>
+                                                <label id="precioSinIVAedit"></label>                                               
                                             </div>
-                                            
-                                        </div>                                      
+                                             <div class="form-group col-md-5 text-center" style="border-right:#cfd8dc 1px solid">                                              
+                                                <label><span style="color:#007bff">Precio de compra con I.V.A.: &nbsp;</span>$ </label>
+                                                <label id="precioConIVAedit" >0.00</label>                                               
+                                            </div>
+                                                                                    
+                                        </div>
+                                        <div class="form-row">
+                                             <div class="form-group col-md-5">
+                                                <label style="color:#007bff">Último precio de compra: &nbsp;</label>
+                                                <label id="ultimoPrecioedit"></label>                                                       
+                                            </div> 
+                                        </div>                                   
                                         <div class="row clearfix div-error">
                                                 <ul id="lstErroresEditItem"></ul>
                                         </div>                                   
@@ -236,51 +286,59 @@
                                     <table id="tabla-detalle" class="table table-bordered table-striped table-hover dataTable js-exportable">
                                         <thead style="color:#fff;background:#546e7a">
                                             <tr>
-                                                <th v-for="cabecera in cabecerasDetalle" :key="cabecera">{{ cabecera }}</th>                                      
+                                                <th>Producto</th>
+                                                <th>Precio</th>
+                                                <th>Cantidad</th>
+                                                <th>Subtotal</th>                                   
                                             </tr>
                                         </thead>
                                         <tbody>                                                
                                         </tbody>
                                     </table>                                
                                 </div>
-                                 <div class="form-row" id="divDescuento">
-                                        <div class="form-group col-md-6">
-                                            
-                                            <label class="lblPedido">Descuento(%): </label>
-                                            <label id="lblDESCUENTO_COMP" class="form-label datoPedido"></label>
-                                            
-                                        </div>
-                                        
-                                        <div class="form-group col-md-6">                              
-                                            <label class="lblPedido text-center">Total con Descuento :</label>
-                                            <label id="lblTOTALCONDESCUENTO" class="form-label datoPedido"></label>
-                                        </div>
-                                    </div>                         
+                                                       
                             </div>   <!-- fin contenido TAB detalle-->                       
                             
                             <div class="tab-pane fade" id="editar" role="tabpanel" aria-labelledby="editar-tab">
                                     <br>
                                     <form id="formulario">
                                         <div class="form-row">
-                                            <div class="form-group col-md-3">
+                                            <div class="form-group col-md-4">
                                                 <label>Producto</label>
                                                 <select id="ddlProducto" style="width:100%" data-placeholder="Escoja un producto..." class="form-control" data-live-search="true">                                              
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label>Precio compra</label>
-                                                <input type="text" id="PRECIO_COMP" required class="form-control decimal" placeholder="Precio de compra" maxlength="9">
+                                                <label>Costo</label>
+                                                <input type="text" id="PRECIO_COMP" required class="form-control decimal" placeholder="Costo" maxlength="9">
+                                            
                                             </div>
+                                             <div class="form-group col-md-2 text-center" style="padding-top:15px">  <br>                            
+                                                <label>I.V.A.</label>  
+                                                <label class="radio-inline"><input type="checkbox" name="iva" id="iva" value="0"></label>                           
+                                            </div>
+
                                             <div class="form-group col-md-3">
                                                 <label>Cantidad</label>
                                                 <input type="text" id="CANTIDAD_PRO" required class="form-control entero" placeholder="Cantidad de producto" maxlength="9">
                                             </div>
-                                            <div class="form-group col-md-3">                               
-                                                <label>Incluye IVA </label>   <br>
-                                                <label class="radio-inline"><input type="radio" name="iva" id="ivan" checked value="0">No</label>
-                                                <label class="radio-inline"><input type="radio" name="iva" id="ivas" value="1">Si</label>
-                                            </div>
                                         </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4" style="border-right:#cfd8dc 1px solid">                                              
+                                                <label><span style="color:#007bff">Precio de compra sin I.V.A.: &nbsp;</span>$ </label>
+                                                <label id="precioSinIVA" >0.00</label>                                               
+                                            </div>
+                                            <div class="form-group col-md-4" style="border-right:#cfd8dc 1px solid">                                              
+                                                <label><span style="color:#007bff">Precio de compra con I.V.A.: &nbsp;</span>$ </label>
+                                                <label id="precioConIVA" >0.00</label>                                               
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label><span style="color:#007bff">Último precio de compra: &nbsp;</span>$ </label>
+                                                <label id="ultimoPrecio" >0.00</label>                                                       
+                                            </div>                                          
+                                        </div>
+                                       
                                         <div class="form-row">
                                             <div class="col-md-2"></div>                                                                                                                            
                                             <div class="col-md-4">
@@ -312,19 +370,16 @@
                                     </table> 
                                                                 
                                 </div>
+                                <hr>
                                  <form id="secondFormCompra">
                                         <div class="form-row">
-                                            <div class="form-group col-md-10">
+                                            <div class="form-group col-md-12">
                                                 <label>Descripción</label>
                                                  <input type="text" id="DESCRIPCION_COMP" required class="form-control" placeholder="Descripción de compra" maxlength="140">
                                             </div>
-                                            <div class="form-group col-md-2">
-                                                <label>Descuento (%)</label>
-                                                <input type="text" id="DESCUENTO" value="0" required class="form-control decimal" placeholder="%" maxlength="9">
-                                            </div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-5">
+                                            <div class="form-group col-md-3">
                                                 <label>Proveedor</label>
                                                  <select id="ddlProveedor" style="width:100%" data-placeholder="Escoja un proveedor..." class="form-control">                                              
                                                 </select>                                              
@@ -333,14 +388,24 @@
                                                 <label>&nbsp;</label><br>                      
                                                 <button type="button" data-toggle="modal" data-target="#addProveedorModal" class="btn btn-success btn-sm"><span class="fa fa-plus"></span> </button>
                                             </div>
-                                            <div class="form-group col-md-4">
-                                                <label>Factura</label>
-                                                 <input type="text" id="FACTURA_PROV" required class="form-control" placeholder="Factura proporcionado por proveedor" maxlength="100">
+                                            <div class="form-group col-md-3">
+                                                <label>Factura&nbsp;</label>
+                                                <i id="infoFacturaCompra" class="fa fa-question-circle" style="color:#007bff"></i>
+                                                 <input type="text" id="FACTURA_PROV" required class="form-control" placeholder="Factura de proveedor" maxlength="100">
                                             </div>
-                                            <div class="form-group col-md-2">
-                                                <label>&nbsp;</label><br>
-                                               <button type="button" id="btnGuardar" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                            <div class="form-group col-md-5">
+                                             
                                             </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4 offset-4">
+                                                <button id="btnGuardar" type="button" class="btn btn-lg btn-primary btn-block">
+                                              <i class="fa fa-floppy-o fa-lg"></i>&nbsp;
+                                              <span>Finalizar Compra</span>
+                                            
+                                          </button>
+                                                </div>
                                         </div>
                                          <div class="row clearfix div-error">
                                                 <ul id="lstErroresCompra"></ul>
@@ -364,7 +429,6 @@ export default {
         "Precio",
         "Cantidad",
         "Subtotal",
-        "IVA",
         "Acciones"
       ],
       cabecerasListado: [
@@ -375,7 +439,6 @@ export default {
         "Total",
         "Acciones"
       ],
-      cabecerasDetalle: ["Producto", "Precio", "Cantidad", "Subtotal", "IVA"],
       cabecerasPedidos: [
         "",
         "#",
@@ -429,6 +492,77 @@ export default {
   border-width: 5px;
   border-bottom: #455a64 1px;
   border-color: #455a64;
+}
+
+input[type="radio"] + .label-text:before{
+	content: "\f10c";
+	font-family: "FontAwesome";
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing:antialiased;
+	width: 1em;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+input[type="radio"]:checked + .label-text:before{
+	content: "\f192";
+	color: #8e44ad;
+	animation: effect 250ms ease-in;
+}
+
+input[type="radio"]:disabled + .label-text{
+	color: #aaa;
+}
+
+input[type="radio"]:disabled + .label-text:before{
+	content: "\f111";
+	color: #ccc;
+}
+
+/*Radio Toggle*/
+
+.toggle input[type="radio"] + .label-text:before{
+	content: "\f204";
+	font-family: "FontAwesome";
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing:antialiased;
+	width: 1em;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.toggle input[type="radio"]:checked + .label-text:before{
+	content: "\f205";
+	color: #16a085;
+	animation: effect 250ms ease-in;
+}
+
+.toggle input[type="radio"]:disabled + .label-text{
+	color: #aaa;
+}
+
+.toggle input[type="radio"]:disabled + .label-text:before{
+	content: "\f204";
+	color: #ccc;
+}
+.toggle{
+font-size: 18px;
+}
+@keyframes effect{
+	0%{transform: scale(0);}
+	25%{transform: scale(1.3);}
+	75%{transform: scale(1.4);}
+	100%{transform: scale(1);}
 }
 </style>
 

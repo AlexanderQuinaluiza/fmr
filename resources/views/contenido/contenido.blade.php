@@ -35,11 +35,9 @@
      
         
        <template v-if="menu==8">
-        <h3> Modulos</h3>
+       <modulo_comp></modulo_comp>
         </template>
-        <template v-if="menu==9">
-        <h3> Acceso</h3>
-        </template>
+       
         <template v-if="menu==10">
         <rol_comp></rol_comp>
         </template>
@@ -59,44 +57,53 @@
         <template v-if="menu==15">
         <dev_compra_comp></dev_compra_comp> 
         </template>
-        
+        <template v-if="menu==16">
+        <ventas_comp></ventas_comp> 
+        </template>
         <template v-if="menu==17">
         <cliente_comp></cliente_comp>
+        </template> 
+        <template v-if="menu==18">
+        <dev_venta_comp></dev_venta_comp>
         </template> 
 
          <template v-if="menu==19">
          <inventario_comp></inventario_comp>
         </template>
-        
+        <template v-if="menu==20">
+        <reporteventas_comp></reporteventas_comp>
+        </template>
         <template v-if="menu==21">
         <reporte_compras_comp></reporte_compras_comp>
         </template>
 
-         <template v-if="menu==18">
-        <dev_venta_comp></dev_venta_comp>
+         <template v-if="menu==22">
+        <estadistica_compras_comp></estadistica_compras_comp>
         </template>
         </template> 
-         <template v-if="menu==25">
-         <cierre_caja_comp></cierre_caja_comp>
+         <template v-if="menu==23">
+         <configuracion_comp></configuracion_comp>
         </template>
-        <template v-if="menu==26">
+        <template v-if="menu==24">
          <cierres_caja_comp></cierres_caja_comp>
         </template>
-        <template v-if="menu==27">
+        <template v-if="menu==25">
+         <cierres_caja_comp></cierres_caja_comp>
+        </template>
+        <template v-if="menu==26">
+         <comprobantes_comp></comprobantes_comp>
+        </template>
+        <template v-if="menu==28">
         <apertura_caja_comp></apertura_caja_comp>
         </template>   
         <template v-if="menu==28">
-        <comprobantes_comp></comprobantes_comp>
-        </template> 
-        <template v-if="menu==29">
         <reporteventas_comp></reporteventas_comp>
-        </template>
+        </template> 
+        
         <template v-if="menu==30">
         <reportedevventas_comp></reportedevventas_comp>
         </template>
-        <template v-if="menu==31">
-        <ventas_comp></ventas_comp>
-        </template>
+        
         
 
 

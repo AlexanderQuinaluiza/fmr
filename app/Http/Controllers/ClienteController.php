@@ -38,7 +38,7 @@ class ClienteController extends Controller
     {
         $this->validate($request,[ 'CED_RUC_CLI'=>'required|unique:CLIENTES',
          'NOMBRE_CLI'=>'required','APELLIDO_CLI'=>'required',
-         'DIRECCION_CLI'=>'required','CORREO_CLI'=>'required']);
+         'DIRECCION_CLI'=>'required']);
         Clientes::create($request->all());
     }
 

@@ -64,6 +64,10 @@
         <cliente_comp></cliente_comp>
         </template> 
 
+        <template v-if="menu==18">
+        <dev_venta_comp></dev_venta_comp>
+        </template>
+
          <template v-if="menu==19">
          <inventario_comp></inventario_comp>
         </template>
@@ -86,18 +90,30 @@
          <movimiento_caja></movimiento_caja>
         </template>
         <template v-if="menu==28">
-        <reporte_productos_comp></reporte_productos_comp>
+        <comprobantes_comp></comprobantes_comp>
         </template> 
-            -->
+        <template v-if="menu==29">
+        <reporteventas_comp></reporteventas_comp>
+        </template>
+        <template v-if="menu==30">
+        <reportedevventas_comp></reportedevventas_comp>
+        </template>
+        <template v-if="menu==31">
+        <ventas_comp></ventas_comp>
+        </template> -->
+        <!-- <template v-if="menu==28">
+        <reporte_productos_comp></reporte_productos_comp>
+        </template>  -->
+           
        
 
 
    <!-- <pedido_comp></pedido_comp>  -->
    <!-- <movimiento_caja></movimiento_caja>  -->
-  <!-- <compra_comp></compra_comp>   -->
+   <!-- <compra_comp></compra_comp>   -->
   <!-- <producto_comp></producto_comp>  -->
    <!-- <dev_compra_comp></dev_compra_comp>   -->
-  <!-- <caja_comp></caja_comp> -->
+  <caja_comp></caja_comp>
 
    <!-- <descuento_comp></descuento_comp> -->
   <!-- <cierre_caja_comp></cierre_caja_comp> -->
@@ -112,7 +128,7 @@
    
     <!-- <escritorio_comp></escritorio_comp> -->
      <!-- <reporte_compras_comp></reporte_compras_comp> -->
-     <ventas_comp></ventas_comp>
+     <!-- <ventas_comp></ventas_comp> -->
      <!-- <home></home> -->
      <!-- <reporte_productos_comp></reporte_productos_comp> -->
     @endsection

@@ -53,6 +53,7 @@ const app = new Vue({
         menu:1,
         id_usuario: parseInt($('#idUsuario').val()),
     },
+    
 });
 // import App from './components/App.vue';
 // const app = new Vue({

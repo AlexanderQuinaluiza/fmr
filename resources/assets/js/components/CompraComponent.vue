@@ -216,7 +216,41 @@
                                                 <label style="color:#007bff">Último precio de compra: &nbsp;</label>
                                                 <label id="ultimoPrecioedit"></label>                                                       
                                             </div> 
-                                        </div>                                   
+                                        </div>
+                                    <h6 class="lineas"><span class="lineas-contenido">EJEMPLARES</span></h6>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label>Código de Barra</label>
+                                                <input type="text" id="CODIGO_BARRA" required class="form-control" placeholder="Código de barra" maxlength="100">
+                                            
+                                            </div>
+                        
+
+                                           <div class="form-group col-md-4">
+                                                <label>Fecha caducidad</label>
+                                                 <input type="text" data-date-format="yyyy/mm/dd" id="FECHA_CADUCIDAD" class="form-control" placeholder="yyyy/mm/dd" maxlength="12">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>&nbsp;</label>  <br>                                            
+                                                <button type="button" id="btnAddCodigoBarra" class="btn btn-success"><i class="fa fa-barcode"></i> Añadir Código Barra</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table id="tabla-codigo-barras" class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                                <thead style="color:#fff;background:#546e7a">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Código Barras</th>
+                                                        <th>Caducidad</th>
+                                                        <th>Acciones</th>                               
+                                                    </tr>
+                                                </thead>
+                                                <tbody>                                                
+                                                </tbody>
+                                            </table>                                
+                                        </div>
+                                                                         
                                         <div class="row clearfix div-error">
                                                 <ul id="lstErroresEditItem"></ul>
                                         </div>                                   
@@ -337,8 +371,9 @@
                                                 <label><span style="color:#007bff">Último precio de compra: &nbsp;</span>$ </label>
                                                 <label id="ultimoPrecio" >0.00</label>                                                       
                                             </div>                                          
-                                        </div>
-                                       
+                                        </div><hr>
+
+                                        
                                         <div class="form-row">
                                             <div class="col-md-2"></div>                                                                                                                            
                                             <div class="col-md-4">
@@ -564,5 +599,8 @@ font-size: 18px;
 	75%{transform: scale(1.4);}
 	100%{transform: scale(1);}
 }
+
+.lineas { width:100%; text-align:center; border-bottom: 1px solid rgb(207, 216, 220); line-height:0.1em; margin:10px 0 20px; } 
+.lineas-contenido { background:#fff; padding:0 10px; }
 </style>
 

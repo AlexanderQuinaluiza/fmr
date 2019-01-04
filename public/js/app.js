@@ -1441,6 +1441,7 @@ var app = new Vue({
     menu: 1,
     id_usuario: parseInt($('#idUsuario').val())
   }
+
 });
 // import App from './components/App.vue';
 // const app = new Vue({
@@ -43142,7 +43143,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n.lblPedido {\n  font-weight: bold;\n  margin-bottom: 0px;\n}\n.datoPedido {\n  margin-bottom: 0px;\n}\n.modal-header-primary {\n  color: #fff;\n  padding: 9px 15px;\n  border-bottom: 1px solid #eee;\n  background-color: #17a2b8;\n  -webkit-border-top-left-radius: 5px;\n  -webkit-border-top-right-radius: 5px;\n  -moz-border-radius-topleft: 5px;\n  -moz-border-radius-topright: 5px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.bordeDetalle {\n  border-style: solid;\n  border-width: 5px;\n  border-bottom: #455a64 1px;\n  border-color: #455a64;\n}\ninput[type=\"radio\"] + .label-text:before{\n\tcontent: \"\\F10C\";\n\tfont-family: \"FontAwesome\";\n\tspeak: none;\n\tfont-style: normal;\n\tfont-weight: normal;\n\tfont-variant: normal;\n\ttext-transform: none;\n\tline-height: 1;\n\t-webkit-font-smoothing:antialiased;\n\twidth: 1em;\n\tdisplay: inline-block;\n\tmargin-right: 5px;\n}\ninput[type=\"radio\"]:checked + .label-text:before{\n\tcontent: \"\\F192\";\n\tcolor: #8e44ad;\n\tanimation: effect 250ms ease-in;\n}\ninput[type=\"radio\"]:disabled + .label-text{\n\tcolor: #aaa;\n}\ninput[type=\"radio\"]:disabled + .label-text:before{\n\tcontent: \"\\F111\";\n\tcolor: #ccc;\n}\n\n/*Radio Toggle*/\n.toggle input[type=\"radio\"] + .label-text:before{\n\tcontent: \"\\F204\";\n\tfont-family: \"FontAwesome\";\n\tspeak: none;\n\tfont-style: normal;\n\tfont-weight: normal;\n\tfont-variant: normal;\n\ttext-transform: none;\n\tline-height: 1;\n\t-webkit-font-smoothing:antialiased;\n\twidth: 1em;\n\tdisplay: inline-block;\n\tmargin-right: 10px;\n}\n.toggle input[type=\"radio\"]:checked + .label-text:before{\n\tcontent: \"\\F205\";\n\tcolor: #16a085;\n\tanimation: effect 250ms ease-in;\n}\n.toggle input[type=\"radio\"]:disabled + .label-text{\n\tcolor: #aaa;\n}\n.toggle input[type=\"radio\"]:disabled + .label-text:before{\n\tcontent: \"\\F204\";\n\tcolor: #ccc;\n}\n.toggle{\nfont-size: 18px;\n}\n@keyframes effect{\n0%{transform: scale(0);\n}\n25%{transform: scale(1.3);\n}\n75%{transform: scale(1.4);\n}\n100%{transform: scale(1);\n}\n}\n", ""]);
+exports.push([module.i, "\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n.lblPedido {\n  font-weight: bold;\n  margin-bottom: 0px;\n}\n.datoPedido {\n  margin-bottom: 0px;\n}\n.modal-header-primary {\n  color: #fff;\n  padding: 9px 15px;\n  border-bottom: 1px solid #eee;\n  background-color: #17a2b8;\n  -webkit-border-top-left-radius: 5px;\n  -webkit-border-top-right-radius: 5px;\n  -moz-border-radius-topleft: 5px;\n  -moz-border-radius-topright: 5px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.bordeDetalle {\n  border-style: solid;\n  border-width: 5px;\n  border-bottom: #455a64 1px;\n  border-color: #455a64;\n}\ninput[type=\"radio\"] + .label-text:before{\n\tcontent: \"\\F10C\";\n\tfont-family: \"FontAwesome\";\n\tspeak: none;\n\tfont-style: normal;\n\tfont-weight: normal;\n\tfont-variant: normal;\n\ttext-transform: none;\n\tline-height: 1;\n\t-webkit-font-smoothing:antialiased;\n\twidth: 1em;\n\tdisplay: inline-block;\n\tmargin-right: 5px;\n}\ninput[type=\"radio\"]:checked + .label-text:before{\n\tcontent: \"\\F192\";\n\tcolor: #8e44ad;\n\tanimation: effect 250ms ease-in;\n}\ninput[type=\"radio\"]:disabled + .label-text{\n\tcolor: #aaa;\n}\ninput[type=\"radio\"]:disabled + .label-text:before{\n\tcontent: \"\\F111\";\n\tcolor: #ccc;\n}\n\n/*Radio Toggle*/\n.toggle input[type=\"radio\"] + .label-text:before{\n\tcontent: \"\\F204\";\n\tfont-family: \"FontAwesome\";\n\tspeak: none;\n\tfont-style: normal;\n\tfont-weight: normal;\n\tfont-variant: normal;\n\ttext-transform: none;\n\tline-height: 1;\n\t-webkit-font-smoothing:antialiased;\n\twidth: 1em;\n\tdisplay: inline-block;\n\tmargin-right: 10px;\n}\n.toggle input[type=\"radio\"]:checked + .label-text:before{\n\tcontent: \"\\F205\";\n\tcolor: #16a085;\n\tanimation: effect 250ms ease-in;\n}\n.toggle input[type=\"radio\"]:disabled + .label-text{\n\tcolor: #aaa;\n}\n.toggle input[type=\"radio\"]:disabled + .label-text:before{\n\tcontent: \"\\F204\";\n\tcolor: #ccc;\n}\n.toggle{\nfont-size: 18px;\n}\n@keyframes effect{\n0%{transform: scale(0);\n}\n25%{transform: scale(1.3);\n}\n75%{transform: scale(1.4);\n}\n100%{transform: scale(1);\n}\n}\n.lineas { width:100%; text-align:center; border-bottom: 1px solid rgb(207, 216, 220); line-height:0.1em; margin:10px 0 20px;\n}\n.lineas-contenido { background:#fff; padding:0 10px;\n}\n", ""]);
 
 // exports
 
@@ -43153,6 +43154,41 @@ exports.push([module.i, "\n.div-error {\n  display: flex;\n  justify-content: ce
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -44348,6 +44384,97 @@ var staticRenderFns = [
                     ])
                   ]),
                   _vm._v(" "),
+                  _c("h6", { staticClass: "lineas" }, [
+                    _c("span", { staticClass: "lineas-contenido" }, [
+                      _vm._v("EJEMPLARES")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-row" }, [
+                    _c("div", { staticClass: "form-group col-md-4" }, [
+                      _c("label", [_vm._v("Código de Barra")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "CODIGO_BARRA",
+                          required: "",
+                          placeholder: "Código de barra",
+                          maxlength: "100"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-4" }, [
+                      _c("label", [_vm._v("Fecha caducidad")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          "data-date-format": "yyyy/mm/dd",
+                          id: "FECHA_CADUCIDAD",
+                          placeholder: "yyyy/mm/dd",
+                          maxlength: "12"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("label", [_vm._v(" ")]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          attrs: { type: "button", id: "btnAddCodigoBarra" }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-barcode" }),
+                          _vm._v(" Añadir Código Barra")
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      {
+                        staticClass:
+                          "table table-bordered table-striped table-hover dataTable js-exportable",
+                        attrs: { id: "tabla-codigo-barras" }
+                      },
+                      [
+                        _c(
+                          "thead",
+                          {
+                            staticStyle: {
+                              color: "#fff",
+                              background: "#546e7a"
+                            }
+                          },
+                          [
+                            _c("tr", [
+                              _c("th", [_vm._v("#")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Código Barras")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Caducidad")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Acciones")])
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("tbody")
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c("div", { staticClass: "row clearfix div-error" }, [
                     _c("ul", { attrs: { id: "lstErroresEditItem" } })
                   ])
@@ -44712,6 +44839,7 @@ var staticRenderFns = [
           _c("label", { attrs: { id: "ultimoPrecio" } }, [_vm._v("0.00")])
         ])
       ]),
+      _c("hr"),
       _vm._v(" "),
       _c("div", { staticClass: "form-row" }, [
         _c("div", { staticClass: "col-md-2" }),

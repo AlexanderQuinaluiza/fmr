@@ -5,6 +5,7 @@
 //objeto que permite almacenar los item agregados a la compra
 localStorage.clear();
 var jsonItems = {};
+var jsonBarCodeItems = {};
 var objCostosProducto = {};
 var iva = 0;
 /**
@@ -29,7 +30,9 @@ function getSetting(key) {
 
 //contador para generar identificador de filas del objeto que almacena items compra
 var Myindice = 0;
+var MyindiceBarCode = 1;
 var indiceSeleccionado = -1;
+var PRODUCTO_SELECTED = 0;
 
 /**
  * Permite contar la cantidad de items añadidos al detalle de la compra
@@ -61,13 +64,25 @@ function editar(idFila) {
     indiceSeleccionado = idFila;
     var dataItems = JSON.parse(localStorage.getItem("localStore"));
     $.each(dataItems, function (key, value) {
-        if (key == idFila) {
+        
+        if (key == idFila) {  console.log(value);
+            PRODUCTO_SELECTED = value.ID_PRO;
             $('#EDIT_CANTIDAD_PRO').val(value.CANTIDAD_PRO);
             $('#EDIT_PRECIO_COMP').val(value.PRECIO_SIN_IVA);
             $('#ivaedit').prop('checked',value.APLICA_IVA==1?true:false);
             $('#ultimoPrecioedit').text('$ '+value.ULTIMO_PRECIO_COMPRA);
             $('#precioSinIVAedit').text(value.PRECIO_SIN_IVA);
             $('#precioConIVAedit').text(value.PRECIO_CON_IVA);
+            var EJEMPLARES = value.EJEMPLARES;
+            console.log("EJEMPLARES");
+            console.log(EJEMPLARES);
+
+            // jsonBarCodeItems[MyindiceBarCode] = EJEMPLARES;
+            // localStorage.setItem("barCodeCompras", JSON.stringify(jsonBarCodeItems));
+            // MyindiceBarCode++;
+
+            
+            
         }
     });
 }
@@ -92,6 +107,40 @@ function verificarPreciosCalculados() {
     return banderin;
 }
 
+/**
+ * Permite mostrar la tabla de codigos de barras ingresados
+ */
+function reloadTablaCodigoBarras() {
+    var btnEliminar = '<button type="button" class="btn btn-danger btn-sm delete"><span class="fa fa-trash"></span> Eliminar</button>';
+    tablaCodigoBarras.clear();
+    var datos = JSON.parse(localStorage.getItem("barCodeCompras"));
+    $.each(datos, function (key, value) {
+       var buttons = '<div class="btn-group btn-group-sm">' +btnEliminar + '</div>';
+        tablaCodigoBarras.row.add({
+            "ID": key,
+            "CODIGO_BARRA": value.CODIGO_BARRA,
+            "CADUCIDAD" : value.FECHA_CADUCIDAD,
+            "ACCIONES": buttons
+        }).draw();
+    })
+}
+
+/**
+ * Permite contar el numero de codigos de barras
+ */
+function contarCodigoBarras() {
+    var cantidadCodigoBarras = 0;
+    try {
+        var datos = JSON.parse(localStorage.getItem("barCodeCompras"));
+        $.each(datos, function (key, value) {
+           cantidadCodigoBarras++;
+        })  
+    } catch (error) {
+        
+    }
+    
+    return cantidadCodigoBarras;
+}
 /**
  * Permite volver a realizar los calculos de compra total
  * y mostrar en la tabla los nuevos cambios
@@ -145,7 +194,10 @@ function guardarCambiosEditItem() {
                     value.PRECIO_COMP = parseFloat($('#EDIT_PRECIO_COMP').val());
                     value.PRECIO_SIN_IVA = parseFloat($('#precioSinIVAedit').text());
                     value.PRECIO_CON_IVA = parseFloat($('#precioConIVAedit').text());
-                    value.APLICA_IVA =  $('#ivaedit').is(':checked')?1:0;
+                    value.APLICA_IVA =  $('#ivaedit').is(':checked')?1:0;            
+                    value.EJEMPLARES = JSON.parse(localStorage.getItem("barCodeCompras"));
+                       
+                    
                     toastr.success('Item modificado correctamente!');
                 }
             });
@@ -159,6 +211,58 @@ function guardarCambiosEditItem() {
 $('#btnModificarItem').click(function () {
     guardarCambiosEditItem();
 });
+
+/**
+*permite añadir un codigo de barra a la tabla codigos de barra 
+*/
+function addCodigoBarra() {
+    var FECHA_CADUCIDAD = $('#FECHA_CADUCIDAD').val().trim();
+    var CODIGO_BARRA = $('#CODIGO_BARRA').val().trim();
+    var CANTIDAD_PRO = $('#EDIT_CANTIDAD_PRO').val().trim();
+    if (!PRODUCTO_SELECTED || PRODUCTO_SELECTED == 0)
+    {
+        toastr.warning('Escoja un producto de la lista','Campos incompletos');
+        return;
+    }
+    if((!CANTIDAD_PRO || CANTIDAD_PRO == 0))
+    {
+        toastr.warning('Ingrese la cantidad de productos','Campos incompletos');
+        return;
+    }
+    if ((!FECHA_CADUCIDAD || FECHA_CADUCIDAD == 0) || (!CODIGO_BARRA || CODIGO_BARRA==0))
+    {
+        toastr.warning('Complete todos los campos requeridos CÓDIGO DE BARRA & FECHA CADUCIDAD','Campos incompletos');
+        return;
+    }
+    if(contarCodigoBarras()< parseInt(CANTIDAD_PRO))
+    {
+        var item = {};
+        item.ID = MyindiceBarCode;
+        item.ID_PRO = parseInt(PRODUCTO_SELECTED);
+        item.CODIGO_BARRA = CODIGO_BARRA;
+        item.FECHA_CADUCIDAD = FECHA_CADUCIDAD;
+      
+        if (!verificarRepetidoCodigoBarra(CODIGO_BARRA)) {
+            jsonBarCodeItems[MyindiceBarCode] = item;
+            localStorage.setItem("barCodeCompras", JSON.stringify(jsonBarCodeItems));
+            MyindiceBarCode++;
+            //console.log("ITEM BAR CODE");
+            //console.log(item);
+        }
+        else
+        {
+            toastr.warning('El código de barra <strong>'+CODIGO_BARRA+'</strong> ya existe en la lista','Registros duplicados');
+        }
+        reloadTablaCodigoBarras();
+       $('#CODIGO_BARRA').val("");
+    }
+    else
+    {
+        toastr.warning('El número de código de barras debe ser igual a la cantidad','Registros completos');
+    }
+}
+
+
 /**
 *permite añadir un item a la tabla de detalle compra 
 */
@@ -186,6 +290,7 @@ function addItemTabla() {
         item.CANTIDAD_PRO = parseInt(CANTIDAD_PRO);
         item.ULTIMO_PRECIO_COMPRA = parseFloat($('#ultimoPrecio').text());
         item.APLICA_IVA = $('#iva').is(':checked');
+        item.EJEMPLARES = {};
         if (verificarRepetido(ID_PRO)) {
             var dataItems = JSON.parse(localStorage.getItem("localStore"));
             $.each(dataItems, function (key, value) {
@@ -204,6 +309,27 @@ function addItemTabla() {
         }
         reloadTablaDetalleCompras();
         $('#formulario')[0].reset();
+        
+        var dataItems = JSON.parse(localStorage.getItem("localStore"));
+        $.each(dataItems, function (key, value) {
+            console.log(value);
+        });
+
+}
+
+/**
+ * permite eliminar la fila seleccionada de la tabla codigo barras
+ * @param {int} idFila --representa el indice de la fila seleccionada
+ */
+function eliminarFilaCodigoBarra(idFila) {
+    delete jsonBarCodeItems[idFila];
+    localStorage.setItem("barCodeCompras", JSON.stringify(jsonBarCodeItems));
+    reloadTablaCodigoBarras();
+    if (contarCodigoBarras() == 0) {
+        tablaCodigoBarras.clear().draw();
+        MyindiceBarCode = 0;
+        jsonBarCodeItems = {};
+    }
 }
 
 /**
@@ -418,6 +544,24 @@ function registrar() {
 }
 
 /**
+ * permite verificar si existe un codigo de barra en la lista
+ * @param {int} CODIGO_BARRA  --codigo de barra
+ */
+function verificarRepetidoCodigoBarra(CODIGO_BARRA) {
+    var igual = false;
+    var dataItems = JSON.parse(localStorage.getItem("barCodeCompras"));
+    if(dataItems!=null){
+    $.each(dataItems, function (key, value) {
+        if (value.CODIGO_BARRA == CODIGO_BARRA) {
+            igual = true;
+            return false;
+        }
+    });
+    }
+    return igual;
+}
+
+/**
  * permite actualizar la cantidad de producto a comprar en caso 
  * que se añada un item repetido
  * @param {int} ID_PRO  --identificador de producto
@@ -425,7 +569,6 @@ function registrar() {
 function verificarRepetido(ID_PRO) {
     var igual = false;
     var dataItems = JSON.parse(localStorage.getItem("localStore"));
-    console.log(dataItems);
     if(dataItems!=null){
     $.each(dataItems, function (key, value) {
         if (value.ID_PRO == ID_PRO) {
@@ -626,6 +769,10 @@ $('#btnAgregarProveedor').click(function () {
     registrarProveedor();
 });
 
+$('#btnAddCodigoBarra').click(function () {
+    addCodigoBarra();
+});
+
 /**
  * permite decrementar o incrementar la cantidad de producto en uno
  * @param {int} opcion --1=decrementar cantidad en uno, 2=incrementar cantidad en uno
@@ -655,6 +802,14 @@ $('#bootstrap-data-table tbody').on('click', 'button.delete', function () {
     var datoFila = tabla.row($(this).parents('tr')).data();
     var idFila = datoFila.ID;
     eliminarFilaCompra(idFila);
+});
+
+//permite borrar un item de la tabla codigo barras cuando pulsa sobre el boton Eliminar
+$('#tabla-codigo-barras tbody').on('click', 'button.delete', function () {
+    var datoFila = tablaCodigoBarras.row($(this).parents('tr')).data();
+    var idFila = datoFila.ID;
+    console.log(idFila);
+    eliminarFilaCodigoBarra(idFila);
 });
 
 //configuración inicial para tabla COMPRA NUEVA
@@ -849,6 +1004,49 @@ var tablaDetallePedidos = $('#tabla-detalle').DataTable(
         }
     });
 
+ 
+//configuración inicial para tabla CODIGOS DE BARRAS
+var tablaCodigoBarras = $('#tabla-codigo-barras').DataTable(
+    {
+        "paging": false,
+        "searching": false,
+        "info": false,
+        "ordering": false,
+        "columns": [
+            { 'data': 'ID' },
+            { 'data': 'CODIGO_BARRA' },
+            { 'data': 'CADUCIDAD' },
+            { 'data': 'ACCIONES' }
+        ],
+
+
+
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
+    
 //columna ID de tabla compra nueva, se hace no visible
 tabla.column(0).visible(false);
 
@@ -1112,3 +1310,5 @@ $('#infoFacturaCompra').popover({title:"Saludo",content:"Hola mundo",trigger:"ho
 
 $('#infoFacturaCompra').popover({title: "¿Cómo aplicar descuentos? ", content: "sasa",html:true, trigger: "hover"}); 
 //title="Número de factura proporcionado por proveedor"
+
+$('#FECHA_CADUCIDAD').datepicker("setDate", new Date());

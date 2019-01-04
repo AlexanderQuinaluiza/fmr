@@ -230,3 +230,4 @@ Route::get('random','HomeController@generateRandomString');
 
 Route::get('movimientos','MovimientoCajaController@getMovimientosCaja');
 Route::post('movimientos/registrar', 'MovimientoCajaController@store');
+

@@ -343,6 +343,7 @@ function cargarDatepicker(inicio,fin){
         //limpiarDatos();
      } else{
         toastr.error('No se ha podido actualizar el registro.', 'Error!'); 
+        console.log(response.data);
      }   
    
     })

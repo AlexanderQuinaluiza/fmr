@@ -10,7 +10,13 @@ function validarDatos(opcion)
 {
     var error = 0;
     var errorMostrarMsj = [];
-    if(!$('#RUC_PROV').val().trim()) errorMostrarMsj.push("El RUC de proveedor no puede estar vacío");
+    if(!$('#RUC_PROV').val().trim()) 
+    {
+        errorMostrarMsj.push("El RUC de proveedor no puede estar vacío");
+    }
+    else{
+        if(validarcedula()==0)  errorMostrarMsj.push("El RUC de proveedor no es válido");
+    }
     if(!$('#NOMBRE_PROV').val().trim()) errorMostrarMsj.push("El nombre de proveedor no puede estar vacío");
     if(!$('#RAZON_SOCIAL_PROV').val().trim()) errorMostrarMsj.push("La razón social de proveedor no puede estar vacío");
     if(!$('#DIRECCION_PROV').val().trim()) errorMostrarMsj.push("La dirección de proveedor no puede estar vacío");
@@ -134,6 +140,32 @@ function actualizar()
     console.log(error);
     toastr.error('No se ha podido actualizar el registro.', 'Error!')
     });
+}
+
+function validarcedula() {
+    var error_ruc = 0;
+    var i;
+    var cedula;
+    var acumulado;
+    cedula = $("#RUC_PROV").val();
+    var instancia;
+    acumulado = 0;
+    for (i = 1; i <= 9; i++) {
+        if (i % 2 != 0) {
+            instancia = cedula.substring(i - 1, i) * 2;
+            if (instancia > 9) instancia -= 9;
+        }
+        else instancia = cedula.substring(i - 1, i);
+        acumulado += parseInt(instancia);
+    }
+    while (acumulado > 0)
+        acumulado -= 10;
+    if (cedula.substring(9, 10) != (acumulado * -1)) {
+        error_ruc = 0;
+    } else {
+        error_ruc = 1;
+    }
+    return error_ruc;
 }
 
 /**

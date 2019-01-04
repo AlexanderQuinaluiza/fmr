@@ -16,6 +16,7 @@ class Devoluciones extends Model
     'TOTAL_DEV',
     'OBSERVACION_DEV',
     'FECHA_DEV',
-    'NUMERO_NC'
+    'NUMERO_NC',
+    'ID_CAJA'
     ];
 }

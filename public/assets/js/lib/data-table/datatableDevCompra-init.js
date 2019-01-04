@@ -10,6 +10,7 @@ var iva = 0;
 var indiceItemDevolver = 1;
 var indiceItemDevolverSeleccionado = -1;
 var cantidadProductoCompradoSeleccionado = 0;
+var cantidadProductoDevueltoSeleccionado = 0;
 
 /**
  * FUNCION PARA LEER DATOS DE CONFIGURACIONES DADO UN ID
@@ -64,6 +65,29 @@ function getCompraById(idRegistro) {
 }
 
 
+/**
+ * Permite obtener una devolución dado su id
+ * @param {int} idRegistro -identificador de devolución
+ */
+function getDevolucionById(idRegistro) {
+    var url = '/devolucion-compra/byid';
+    axios.get(url, {
+        params: {
+            ID_DEV: idRegistro
+        }
+    }).then(function (response) {
+        $('#lblID_DEV').html(response.data.data[0].ID_DEV);
+        $('#lblFECHA_DEV').html(response.data.data[0].FECHA_DEV);
+        $('#lblNOMBRE_PROV_DEV').html(response.data.data[0].PROVEEDOR);
+        $('#lblNOMBRE_USU_DEV').html(response.data.data[0].NOMBRE_USU + " " + response.data.data[0].APELLIDO_USU);
+        $('#lblNOTA_CREDITO_PROV').html(response.data.data[0].NUMERO_NC);
+        $('#lblCAJA').html(response.data.data[0].DESCRIPCION_CAJA);
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 /** funcion obtiene los items seleccionados de la tabla detalle compra */
 function itemsSeleccionados() {
     var arrayItems = new Array();
@@ -89,7 +113,7 @@ function guardarDevolucionCompra() {
     for (var index = 0; index < arrayItemsSelected.length; index++) {
         var idFila = arrayItemsSelected[index].ID_ROW;
         $.each(dataItems, function (key, value) {
-            if(key == idFila && value.DEVUELTO>0 && value.SUBTOTAL>0)
+            if(key == idFila && value.DEVOLVER>0 && value.SUBTOTAL>0)
             {
                 
                 arreglo.push(value);
@@ -102,7 +126,6 @@ function guardarDevolucionCompra() {
     }
     else
     {
- //console.log();
     if(arreglo.length>0)
     {
         var OBSERVACION_DEV = $('#OBSERVACION_DEV').val().trim();
@@ -110,34 +133,34 @@ function guardarDevolucionCompra() {
         var NUM_NOTA_CREDITO = $('#NOTA_CREDITO_DEV').val().trim();
         if(!FECHA_DEV || !NUM_NOTA_CREDITO)toastr.warning('Complete todos los datos requeridos', 'Incompleto!');
         else 
-        {
-            var data = new FormData();
-            data.append('datos', JSON.stringify(arreglo));
-            data.append('ID_COMP', $('#lblID_COMP').text());
-            data.append('NUM_NOTA_CREDITO', NUM_NOTA_CREDITO);
-            data.append('OBSERVACION_DEV', OBSERVACION_DEV);
-            data.append('FECHA_DEV', FECHA_DEV);
-            data.append('SUBTOTAL_DEV', getSubTotales(1));
-            data.append('IVA_DEV', getSubTotales(2));
-            data.append('TOTAL_DEV', getSubTotales(3));
-            axios.post('/devolucion-compra/registrar', data).then(function (response) {
-                if (response.data > 0) {
-                    toastr.success('Devolución registrado correctamente!');
-                    $('#secondFormDevolucion')[0].reset();
-                    $('#FECHA_DEV').datepicker("setDate", new Date());
-                    localStorage.clear();
-                    tablaDetalleCompra.clear().draw();
-                    jsonItemsDevolver = {};
-                }
-                else {
-                    console.log(response.data);
-                    toastr.error('No se ha podido guardar el registro.', 'Error!')
-                }
-            })
-                .catch(function (error) {
-                    console.log(error);
-                    toastr.error('No se ha podido guardar el registro.', 'Error!')
-                }); 
+        {  
+                var data = new FormData();
+                data.append('datos', JSON.stringify(arreglo));
+                data.append('ID_COMP', $('#lblID_COMP').text());
+                data.append('NUM_NOTA_CREDITO', NUM_NOTA_CREDITO);
+                data.append('OBSERVACION_DEV', OBSERVACION_DEV);
+                data.append('FECHA_DEV', FECHA_DEV);
+                data.append('SUBTOTAL_DEV', getSubTotales(1));
+                data.append('TOTAL_DEV', getSubTotales(3));
+                axios.post('/devolucion-compra/registrar', data).then(function (response) {
+                    if (response.data > 0) {
+                        toastr.success('Devolución registrado correctamente!');
+                        $('#secondFormDevolucion')[0].reset();
+                        $('#FECHA_DEV').datepicker("setDate", new Date());
+                        localStorage.clear();
+                        tablaDetalleCompra.clear().draw();
+                        jsonItemsDevolver = {};
+                        tablaDevolucionCompras.ajax.reload();
+                    }
+                    else {
+                        console.log(response.data);
+                        toastr.error('No se ha podido guardar el registro.', 'Error!')
+                    }
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                        toastr.error('No se ha podido guardar el registro.', 'Error!')
+                    });         
         }
 
     }
@@ -199,8 +222,9 @@ function editar(idFila) {
     var dataItems = JSON.parse(localStorage.getItem("itemsAdevolver"));
     $.each(dataItems, function (key, value) {
         if (key == idFila) {
-            $('#EDIT_CANTIDAD_PRO').val(value.DEVUELTO);
+            $('#EDIT_CANTIDAD_PRO').val(value.DEVOLVER);
             cantidadProductoCompradoSeleccionado = value.COMPRADO;
+            cantidadProductoDevueltoSeleccionado = value.DEVUELTO;
         }
     });
 }
@@ -222,7 +246,8 @@ function reloadTablaDetalleCompras() {
             "ID_PRO": value.ID_PRO,
             "NOMBRE_PRO": value.NOMBRE_PRO,
             "COMPRADO": value.COMPRADO,
-            "DEVOLVER": value.DEVUELTO,
+            "DEVUELTO": value.DEVUELTO,
+            "DEVOLVER": value.DEVOLVER,
             "PRECIO_COMP": '$ ' + value.PRECIO_COMP,
             "SUBTOTAL": '$ ' + (parseFloat(value.SUBTOTAL)).toFixed(2),
             "INCLUYE_IVA": value.APLICA_IVA,
@@ -236,22 +261,10 @@ function reloadTablaDetalleCompras() {
         "ID_PRO": '&nbsp;',
         "NOMBRE_PRO": '&nbsp;',
         "COMPRADO": '&nbsp;',
+        "DEVUELTO": '&nbsp;',
         "DEVOLVER": '&nbsp;',
         "PRECIO_COMP": '<strong>SUBTOTAL</strong>',
         "SUBTOTAL": '$ ' + getSubTotales(1),
-        "INCLUYE_IVA": '',
-        "ACCIONES": '&nbsp;'
-    }).draw();
-    //fila IVA
-    tablaDetalleCompra.row.add({
-        "SELECCIONAR": '&nbsp;',
-        "ID": '&nbsp;',
-        "ID_PRO": '&nbsp;',
-        "NOMBRE_PRO": '&nbsp;',
-        "COMPRADO": '&nbsp;',
-        "DEVOLVER": '&nbsp;',
-        "PRECIO_COMP": '<strong>IVA (' + iva + ')</strong>',
-        "SUBTOTAL": '$ ' + getSubTotales(2),
         "INCLUYE_IVA": '',
         "ACCIONES": '&nbsp;'
     }).draw();
@@ -262,6 +275,7 @@ function reloadTablaDetalleCompras() {
         "ID_PRO": '&nbsp;',
         "NOMBRE_PRO": '&nbsp;',
         "COMPRADO": '&nbsp;',
+        "DEVUELTO": '&nbsp;',
         "DEVOLVER": '&nbsp;',
         "PRECIO_COMP": '<strong>TOTAL</strong>',
         "SUBTOTAL": '$ ' + getSubTotales(3),
@@ -287,31 +301,81 @@ function getDetalleByIdCompra(idRegistro) {
         indiceItemDevolver = 1;
         for (var index = 0; index < longitud; index++) {
             var item = {};
-            item.ID_PRO = response.data.data[index].ID_PRO;
-            item.NOMBRE_PRO = response.data.data[index].NOMBRE_PRO;
-            item.COMPRADO = response.data.data[index].CANTIDAD_PRO;
-            item.DEVUELTO =  0;
-            item.PRECIO_COMP = response.data.data[index].PRECIO_COMP;
-            item.INCLUYE_IVA = response.data.data[index].INCLUYE_IVA;
-            if(item.INCLUYE_IVA == 0)
+            if(response.data.data[index].CANTIDAD_PRO>response.data.data[index].DEVUELTO)
             {
-                item.APLICA_IVA = '<i class="fa fa-times" style="color:#c82333" aria-hidden="true"></i>';
-                item.IVA = 0;
+                item.ID_PRO = response.data.data[index].ID_PRO;
+                item.NOMBRE_PRO = response.data.data[index].NOMBRE_PRO;
+                item.COMPRADO = response.data.data[index].CANTIDAD_PRO;
+                item.DEVUELTO =  response.data.data[index].DEVUELTO;
+                item.DEVOLVER = 0;
+                item.PRECIO_COMP = response.data.data[index].PRECIO_COMP_CON;
+                //item.INCLUYE_IVA = response.data.data[index].IVA;
+                // if(item.INCLUYE_IVA == 0)
+                // {
+                //     item.APLICA_IVA = '<i class="fa fa-times" style="color:#c82333" aria-hidden="true"></i>';
+                //     item.IVA = 0;
+                // }
+                // else
+                // {
+                //     item.APLICA_IVA = '<i class="fa fa-check" style="color:#17a2b8" aria-hidden="true"></i>';
+                //     item.IVA = (item.DEVOLVER * item.PRECIO_COMP)*iva;
+                // }
+                // item.IVA =  parseFloat((item.IVA).toFixed(2));
+                item.SUBTOTAL = (item.DEVOLVER * item.PRECIO_COMP);
+                jsonItemsDevolver[indiceItemDevolver] = item;
+                indiceItemDevolver++;
             }
-            else
-            {
-                item.APLICA_IVA = '<i class="fa fa-check" style="color:#17a2b8" aria-hidden="true"></i>';
-                item.IVA = (item.DEVUELTO * item.PRECIO_COMP)*iva;
-            }
-            item.IVA =  parseFloat((item.IVA).toFixed(2));
-            item.SUBTOTAL = item.PRECIO_COMP*item.DEVUELTO;
-            jsonItemsDevolver[indiceItemDevolver] = item;
-            indiceItemDevolver++;
         }
         localStorage.setItem("itemsAdevolver", JSON.stringify(jsonItemsDevolver));
         reloadTablaDetalleCompras();
         var datos = JSON.parse(localStorage.getItem("itemsAdevolver"));
         //console.log(datos);
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+/**
+ * Permite obtener los detalles de una devolución
+ * @param {int} idRegistro -identificador de devolución
+ */
+function getDetalleByIdDevolucion(idRegistro) {
+    tablaDetalleDevolucion.clear().draw();
+    getDevolucionById(idRegistro);
+    var url = '/devolucion-compra/detalle/byid';
+    axios.get(url, {
+        params: {
+            ID_DEV: idRegistro
+        }
+    }).then(function (response) {
+        var existeDatos = 0;
+        var TOTAL = 0;
+        $.each(response.data.data, function (key, value) {
+            existeDatos++;
+            TOTAL+=value.SUBTOTAL_DEV;
+            tablaDetalleDevolucion.row.add({
+                "#": value.ID_DET_DEV,
+                "PRODUCTO": value.NOMBRE_PRO,
+                "CANTIDAD": value.CANTIDAD_PRO_DEV,
+                'PRECIO': '$ '+ value.PRECIO,
+                "SUBTOTAL": '$ '+value.SUBTOTAL_DEV
+            }).draw();
+        });
+        if(existeDatos>0)
+        {
+             //fila TOTAL
+             tablaDetalleDevolucion.row.add({
+                "#": '',
+                "PRODUCTO": '',
+                "CANTIDAD": '',
+                "PRECIO": '<strong>TOTAL</strong>',
+                "SUBTOTAL": '$ '+TOTAL
+            }).draw();
+        }
+           
+
+        
     })
         .catch(function (error) {
             console.log(error);
@@ -358,10 +422,11 @@ function cambiarTab(indice, idRegistro) {
             }
         case 2: //tab detalle
             {
-                cambiarTabActivo('#editar', 'active show');
+                cambiarTabActivo('#devoluciond', 'active show');
                 cambiarTabActivo('#listado', '');
                 cambiarTabActivo('#detalle', '');
-                // getDetalleByIdCompra(idRegistro);
+                cambiarTabActivo('#devolucion', '');
+                getDetalleByIdDevolucion(idRegistro);
                 break;
             }
     }
@@ -419,7 +484,16 @@ function guardarCambiosEditItem() {
     var CANTIDAD_PRO = $('#EDIT_CANTIDAD_PRO').val().trim();
     var errorMostrarMsj = [];
     if (!CANTIDAD_PRO || CANTIDAD_PRO == 0) errorMostrarMsj.push("Cantidad de producto no puede estar vacío");
-    if (CANTIDAD_PRO > cantidadProductoCompradoSeleccionado) errorMostrarMsj.push("Cantidad a devolver no puede ser mayor a lo comprado");
+    var disponibleDevolver = cantidadProductoCompradoSeleccionado-cantidadProductoDevueltoSeleccionado;
+    if(CANTIDAD_PRO > disponibleDevolver)
+    {
+        errorMostrarMsj.push("La cantidad no puede ser mayor a lo disponible para devolución");
+        errorMostrarMsj.push("Disponible para devolución: "+disponibleDevolver);
+    }
+    // if (CANTIDAD_PRO > cantidadProductoCompradoSeleccionado)
+    // {
+
+    // } 
     if (errorMostrarMsj.length) {
         $('#lstErroresEditItem').empty();
         var lista = '';
@@ -434,12 +508,12 @@ function guardarCambiosEditItem() {
             var dataItems = JSON.parse(localStorage.getItem("itemsAdevolver"));
             $.each(dataItems, function (key, value) {
                 if (key == indiceItemDevolverSeleccionado) {
-                    value.DEVUELTO = parseInt(CANTIDAD_PRO);
-                    value.SUBTOTAL = parseFloat((value.PRECIO_COMP * value.DEVUELTO).toFixed(2));
+                    value.DEVOLVER = parseInt(CANTIDAD_PRO);
+                    value.SUBTOTAL = parseFloat(value.PRECIO_COMP) * parseInt(value.DEVOLVER);
                    
-                    if(value.INCLUYE_IVA>0)
-                    value.IVA = value.SUBTOTAL * iva;
-                    value.IVA = parseFloat((value.IVA).toFixed(2));
+                   // if(value.INCLUYE_IVA>0)
+                   // value.IVA = value.SUBTOTAL * iva;
+                   // value.IVA = parseFloat((value.IVA).toFixed(2));
                     toastr.success('Item modificado correctamente!');
                 }
             });
@@ -469,6 +543,11 @@ $('#btnFinalizarDevolucion').click(function () {
         //console.log(itemsSeleccionados());
         guardarDevolucionCompra();
     }
+
+    // var dataItems = JSON.parse(localStorage.getItem("itemsAdevolver"));
+    // $.each(dataItems, function (key, value) {
+    //    console.log(value);
+    // });
 
 });
 //configuración inicial para tabla listado de COMPRAS
@@ -596,10 +675,10 @@ var tablaDetalleCompra = $('#tabla-detalle-compra').DataTable(
             { 'data': 'ID_PRO' },
             { 'data': 'NOMBRE_PRO' },
             { 'data': 'COMPRADO' },
+            { 'data': 'DEVUELTO' },
             { 'data': 'DEVOLVER' },
             { 'data': 'PRECIO_COMP' },
             { 'data': 'SUBTOTAL' },
-            { 'data': 'INCLUYE_IVA' },
             { 'data': 'ACCIONES' }
         ],
         "language": {
@@ -628,6 +707,156 @@ var tablaDetalleCompra = $('#tabla-detalle-compra').DataTable(
         }
     });
 
+//configuración inicial para tabla listado de DEVOLUCIONES DE COMPRAS
+var tablaDevolucionCompras = $('#tabla-listado-devoluciones').DataTable(
+    {
+        'ajax': {
+            "type": "GET",
+            "url": "devolucion-compra",
+            "dataSrc": function (json) {
+                var return_data = new Array();
+                var buttons = '';
+                for (var i = 0; i < json.data.length; i++) {
+                    var ID_DEV = json.data[i].ID_DEV;
+                    var btnVerDetalles = '<button type="button" onclick="cambiarTab(2,' + ID_DEV + ');" class="btn btn-info"><span class="fa fa-info-circle"></span> Detalles</button>';
+                    buttons = '<div class="btn-group btn-group-sm">' + btnVerDetalles + '</div>';
+                    return_data.push({
+                        'ID_DEV': ID_DEV,
+                        'FECHA': json.data[i].FECHA_DEV,
+                        'OBSERVACION': json.data[i].OBSERVACION_DEV,
+                        'RESPONSABLE': json.data[i].NOMBRE_USU+" "+json.data[i].APELLIDO_USU,
+                        'CAJA': json.data[i].DESCRIPCION_CAJA,
+                        'PROVEEDOR': json.data[i].PROVEEDOR,
+                        'TOTAL': '$ ' + json.data[i].TOTAL_DEV,
+                        'ACCIONES_DEV': buttons
+                    })
+                }
+                return return_data;
+            }
+        },
+        "columns": [
+            { 'data': 'ID_DEV' },
+            { 'data': 'FECHA' },
+            { 'data': 'OBSERVACION' },
+            { 'data': 'RESPONSABLE' },
+            { 'data': 'CAJA' },
+            { 'data': 'PROVEEDOR' },
+            { 'data': 'TOTAL' },
+            { 'data': 'ACCIONES_DEV' }
+        ],
+        dom: 'lBfrtip',
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "Todo"]],
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                text: '<i class="fa fa-files-o"></i> Copiar',
+                titleAttr: 'Copiar',
+                exportOptions: {
+                    columns: 'th:not(:last-child)'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fa fa-file-excel-o"></i> Excel',
+                titleAttr: 'Excel',
+                exportOptions: {
+                    columns: 'th:not(:last-child)'
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: '<i class="fa fa-file-text-o"></i> CSV',
+                titleAttr: 'CSV',
+                exportOptions: {
+                    columns: 'th:not(:last-child)'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                titleAttr: 'PDF',
+                title: 'Listado de' + $('#titulo').text(),
+                exportOptions: {
+                    columns: 'th:not(:last-child)'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> Imprimir',
+                titleAttr: 'Imprimir',
+                title: 'Listado de' + $('#titulo').text(),
+                className: 'btn btn-info btn-xs',
+                exportOptions: {
+                    columns: 'th:not(:last-child)'
+                }
+            }
+        ],
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });  
+    
+//configuración inicial para tabla DETALLE DE COMPRA
+var tablaDetalleDevolucion = $('#tabla-detalle-devolucion').DataTable(
+    {
+
+        "paging": false,
+        "searching": false,
+        "info": false,
+        "ordering": false,
+        "columns": [
+            { 'data': '#' },
+            { 'data': 'PRODUCTO' },
+            { 'data': 'CANTIDAD' },
+            { 'data': 'PRECIO' },
+            { 'data': 'SUBTOTAL' }
+        ],
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });    
 //columna ID de tabla detalle compra, se hace no visible
 //tablaDetalleCompra.column(1).visible(false);
 tablaDetalleCompra.column(2).visible(false);

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\CierreCaja;
+use App\Cajas;
 use DB;
 use Auth;
+use App\MovimientoCaja;
 class CierreCajaController extends Controller
 {
     /**
@@ -31,7 +33,7 @@ class CierreCajaController extends Controller
         $ID_CCJ = $_GET['ID_CCJ'];
         $cierreCajas =  DB::table('CIERRE_CAJA as c')
         ->select('c.ID_CCJ','c.FECHA_CIERRE_CCJ','cj.DESCRIPCION_CAJA as CAJA','u.NOMBRE_USU','u.APELLIDO_USU',
-        'c.DEPOSITO','c.CONTADO_CCJ','c.CALCULADO_CCJ','c.DIFERENCIA_CCJ',
+        'c.CONTADO_CCJ','c.CALCULADO_CCJ','c.DIFERENCIA_CCJ',
         'c.RETIRO_CCJ')
         ->join('CAJAS as cj','c.ID_CAJA','=','cj.ID_CAJA')
         ->join('USUARIOS as u','c.ID_USU','=','u.ID_USU')
@@ -59,42 +61,40 @@ class CierreCajaController extends Controller
      */
     public function store(Request $request)
     {
+        $success = 0;
+        DB::beginTransaction();
+        try {
+        $cajas = Cajas::findOrFail($request->ID_CAJA);
         $cierreCaja = new CierreCaja;
         $cierreCaja->ID_CAJA = $request->ID_CAJA;
         $cierreCaja->ID_USU = Auth::user()->ID_USU;
-        $cierreCaja->DEPOSITO = $request->DEPOSITO;
-        $cierreCaja->ESTADO_CCJ = 0;
-        $cierreCaja->save();
-        return $cierreCaja;
-    }
-
-    public function getTotalVendidoPorUsuario()
-    {
-        $ID_USU = Auth::user()->ID_USU;
-        $totalVentas = DB::select("SELECT fGetTotalVentasByUsuario($ID_USU) as total");
-        return 1050.55;//$totalVentas[0]->total;
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        $cierreCaja = CierreCaja::findOrFail($request->ID_CCJ);
         $cierreCaja->CONTADO_CCJ = $request->CONTADO_CCJ;
-        $cierreCaja->CALCULADO_CCJ = $request->CALCULADO_CCJ;
-        $cierreCaja->DIFERENCIA_CCJ = $request->DIFERENCIA_CCJ;
+        $cierreCaja->CALCULADO_CCJ = $cajas->VALOR;
+        $cierreCaja->DIFERENCIA_CCJ = $cajas->VALOR - $request->CONTADO_CCJ;
         $cierreCaja->RETIRO_CCJ = $request->RETIRO_CCJ;
-        //$cierreCaja->FECHA_CIERRE_CCJ = $request->FECHA_CIERRE_CCJ;
         $cierreCaja->ESTADO_CCJ = 1;
         $cierreCaja->save();
-    }
 
-   
+        //Registro en movimiento caja
+        $movimientoCaja = new MovimientoCaja;
+        $movimientoCaja->TOTAL = $cierreCaja->RETIRO_CCJ;
+        $movimientoCaja->COMENTARIO = 'Cierre de caja';
+        $movimientoCaja->TIPO = 2; //salida de dinero
+        $movimientoCaja->ESTADO = 1;
+        $movimientoCaja->CAJ_ID = $request->ID_CAJA;
+        $movimientoCaja->save();
+
+        //actualizo valor de caja
+        $cajas->VALOR = $cajas->VALOR - $request->RETIRO_CCJ;
+        $cajas->save();
+        DB::commit();
+        $success = 1;
+        } catch (\Exception $e) {
+        $success = $e->getMessage();
+        DB::rollback();
+        }
+        return $success;
+    }
 
     /**
      * Remove the specified resource from storage.

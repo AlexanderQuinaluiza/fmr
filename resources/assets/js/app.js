@@ -35,7 +35,6 @@ Vue.component('pedido_comp', require('./components/PedidoComponent.vue'));
 Vue.component('modulo_comp', require('./components/ModuloComponent.vue'));
 Vue.component('compra_comp', require('./components/CompraComponent.vue'));
 Vue.component('dev_compra_comp', require('./components/DevCompraComponent.vue'));
-Vue.component('apertura_caja_comp', require('./components/AperturaCajaComponent.vue'));
 Vue.component('cierre_caja_comp', require('./components/CierreCajaComponent.vue'));
 Vue.component('dev_venta_comp', require('./components/DevolucionesVentasComponent.vue'));
 Vue.component('cierres_caja_comp', require('./components/CierreCajasComponent.vue'));
@@ -44,6 +43,9 @@ Vue.component('inventario_comp', require('./components/InventarioComponent.vue')
 Vue.component('estadistica_compras_comp', require('./components/EstadisticasComprasComponent.vue'));
 Vue.component('reportes_comp', require('./components/ReportesComponent.vue'));
 Vue.component('reporte_compras_comp', require('./components/ReporteComprasComponent.vue'));
+Vue.component('reporte_productos_comp', require('./components/ReporteProductosComponent.vue'));
+Vue.component('movimiento_caja', require('./components/MovimientoCajaComponent.vue'));
+Vue.component('escritorio_comp', require('./components/EscritorioComponent.vue'));
 Vue.component('home', require('./components/Home.vue'));
 Vue.component('comprobantes_comp', require('./components/ComprobantesComponent.vue'));
 
@@ -53,7 +55,7 @@ Vue.component('reportedevventas_comp', require('./components/ReporteDevVentasCom
 const app = new Vue({
     el: '#app',
     data:{
-        menu:31,
+        menu:2,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu :[],
         },

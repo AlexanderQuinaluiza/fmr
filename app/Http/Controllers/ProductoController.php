@@ -47,18 +47,7 @@ class ProductoController extends Controller
         ->where('p.ID_PRO', '=', $id)
         ->get();
 
-       // $producto[0]->PRECIO_PROMOCIONAL_PRO;
-      /// $idproducto = (int)$producto[0]->ID_PRO;
-      // $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-//
-   ///  $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-      //  $descuento = $porcentajeDesc * $precioVenta;
-      //  $precioConDescuento = $precioVenta - $descuento;
-      //  $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
-        //return round($precioConDescuento,2);
-
-       // $id = (int) $_GET['ID_PRO'];
-       // $producto = Productos::findOrFail($id);
+        
       return response()->json($producto,200);
     }
 /** productos ventas, metodo que se usa en el modulo de ventas */
@@ -82,30 +71,12 @@ public function productosVentas()
     ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
     ->where('p.ESTADO_PRO', '=', 1)
     ->get();
-
-   // $producto[0]->PRECIO_PROMOCIONAL_PRO;
-   //$idproducto = (int)$producto[0]->ID_PRO;
-   //$precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-//
-   // $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-   // $descuento = $porcentajeDesc * $precioVenta;
-   // $precioConDescuento = $precioVenta - $descuento;
-   // $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);
-
-    //return round($precioConDescuento,2);
-
-   // $id = (int) $_GET['ID_PRO'];
-   // $producto = Productos::findOrFail($id);
    return response()->json(['data'=>$producto],200);
-
-    /**->join('PRESENTACIONES pr')
-    ->join('CATEGORIAS c')*/
 }
 
 /**** metodo para extaer la informacion de un producto en base al codigo de barras */
 public function productoEjemplar()
 {  
-      //$producto='';
     try{
         $id = $_GET['CODEBAR'];
         $producto =  DB::table('PRODUCTOS as p')
@@ -127,17 +98,6 @@ public function productoEjemplar()
         ->where('e.ESTADO', '=', 1)
         ->where('e.COD_BARRAS_EJM','=',$id)
         ->get();
-    
-       // $producto[0]->PRECIO_PROMOCIONAL_PRO;
-    
-       
-    /* $idproducto = (int)$producto[0]->ID_PRO;
-     $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-    
-       $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-       $descuento = $porcentajeDesc * $precioVenta;
-       $precioConDescuento = $precioVenta - $descuento;
-       $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);*/
     }catch(Exeption $e){
        $producto='';
     }
@@ -146,7 +106,7 @@ public function productoEjemplar()
 /** metodo que se usa en el modulo  de descuentos */
     public function productoDescuentos()
     {
-         $id = (int) $_GET['ID_DESC'];
+        $id = (int) $_GET['ID_DESC'];
         $producto =  DB::table('PRODUCTOS as p')
         ->select('p.ID_PRO','p.NOMBRE_PRO','p.ID_CAT','p.ID_PRS',
         'p.ID_MAR','p.DESCRIPCION_PRO','p.COSTO_PRO',
@@ -162,15 +122,8 @@ public function productoEjemplar()
         ->join('CATEGORIAS as c','p.ID_CAT','=','c.ID_CAT')
         ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
         ->join('DETALLES_DESCUENTOS as dd', 'dd.ID_PRO','=','p.ID_PRO')
-        ->where('dd.ID_DESC', '=', $id)
+        ->where('dd.ID_DESC', '=', 14)
         ->get();
-       /* $idproducto = (int)$producto[0]->ID_PRO;
-        $precioVenta = (float)$producto[0]->PRECIO_VENTA_PRO;
-     
-         $porcentajeDesc = (float)$this->getPorcentajeDescuento($idproducto);
-         $descuento = $porcentajeDesc * $precioVenta;
-         $precioConDescuento = $precioVenta - $descuento;
-         $producto[0]->PRECIO_PROMOCIONAL_PRO = round($precioConDescuento,2);*/
          return response()->json(['data'=>$producto],200);
     }
      
@@ -267,6 +220,12 @@ public function productoEjemplar()
     {
      $producto = Productos::findOrFail($request->ID_PRO);
      $producto->ESTADO_PRO = 1;
+     $producto->save();
+    }
+    public function actualizarIncluyeIVA($ID_PRO,$APLICA_IVA)
+    {
+     $producto = Productos::findOrFail($ID_PRO);
+     $producto->APLICA_IVA_PRO = $APLICA_IVA;
      $producto->save();
     }
 }

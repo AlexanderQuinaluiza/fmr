@@ -13,7 +13,6 @@ class CierreCaja extends Model
     'ID_CAJA',
     'ID_USU',
     'DESC_CCJ',
-    'DEPOSITO',
     'CALCULADO_CCJ',
     'DIFERENCIA_CCJ',
     'RETIRO_CCJ',

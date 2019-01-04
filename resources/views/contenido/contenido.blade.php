@@ -67,6 +67,7 @@
         <dev_venta_comp></dev_venta_comp>
         </template> 
 
+
          <template v-if="menu==19">
          <inventario_comp></inventario_comp>
         </template>
@@ -110,24 +111,24 @@
    <!-- <pedido_comp></pedido_comp> 
   <compra_comp></compra_comp>   -->
   <!-- <producto_comp></producto_comp>  -->
-  <!-- <dev_compra_comp></dev_compra_comp>  -->
+   <!-- <dev_compra_comp></dev_compra_comp>   -->
   <!-- <caja_comp></caja_comp> -->
-  <!-- <apertura_caja_comp></apertura_caja_comp> -->
 
    <!-- <descuento_comp></descuento_comp> -->
   <!-- <cierre_caja_comp></cierre_caja_comp> -->
    <!--<cierres_caja_comp></cierres_caja_comp> -->
 
   <!-- <configuracion_comp></configuracion_comp> -->
-  <!-- <usuario_comp></usuario_comp> -->
-  <!-- <rol_comp></rol_comp>  -->
+  <!-- <usuario_comp></usuario_comp>  -->
+  <!-- <rol_comp></rol_comp>--> 
   <!-- <proveedor_comp></proveedor_comp> -->
     <!-- <inventario_comp></inventario_comp> -->
     <!-- <estadistica_compras_comp></estadistica_compras_comp> -->
-     <!-- <reportes_comp></reportes_comp> -->
-
+   
+    <!-- <escritorio_comp></escritorio_comp> -->
      <!-- <reporte_compras_comp></reporte_compras_comp> -->
+     <!-- <ventas_comp></ventas_comp> -->
      <!-- <home></home> -->
-     
+     <!-- <reporte_productos_comp></reporte_productos_comp> -->
     @endsection
  

@@ -18,7 +18,8 @@ class Usuarios extends Model
     'CLAVE_USU',
     'DIRECCION_USU',
     'CORREO_USU',
-    'ESTADO_USU'
+    'ESTADO_USU',
+    'ID_CAJA'
     ];
     //  'FECHA_REGISTRO_USU'
     //'REMEMBER_TOKEN',

@@ -39,89 +39,21 @@ class ReporteComprasController extends Controller
       return $comprasXproducto;
     }
 
-    public function getEstadisticasCompras()
+    /**Permite obtener el reporte de inventario de productos
+     * con el precio promedio de compra
+     */
+    public function getReporteInventarioCompProductos()
     {
-        $dato = '';
+        $inventarioproducto = 
+        DB::select('call pGetReporteInventarioProductos()');
+      return $inventarioproducto;
+    }
+
+    public function getDatosCustomComprasDev()
+    {
         $estadisticasCompras = 
-        DB::select('call pGetEstadisticasCompras()');
-        foreach ($estadisticasCompras as $valor) {
-            $valor->ITEMS = $this->getEstadisticasComprasByProductos($valor->name);
-        }
-      //return $estadisticasCompras;
-      return  $estadisticasCompras;
-    }
-
-    public function getEstadisticasComprasByProductos($mes)
-    {
-        $estadisticasComprasproducto = 
-        DB::select('call pGetEstadisticasComprasProductos(?)',array($mes));
-      return $estadisticasComprasproducto;
-    }
-
-    
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        DB::select('call pGetComprasyDevoluciones()');
+        $result = array();
+      return $estadisticasCompras;
     }
 }

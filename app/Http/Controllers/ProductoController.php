@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use App\File;
+use Auth;
 class ProductoController extends Controller
 {
     /**
@@ -49,6 +50,7 @@ class ProductoController extends Controller
 
         
       return response()->json($producto,200);
+     // return "jaja";
     }
 /** productos ventas, metodo que se usa en el modulo de ventas */
 

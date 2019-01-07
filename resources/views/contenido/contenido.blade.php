@@ -1,8 +1,8 @@
     @extends('principal')
     @section('contenido')
-  <template v-if="menu==0">
+  <!-- <template v-if="menu==0">
         <h3>Contenido dashboard, summary</h3>
-       </template>
+       </template> -->
        
           <template v-if="menu==1"> 
             
@@ -75,18 +75,19 @@
         <reporteventas_comp></reporteventas_comp>
         </template>
         <template v-if="menu==21">
-        <reporte_compras_comp></reporte_compras_comp>
-        </template>
-
-         <template v-if="menu==22">
+        <!-- <reporte_compras_comp></reporte_compras_comp> -->
         <estadistica_compras_comp></estadistica_compras_comp>
         </template>
+
+         <!-- <template v-if="menu==22">
+        <estadistica_compras_comp></estadistica_compras_comp>
+        </template> -->
         </template> 
          <template v-if="menu==23">
          <configuracion_comp></configuracion_comp>
         </template>
         <template v-if="menu==24">
-         <cierres_caja_comp></cierres_caja_comp>
+         <cierre_caja_comp></cierre_caja_comp>
         </template>
         <template v-if="menu==25">
          <cierres_caja_comp></cierres_caja_comp>
@@ -94,15 +95,16 @@
         <template v-if="menu==26">
          <comprobantes_comp></comprobantes_comp>
         </template>
+        
         <template v-if="menu==28">
-        <apertura_caja_comp></apertura_caja_comp>
-        </template>   
-        <template v-if="menu==28">
-        <reporteventas_comp></reporteventas_comp>
+        <reporte_productos_comp></reporte_productos_comp>
         </template> 
         
         <template v-if="menu==30">
         <reportedevventas_comp></reportedevventas_comp>
+        </template>
+        <template v-if="menu==31">
+        <movimiento_caja></movimiento_caja>
         </template>
         
         

@@ -243,7 +243,7 @@ function registrar(){
             toastr.success('Registrado correctamente!')
             })
             .catch(function (error) {
-            //console.log(error);
+            console.log(error);
             toastr.error('No se ha podido guardar el registro.', 'Error!')
             });
     }

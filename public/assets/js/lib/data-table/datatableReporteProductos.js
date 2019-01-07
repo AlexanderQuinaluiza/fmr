@@ -2,7 +2,26 @@
  * FUNCIONES PARA REPORTES DE PRODUCTOS
  */
 
-
+var iva = 0;
+/**
+ * FUNCION PARA LEER DATOS DE CONFIGURACIONES DADO UN ID
+ * @param {string} key --nombre de configuracion
+ */
+function getSetting(key) {
+    $.ajax({
+        async: false,
+        cache: false,
+        dataType: "html",
+        type: 'GET',
+        url: "/settings",
+        data: { setting: key },
+        success: function (respuesta) {
+            iva =  parseFloat(respuesta.trim());
+        },
+        beforeSend: function () { },
+        error: function (objXMLHttpRequest) { }
+    });
+}getSetting('iva');
 /**
  * Permite obtener las existencias de productos y almacenarlos 
  * en la cache del navegador
@@ -259,12 +278,20 @@ function consultarPreciosProductos() {
     var url = '/productos';
     axios.get(url).then(function (response) {
        $.each(response.data.data,function(key,value){
+           var PRECIO_CON_IVA = 0;
+           if(value.APLICA_IVA_PRO==1)
+           {
+            PRECIO_CON_IVA = value.PRECIO_PROMOCIONAL_PRO +(value.PRECIO_PROMOCIONAL_PRO*iva)
+           }
+           else{
+            PRECIO_CON_IVA = value.PRECIO_PROMOCIONAL_PRO;
+           }
         tablaListaPrecios.row.add({
             "ID": value.ID_PRO,
             "PRODUCTO": value.NOMBRE_PRO,
             "DESCRIPCION": value.DESCRIPCION_PRO,
             "EXISTENCIA": value.STOCK_PRO,
-            "PRECIO": '$ ' + value.PRECIO_PROMOCIONAL_PRO.toFixed(2)
+            "PRECIO": '$ ' + (value.PRECIO_PROMOCIONAL_PRO).toFixed(2)
         }).draw();
         console.log(value.ID_PRO+" "+value.NOMBRE_PRO+" "+
         value.STOCK_PRO+" "+value.PRECIO_PROMOCIONAL_PRO);

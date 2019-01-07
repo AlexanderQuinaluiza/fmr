@@ -11,12 +11,12 @@
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <!-- <li class="active">
                         <a href="javascript: void(0)" @click="menu=0"> <i class="menu-icon fa fa-dashboard"></i>Escritorio </a>
-                    </li>
+                    </li> -->
                     <h3 class="menu-title">Administración</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)"  class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="menu-icon fa fa-laptop"></i>Almacen</a>
+                        <a href="javascript: void(0)"  class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="menu-icon fa fa-home custom-icon"></i>Almacen</a>
                         <ul class="sub-menu children dropdown-menu">
                             
                             <li v-if="item.SECCION=='Almacén'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
@@ -33,7 +33,7 @@
                     <h3 class="menu-title">Seguridad</h3><!-- /.menu-title -->
 
                     <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Usuarios y Accesos</a>
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users custom-icon"></i>Usuarios y Accesos</a>
                         <ul class="sub-menu children dropdown-menu">
                         <li v-if="item.SECCION=='Seguridad'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
@@ -47,7 +47,7 @@
                    
                     <h3 class="menu-title"></h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Compras</a>
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cart-plus custom-icon"></i>Compras</a>
                         <ul class="sub-menu children dropdown-menu">
                         <li v-if="item.SECCION=='Compras'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
@@ -60,7 +60,7 @@
                        </li>
 
                        <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Ventas</a>
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-calculator custom-icon"></i>Ventas</a>
                         <ul class="sub-menu children dropdown-menu">
                         <li v-if="item.SECCION=='Ventas'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
@@ -74,7 +74,7 @@
                       </li>    
                         <h3 class="menu-title"></h3><!-- /.menu-title -->
                         <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Contabilidad</a>
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-money custom-icon"></i>Contabilidad</a>
                         <ul class="sub-menu children dropdown-menu">
                         <li v-if="item.SECCION=='Contable'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
@@ -87,7 +87,7 @@
                        </li>
                        <h3 class="menu-title"></h3><!-- /.menu-title -->
                         <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Inventarios</a>
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table custom-icon"></i>Inventarios</a>
                         <ul class="sub-menu children dropdown-menu">
                         <li v-if="item.SECCION=='Inventario'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
@@ -101,7 +101,7 @@
                       
                     <h3 class="menu-title">Reportes</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Reportes Gerenciales</a>
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart custom-icon"></i>Reportes Gerenciales</a>
                         <ul class="sub-menu children dropdown-menu">
                         <li v-if="item.SECCION=='Reportes'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
@@ -111,7 +111,7 @@
                            </li>  
                         </ul>
                        </li>
-                    <h3 class="menu-title">Otros</h3><!-- /.menu-title -->
+                    <!-- <h3 class="menu-title">Otros</h3>
                     <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Configuración</a>
                         <ul class="sub-menu children dropdown-menu">
@@ -122,7 +122,7 @@
                              
                            </li>
                         </ul>
-                       </li>
+                       </li> -->
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

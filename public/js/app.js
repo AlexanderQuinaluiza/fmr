@@ -1443,7 +1443,7 @@ Vue.component('reportedevventas_comp', __webpack_require__(188));
 var app = new Vue({
     el: '#app',
     data: {
-        menu: 2,
+        menu: 1,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu: []
     },
@@ -44404,97 +44404,6 @@ var staticRenderFns = [
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("h6", { staticClass: "lineas" }, [
-                    _c("span", { staticClass: "lineas-contenido" }, [
-                      _vm._v("EJEMPLARES")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-row" }, [
-                    _c("div", { staticClass: "form-group col-md-4" }, [
-                      _c("label", [_vm._v("Código de Barra")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "CODIGO_BARRA",
-                          required: "",
-                          placeholder: "Código de barra",
-                          maxlength: "100"
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group col-md-4" }, [
-                      _c("label", [_vm._v("Fecha caducidad")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          "data-date-format": "yyyy/mm/dd",
-                          id: "FECHA_CADUCIDAD",
-                          placeholder: "yyyy/mm/dd",
-                          maxlength: "12"
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("label", [_vm._v(" ")]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          attrs: { type: "button", id: "btnAddCodigoBarra" }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-barcode" }),
-                          _vm._v(" Añadir Código Barra")
-                        ]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      {
-                        staticClass:
-                          "table table-bordered table-striped table-hover dataTable js-exportable",
-                        attrs: { id: "tabla-codigo-barras" }
-                      },
-                      [
-                        _c(
-                          "thead",
-                          {
-                            staticStyle: {
-                              color: "#fff",
-                              background: "#546e7a"
-                            }
-                          },
-                          [
-                            _c("tr", [
-                              _c("th", [_vm._v("#")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Código Barras")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Caducidad")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Acciones")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("tbody")
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
                   _c("div", { staticClass: "row clearfix div-error" }, [
                     _c("ul", { attrs: { id: "lstErroresEditItem" } })
                   ])
@@ -49400,44 +49309,6 @@ var staticRenderFns = [
                         _c("i", { staticClass: "fa fa-list" }),
                         _vm._v(" General")
                       ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "nav-item nav-link",
-                        attrs: {
-                          id: "editar-tab",
-                          "data-toggle": "tab",
-                          href: "#editar",
-                          role: "tab",
-                          "aria-controls": "editar",
-                          "aria-selected": "false"
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-truck" }),
-                        _vm._v(" Proveedores")
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "nav-item nav-link",
-                        attrs: {
-                          id: "devolucion-tab",
-                          "data-toggle": "tab",
-                          href: "#devolucion",
-                          role: "tab",
-                          "aria-controls": "devolucion",
-                          "aria-selected": "false"
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-line-chart" }),
-                        _vm._v(" Compras vs Devoluciones")
-                      ]
                     )
                   ]
                 )
@@ -51496,29 +51367,6 @@ var staticRenderFns = [
             ]
           )
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-3" }, [
-        _c("div", { staticClass: "form-check" }, [
-          _c(
-            "label",
-            { staticClass: "toggle", staticStyle: { "font-size": "17px" } },
-            [
-              _c("input", {
-                attrs: {
-                  type: "radio",
-                  hidden: "",
-                  name: "rdInventarioProd",
-                  value: "ventas"
-                }
-              }),
-              _vm._v(" "),
-              _c("span", { staticClass: "label-text" }, [
-                _vm._v("Precios de venta")
-              ])
-            ]
-          )
-        ])
       ])
     ])
   }
@@ -52551,8 +52399,6 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
-          _c("div", { attrs: { id: "output" } }),
-          _vm._v(" "),
           _c("div", {
             staticStyle: { display: "none" },
             attrs: { id: "ridenc" }

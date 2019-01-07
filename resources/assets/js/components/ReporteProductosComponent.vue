@@ -85,13 +85,13 @@
                                                 </label>
                                             </div>
                                       </div>
-                                       <div class="col-md-3">
+                                       <!-- <div class="col-md-3">
                                            <div class="form-check">
                                                 <label class="toggle" style="font-size:17px">
                                                     <input type="radio" hidden name="rdInventarioProd" value="ventas"> <span class="label-text">Precios de venta</span>
                                                 </label>
                                             </div>
-                                      </div>                                                                                                                                                                                                                                                               
+                                      </div>                                                                                                                                                                                                                                                                -->
                                 </div>                            
                                 <br>
                                 <div class="table-responsive">

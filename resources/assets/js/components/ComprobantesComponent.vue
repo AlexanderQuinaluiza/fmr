@@ -7,7 +7,7 @@
                     <h4 id="titulo"><i class="fa fa-files"></i> Comprobantes </h4>
                 </div>
                 <div class="card-body">
-                    <div id="output"></div>
+                    <!-- <div id="output"></div> -->
                   <div id="ridenc" style="display:none;"></div>
                      <!--Inicio modal detalle producto -->
 

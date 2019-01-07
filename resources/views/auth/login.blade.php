@@ -7,7 +7,7 @@
                     {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label>Correo</label>
-                            <input id="email" type="email" class="form-control" placeholder="Correo electrónico"  name="email" value="carlos@hotmail.com" required autofocus>
+                            <input id="email" type="email" class="form-control" placeholder="Correo electrónico"  name="email"  required autofocus>
                             @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -16,7 +16,7 @@
                         </div>
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label>Contraseña</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required value="universal">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required>
                             @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>

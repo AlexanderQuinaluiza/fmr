@@ -152,7 +152,10 @@ tr.shown td.details-control:before {
 #app {
     overflow-x: hidden;
 }
-
+.custom-icon
+{
+    font-size:25px;
+}
      </style> 
 <body >
  <div id="app">

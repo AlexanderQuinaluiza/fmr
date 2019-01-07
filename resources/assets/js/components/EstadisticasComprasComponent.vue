@@ -10,8 +10,8 @@
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link" id="listado-tab" data-toggle="tab" href="#listado" role="tab" aria-controls="listado" aria-selected="true" ><i class="fa fa-list"></i> General</a>
-                            <a class="nav-item nav-link" id="editar-tab" data-toggle="tab" href="#editar" role="tab" aria-controls="editar" aria-selected="false"><i class="fa fa-truck"></i> Proveedores</a>
-                            <a class="nav-item nav-link" id="devolucion-tab" data-toggle="tab" href="#devolucion" role="tab" aria-controls="devolucion" aria-selected="false"><i class="fa fa-line-chart"></i> Compras vs Devoluciones</a>
+                            <!-- <a class="nav-item nav-link" id="editar-tab" data-toggle="tab" href="#editar" role="tab" aria-controls="editar" aria-selected="false"><i class="fa fa-truck"></i> Proveedores</a>
+                            <a class="nav-item nav-link" id="devolucion-tab" data-toggle="tab" href="#devolucion" role="tab" aria-controls="devolucion" aria-selected="false"><i class="fa fa-line-chart"></i> Compras vs Devoluciones</a> -->
                             </div>
                         </nav>
                         <div class="tab-content pl-3 pt-2" id="nav-tabContent">

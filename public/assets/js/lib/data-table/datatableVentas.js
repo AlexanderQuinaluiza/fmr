@@ -27,6 +27,7 @@ function validarDatos(opcion) {
             lista += '<li style="color: red !important">' + errorMostrarMsj[i] + '</li>';
         }
         $('#lstErrores').append(lista);
+        $('#btnGuardar').attr("data-dismiss","");
     }
     else {
         $('#lstErrores').empty();
@@ -532,7 +533,9 @@ function datosFac() {
         $('#rucfac').html('R.U.C ' + response.data[0].RUC_AGE);
         $('#numfac').html('001-00' + response.data[0].ID_AGE + '-00000###');
         $('#direccionfac').html('Dirección: ' + response.data[0].DIRECCION_AGE);
-        $('#cajadesc').html(response.data[0].DESCRIPCION_CAJA)
+        $('#cajadesc').html(response.data[0].DESCRIPCION_CAJA);
+        $('#idcaja').html(response.data[0].ID_CAJA);
+        
 
     })
         .catch(function (error) {
@@ -614,7 +617,7 @@ function validarDatosCabeceraFac() {
     var error = 0;
     var table = document.getElementById('table_detalles');
     var errorMostrarMsj = [];
-    if (!$('#CED_RUC_CLI').val().trim()) errorMostrarMsj.push("La cédula o RUC de cliente no puede estar vacío.");
+    if (!$('#RUC').val().trim()) errorMostrarMsj.push("La cédula o RUC de cliente no puede estar vacío.");
     // if(!$('#nombrescl').html().trim()) errorMostrarMsj.push("El nombre de cliente no puede estar vacío.");
     if (table.rows.length == 0) errorMostrarMsj.push("Debe ingresar al menos un item al detalle.");
     //if(!$('#dirtel').html().trim()) errorMostrarMsj.push("La dirección de cliente no puede estar vacío.");
@@ -714,13 +717,15 @@ function registrarVenta() {
     var data = new FormData();
 
     data.append('detalles', JSON.stringify(productosSeleccionados()));
-    data.append('ID_USU', 1);
+   // data.append('ID_USU', 1);
     data.append('ID_CLI', $('#id_cli').html());
     data.append('TOTAL_VEN', $('#total').html());
     data.append('SUBT_IVA', $('#tar12').html());
     data.append('SUBT_CERO', $('#tar0').html());
     data.append('IVA_VEN', $('#valoriva').html());
     data.append('TOTAL_DESC', $('#descfac').html());
+    data.append('ID_CAJA', $('#idcaja').html());
+    
 
     axios.post(url, data).then(function (response) {
 
@@ -749,8 +754,10 @@ function registrarVenta() {
  */
 function registrar() {
     if (this.validarDatos(1)) {
+
         return;
     }
+     $('#btnGuardar').attr("data-dismiss","modal");
     axios.post('/clientes/registrar', {
         'CED_RUC_CLI': $('#CED_RUC_CLI').val().trim(),
         'NOMBRE_CLI': $('#NOMBRE_CLI').val().trim(),
@@ -762,10 +769,20 @@ function registrar() {
         // tabla.ajax.reload();
         validarcedula();
         limpiarDatos();
-        toastr.success('Registrado correctamente!, continue facturando')
+        //$('#btncerrar').click();
+        toastr.success('Registrado correctamente!, continue facturando');
+       
+        //$('#btnGuardar').modal('hide');
+        //jQuery('#modalnewCl').modal('toggle');
+        //$('.close').click(); 
+        //$('#modalnewCl').hide();
+       //  $('#modalnewCl').attr("aria-hidden","true");
+        //$('.modal-backdrop').hide();
+       
     })
         .catch(function (error) {
             console.log(error);
+           // $('#btnGuardar').attr("data-dismiss","");
             toastr.error('No se ha podido guardar el registro.', 'Error!')
         });
 }
@@ -787,6 +804,7 @@ function finalizarVenta() {
     document.getElementById("btnGuardarVenta").style.display = "block";
     document.getElementById("btnImprimirVenta").style.display = "none";
     document.getElementById("btnfinalizarVenta").style.display = "none";
+    document.getElementById("recibe").value = "";
     totalArticulosVendidos();
 }
 
@@ -799,7 +817,7 @@ function crearFactura(miventa, misdetalles) {
     var contenido = '<div class="card" style="width: 20rem;">' +
         '<div class="card-body">' +
         '<div><center> <b> FARMACIA COMUNITARIA PUYO </b></center> </div>' +
-        ' <center><div>R.U.C:' + document.getElementById("rucfac").innerHTML + ' </div>  </center>' +
+        ' <center><div>' + document.getElementById("rucfac").innerHTML + ' </div>  </center>' +
         ' <center><div>' + document.getElementById("direccionfac").innerHTML + ' </div>  </center>' +
         '<div id="numfac">FACTURA: ' + nuevocomp + '</div>' +
         '<div>Fecha: ' + miventa[0].FECHA_VEN + '   Codigo: ' + miventa[0].ID_VEN + '</div>' +
@@ -844,7 +862,7 @@ function crearFactura(miventa, misdetalles) {
         '</tr>' +
         '<tr>' +
 
-        '<td class="datosv">tarifa 12%</td>' +
+        '<td class="datosv">tarifa '+ toFixedTrunc(iva*100,0)+'%</td>' +
         '<td class="datosv">' + document.getElementById("tar12").innerHTML + '</td>' +
         '</tr>' +
 
@@ -865,8 +883,9 @@ function crearFactura(miventa, misdetalles) {
         '</tr>' +
         ' </table>' +
         ' <hr>' +
-        '<div class="datosv" style="font-size: smaller;">Atendido por:' + 'UsuarioLogin' + ' </div>' +
-        ' <div class="datosv" style="font-size: smaller;">Caja:' + document.getElementById("cajadesc").innerHTML + '</div>' +
+        '<div class="datosv" style="font-size: smaller;">Paga con:' + document.getElementById("recibe").value + ' '+ document.getElementById("cambio").innerHTML +' </div>' +
+        '<div class="datosv" style="font-size: smaller;">Atendido por:' + document.getElementById("h6UserName").innerHTML + ' </div>' +
+        ' <div class="datosv" style="font-size: smaller;">' + document.getElementById("cajadesc").innerHTML + '</div>' +
         ' <div class="datosv" style="font-size: smaller;">Total de articulos vendidos:' + totalArticulosVendidos() + '</div> ' +
         '</div>' +
         '</div>';
@@ -1021,7 +1040,7 @@ function addRow(datos) {
 
         switch (i) {
             case 0:
-                cell.innerHTML = '<button type="button" id="btndelete" class="btn btn-danger btn-sm" title="Borrar item" onclick = "deleteRow(this)"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                cell.innerHTML = '<button type="button" id="btndelete" name="btndelete" class="btn btn-danger btn-sm" title="Borrar item" onclick = "deleteRow(this)"><i class="fa fa-trash" aria-hidden="true"></i></button>';
                 break;
             case 1:
                 cell.innerHTML = datos.data[0].ID_PRO;
@@ -1224,8 +1243,8 @@ function recalcularTotales() {
     document.getElementById("tar0").innerHTML = toFixedTrunc(subtotalcero, 2);
     document.getElementById("descfac").innerHTML = toFixedTrunc(descuentos, 2);
     document.getElementById("subsubtotal").innerHTML = toFixedTrunc(valor_total - descuentos, 2);
-    document.getElementById("valoriva").innerHTML = toFixedTrunc(subtotaliva * 0.12, 2);
-    document.getElementById("total").innerHTML = toFixedTrunc(subtotaliva * 1 + subtotalcero * 1 + subtotaliva * 0.12, 2);
+    document.getElementById("valoriva").innerHTML = toFixedTrunc(subtotaliva * iva, 2);
+    document.getElementById("total").innerHTML = toFixedTrunc(subtotaliva * 1 + subtotalcero * 1 + subtotaliva * iva, 2);
 
 }
 /** calcular el cambio */
@@ -1246,6 +1265,7 @@ function calculaCambio(valor) {
 document.getElementById("btnImprimirVenta").style.display = "none";
 document.getElementById("btnfinalizarVenta").style.display = "none";
 /**funcion bloquear cuando se ingrese una venta los controles **/
+
 function bloquearControles() {
     var formulariofac = document.getElementById("formfac");
     for (var i = 0; i < formulariofac.elements.length; i++) {
@@ -1254,12 +1274,42 @@ function bloquearControles() {
             formulariofac.elements[i].readOnly = true;
         }
     }
-    document.getElementById("btndelete").disabled = true;
+    /** DISABLED BUTON DELETE ITEM */
+    var elems = document.getElementsByName("btndelete");
+console.log(elems);
+for(var i = 0; i < elems.length; i++) {
+  elems[i].disabled = true;
+}
+
+   // document.getElementById("btndelete").disabled = true;
     document.getElementById("btnGuardarVenta").style.display = "none";
     document.getElementById("btnImprimirVenta").style.display = "inline";
     document.getElementById("btnfinalizarVenta").style.display = "inline";
     $('#lstErroresFac').empty();
     document.getElementById("ridefac").innerHTML = "";
-    document.getElementById("recibe").value = "";
+   
 }
+
+var iva = 0;
+/**
+ * FUNCION PARA LEER DATOS DE CONFIGURACIONES DADO UN ID
+ * @param {string} key --nombre de configuracion
+ */
+function getSetting(key) {
+    $.ajax({
+        async: false,
+        cache: false,
+        dataType: "html",
+        type: 'GET',
+        url: "/settings",
+        data: { setting: key },
+        success: function (respuesta) {
+            iva =  parseFloat(respuesta.trim());
+           document.getElementById("etiva").innerHTML="Tarifa "+toFixedTrunc( iva*100,0)+"%";
+        },
+        beforeSend: function () { },
+        error: function (objXMLHttpRequest) { }
+    });
+}
+getSetting('iva');
 //$('#table').attr('style','width:auto');

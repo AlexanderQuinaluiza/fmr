@@ -16,7 +16,7 @@ class VentasController extends Controller
      */
     public function ventasTotales()
     {
-        //
+        
         //$id_caja = (int) $_GET['ID_CAJA'];
         //$id_user= Auth::user()->ID_USU;
         $reporte = DB::select('call spSelectRepVentasTotales()');
@@ -24,7 +24,7 @@ class VentasController extends Controller
     }
     public function ventasProductos()
     {
-        //
+        
         //$id_caja = (int) $_GET['ID_CAJA'];
         //$id_user= Auth::user()->ID_USU;
         $reporte = DB::select('call spSelectRepProductosVentas()');
@@ -94,9 +94,10 @@ class VentasController extends Controller
             //ID_VEN, ID_USU, ID_CLI, FECHA_VEN, DESCRIPCION_VEN, IVA_VEN, TOTAL_VEN, ESTADO, SUBT_IVA, SUBT_CERO, TOTAL_DESC
             $data = json_decode($request->detalles, true);
             $ventas = new Ventas;
-
-            $ventas->ID_USU = $request->ID_USU;
-            $ventas->ID_CLI = $request->ID_CLI;
+            $ventas->ID_USU =Auth::user()->ID_USU;
+           // $ventas->ID_USU = $request->ID_USU;
+            $ventas->ID_CAJA=$request->ID_CAJA;
+            $ventas->ID_CLI =$request->ID_CLI;
             $ventas->TOTAL_VEN=$request->TOTAL_VEN;
             $ventas->IVA_VEN=$request->IVA_VEN;
             $ventas->SUBT_IVA=$request->SUBT_IVA;

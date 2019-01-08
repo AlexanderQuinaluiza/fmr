@@ -10,13 +10,13 @@
                        
                    </div>
                           <!--Inicio modal productos seleccionados para descuentos-->
-                    <div class="modal fade" id="modalnewCl" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                    <div   class="modal fade" id="modalnewCl" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-primary" role="document">
                             <div class="modal-content">
                                 <div class="modal-header modal-header-primary">
                                     <h5 class="modal-title" id="titulodescuento"> Nuevo Cliente</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                        <span aria-hidden="true" id="btncerrar"> &times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
@@ -65,7 +65,8 @@
                                     <div class="row clearfix div-error">
                                             <ul id="lstErrores"></ul>
                                     </div>                                                             
-                                    <button type="button" id="btnGuardar" class="btn btn-primary" onclick="registrar();"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                    <button type="button" id="btnGuardar"  class="btn btn-primary" onclick="registrar();" ><i class="fa fa-floppy-o"></i> Guardar</button>
+                                   
                                     <!--<button type="button" id="btnCancelarActualizar" class="btn btn-warning"><i class="fa fa-times"></i> Cancelar</button>-->
                                 </form>             
                                                        
@@ -123,6 +124,7 @@
     <h5 class="card-title" id="rucfac">R.U.C: 1760013210001</h5>  
     <h6 class="card-title">Factura</h6>
     <div id="numfac">001-222-000000###</div>
+    <DIV id="idcaja" style="display:none;"></DIV>
     <p class="card-text" id="direccionfac">Direccion: efasf aefasfaf <br> Dirección sucursal: na/na</p>
      <p class="card-text" id="cajadesc"></p>
     
@@ -230,7 +232,7 @@
                                      <th id="subsubtotal" style="text-align: end;padding-right: 18px;"> 0.00</th>                                         
                                     </tr>
                                     <tr>
-                                    <th style="color:#fff;background:#546e7a;">Tarifa 12%</th>
+                                    <th style="color:#fff;background:#546e7a;" id="etiva">Tarifa 12%</th>
                                      <th id="tar12" style="text-align: end;padding-right: 18px;">0.00 </th>                                         
                                     </tr>
                                       <tr>

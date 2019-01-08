@@ -1443,7 +1443,7 @@ Vue.component('reportedevventas_comp', __webpack_require__(188));
 var app = new Vue({
     el: '#app',
     data: {
-        menu: 1,
+        menu: 16,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu: []
     },
@@ -40976,6 +40976,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -41091,7 +41093,62 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _c("div", { staticClass: "row" }, [
-                        _vm._m(3),
+                        _c("div", { staticClass: "col-md-3" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "card",
+                              staticStyle: { width: "18rem" }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "card-img-top",
+                                attrs: {
+                                  id: "imglogofac",
+                                  src:
+                                    "https://image.freepik.com/vector-gratis/set-logos-farmacia_1198-60.jpg",
+                                  alt: "Card image cap"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "card-body" },
+                                [
+                                  _c(
+                                    "h5",
+                                    {
+                                      staticClass: "card-title",
+                                      attrs: { id: "rucfac" }
+                                    },
+                                    [_vm._v("R.U.C: 1760013210001")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("h6", { staticClass: "card-title" }, [
+                                    _vm._v("Factura")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { attrs: { id: "numfac" } }, [
+                                    _vm._v("001-222-000000###")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("DIV", {
+                                    staticStyle: { display: "none" },
+                                    attrs: { id: "idcaja" }
+                                  }),
+                                  _vm._v(" "),
+                                  _vm._m(3),
+                                  _vm._v(" "),
+                                  _c("p", {
+                                    staticClass: "card-text",
+                                    attrs: { id: "cajadesc" }
+                                  })
+                                ],
+                                1
+                              )
+                            ]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-9" }, [
                           _c("div", { staticClass: "card" }, [
@@ -41242,9 +41299,11 @@ var staticRenderFns = [
                     }
                   },
                   [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
+                    _c(
+                      "span",
+                      { attrs: { "aria-hidden": "true", id: "btncerrar" } },
+                      [_vm._v(" ×")]
+                    )
                   ]
                 )
               ]),
@@ -41436,37 +41495,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("div", { staticClass: "card", staticStyle: { width: "18rem" } }, [
-        _c("img", {
-          staticClass: "card-img-top",
-          attrs: {
-            id: "imglogofac",
-            src:
-              "https://image.freepik.com/vector-gratis/set-logos-farmacia_1198-60.jpg",
-            alt: "Card image cap"
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("h5", { staticClass: "card-title", attrs: { id: "rucfac" } }, [
-            _vm._v("R.U.C: 1760013210001")
-          ]),
-          _vm._v(" "),
-          _c("h6", { staticClass: "card-title" }, [_vm._v("Factura")]),
-          _vm._v(" "),
-          _c("div", { attrs: { id: "numfac" } }, [_vm._v("001-222-000000###")]),
-          _vm._v(" "),
-          _c("p", { staticClass: "card-text", attrs: { id: "direccionfac" } }, [
-            _vm._v("Direccion: efasf aefasfaf "),
-            _c("br"),
-            _vm._v(" Dirección sucursal: na/na")
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "card-text", attrs: { id: "cajadesc" } })
-        ])
-      ])
-    ])
+    return _c(
+      "p",
+      { staticClass: "card-text", attrs: { id: "direccionfac" } },
+      [
+        _vm._v("Direccion: efasf aefasfaf "),
+        _c("br"),
+        _vm._v(" Dirección sucursal: na/na")
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -41680,7 +41717,10 @@ var staticRenderFns = [
               _c("tr", [
                 _c(
                   "th",
-                  { staticStyle: { color: "#fff", background: "#546e7a" } },
+                  {
+                    staticStyle: { color: "#fff", background: "#546e7a" },
+                    attrs: { id: "etiva" }
+                  },
                   [_vm._v("Tarifa 12%")]
                 ),
                 _vm._v(" "),

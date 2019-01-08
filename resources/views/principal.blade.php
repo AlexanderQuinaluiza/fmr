@@ -39,8 +39,8 @@
 <!--fin date time picker -->
 
 <!-- JQuery DataTable Css -->
-<script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 
+<script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 <!-- style datepiker -->
 <!--fin-->
 
@@ -453,27 +453,28 @@ tr.shown td.details-control:before {
     <!-- Right Panel -->
   </div>
   </div>
- <!--  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>-->
+  <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
 
     
   <!-- -->
   <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
+  
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
     <!-- <script src="assets/js/widgets.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.js"></script>
   
     
-    <script src="assets/js/main.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="js/app.js"></script>
-   
     
    
    <script>
-       $('.entero').on('keydown', function(e){
+    $('.entero').on('keydown', function(e){
            -1!==$.inArray(e.keyCode,[46,8,9,27,13,110])||(/65|67|86|88/.test(e.keyCode)&&(e.ctrlKey===true||e.metaKey===true))&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()
-        });
+    });
 
     function isNumber(evt, element) {
     var charCode = (evt.which) ? evt.which : event.keyCode
@@ -514,6 +515,7 @@ setPatternFilter($("#EDIT_PRECIO_COMP"), /^-?\d*\.?\d{0,2}$/);
 
        
    </script>
+   
    <script src="assets/js/lib/data-table/notificacionesProductos.js"></script>
    
   </body>

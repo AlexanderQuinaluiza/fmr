@@ -132,48 +132,27 @@
     <script src="js/sweetalert2/sweetalert2.js"></script>
     <script src="EasyAutocomplete/jquery.easy-autocomplete.js"></script>
 
-  <!--  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<!-- external libs from cdnjs for pivotjtable -->
+<script type="text/javascript" src="https://cdn.plot.ly/plotly-basic-latest.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.22.0/plotly_renderers.min.js"></script> -->
 
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/pivot.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-        <script type="text/javascript" src="https://cdn.plot.ly/plotly-basic-latest.min.js"></script>
-
- <link rel="stylesheet" type="text/css" href="assets/css/pivot.css">
-  <script type="text/javascript" src="assets/js/pivot.js"></script>
  
   
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.22.0/plotly_renderers.min.js"></script>
-
-  <!-- PivotTable.js libs from ../dist -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.13.0/pivot.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.13.0/pivot.es.min.js"></script>
+<script type="text/javascript" src="https://pivottable.js.org/dist/c3_renderers.js"></script>
+<script type="text/javascript" src="https://pivottable.js.org/dist/export_renderers.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 
 <script src="assets/js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
 <script src="assets/js/lib/bootstrap/es.js"></script>
- <!-- external libs from cdnjs for pivotjtable -->
- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
-
- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.13.0/pivot.min.css">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
- 
-  
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.13.0/pivot.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.13.0/pivot.es.min.js"></script>
-  <script type="text/javascript" src="https://pivottable.js.org/dist/c3_renderers.js"></script>
-  <script type="text/javascript" src="https://pivottable.js.org/dist/export_renderers.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-  
-  <!-- PivotTable.js libs from ../dist -->
-
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-3d.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/drilldown.js"></script>
 
 
 

@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 id="titulo"><i class="fa fa-bar-chart"></i> Estadísticas Compras </h4>
+                    <h4 id="titulo"><i class="fa fa-bar-chart"></i> Reportes Compras </h4>
                 </div>
                 <div class="card-body">
                     <div class="custom-tab">

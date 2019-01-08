@@ -495,6 +495,10 @@ export default {
     let agencia = document.createElement("script");
     agencia.setAttribute("src", "assets/js/lib/data-table/agencia.js");
     document.head.appendChild(agencia);
+
+    let validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 };
 </script>

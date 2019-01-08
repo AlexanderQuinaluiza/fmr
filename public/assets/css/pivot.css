@@ -2,14 +2,14 @@
     color: #333;
 }
 table.pvtTable {
-    font-size: 10px;
+    font-size: 8pt;
     text-align: left;
     border-collapse: collapse;
 }
 table.pvtTable tbody tr th, table.pvtTable thead tr th {
     background-color: #e6EEEE;
     border: 1px solid #CDCDCD;
-    font-size: 14px;
+    font-size: 8pt;
     padding: 5px;
 }
 table.pvtTable .pvtColLabel {
@@ -25,7 +25,6 @@ table.pvtTable tbody tr td {
     border: 1px solid #CDCDCD;
     vertical-align: top;
     text-align: right;
-    font-size: 14px;
 }
 .pvtGrandTotal, .pvtTotal {
     font-weight: 700;
@@ -44,8 +43,8 @@ table.pvtTable tbody tr td {
     margin-bottom: 5px;
 }
 .pvtAxisContainer, .pvtVals {
-    border: 1px solid #DBDBDB;
-    background: #f1f1f1;
+    border: 1px solid #a5d6a7;
+    background: #d4edda;
     padding: 5px;
     min-width: 20px;
     min-height: 20px;

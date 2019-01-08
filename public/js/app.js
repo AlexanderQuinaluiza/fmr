@@ -37455,11 +37455,11 @@ var staticRenderFns = [
                   }),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-row" }, [
-                    _c("div", { staticClass: "form-group col-md-6" }, [
+                    _c("div", { staticClass: "form-group col-md-4" }, [
                       _c("label", [_vm._v("Producto seleccionado: ")])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group col-md-6" }, [
+                    _c("div", { staticClass: "form-group col-md-8" }, [
                       _c("label", {
                         staticStyle: { "font-weight": "bold" },
                         attrs: { id: "lblNombreProductoEjm" }
@@ -38885,7 +38885,7 @@ var staticRenderFns = [
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group col-md-6" }, [
-                              _c("label", [_vm._v("Cuidad")]),
+                              _c("label", [_vm._v("Ciudad")]),
                               _vm._v(" "),
                               _c("input", {
                                 staticClass: "form-control",
@@ -43688,6 +43688,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var agencia = document.createElement("script");
     agencia.setAttribute("src", "assets/js/lib/data-table/agencia.js");
     document.head.appendChild(agencia);
+
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -49318,7 +49322,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "card-header" }, [
             _c("h4", { attrs: { id: "titulo" } }, [
               _c("i", { staticClass: "fa fa-bar-chart" }),
-              _vm._v(" Estadísticas Compras ")
+              _vm._v(" Reportes Compras ")
             ])
           ]),
           _vm._v(" "),

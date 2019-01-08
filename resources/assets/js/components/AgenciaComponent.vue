@@ -58,7 +58,7 @@
                                             <input type="text"  id="DIRECCION_AGE" required class="form-control" placeholder="Dirección de la agencia" maxlength="110">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label>Cuidad</label>
+                                            <label>Ciudad</label>
                                             <input type="text"  id="CIUDAD_AGE" required class="form-control" placeholder="Cuidad" maxlength="110">
                                         </div>
                                         

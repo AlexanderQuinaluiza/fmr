@@ -158,10 +158,10 @@
                                     <form id="formAddEjemplar">
                                          <input type="hidden" id="idP" value="">
                                          <div class="form-row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label>Producto seleccionado: </label>                                              
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-8">
                                                 <label style="font-weight:bold" id="lblNombreProductoEjm"> </label>                                              
                                             </div>
                                          </div>

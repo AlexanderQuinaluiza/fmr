@@ -564,7 +564,7 @@ var tablaCompras = $('#tabla-listado-compras').DataTable(
                 var checkbox = ' <div class="form-check">   <label class="form-check-label"> <input type="checkbox" name="sld" onchange="calcular();" class="form-check-input" value="" data-toggle="tooltip"  title="Seleciona todos los productos"></label> </div>';
                 for (var i = 0; i < json.data.length; i++) {
                     var ID_COMP = json.data[i].ID_COMP;
-                    var btnVerDetalles = '<button type="button" onclick="cambiarTab(1,' + ID_COMP + ');" class="btn btn-info"><span class="fa fa-info-circle"></span> Detalles</button>';
+                    var btnVerDetalles = '<button type="button" onclick="cambiarTab(1,' + ID_COMP + ');" class="btn btn-info"><span class="fa fa-undo"></span> Devolver</button>';
                     buttons = '<div class="btn-group btn-group-sm">' + btnVerDetalles + '</div>';
                     return_data.push({
                         'ID_COMP': json.data[i].ID_COMP,

@@ -39,7 +39,7 @@ function consultarExistenciaProductos() {
             item.UBICACION = response.data.data[i].UBICACION_PRO;
             item.MINIMO = response.data.data[i].EXISTENCIA_MIN_PRO;
             item.MAXIMO = response.data.data[i].EXISTENCIA_MAX_PRO;
-            item.EXISTENCIA = response.data.data[i].STOCK_PRO;
+            item.EXISTENCIA = response.data.data[i].STOCK_PRO==null?0:response.data.data[i].STOCK_PRO;
             jsonItems[Myindice] = item;
             Myindice++;
         }
@@ -279,22 +279,23 @@ function consultarPreciosProductos() {
     axios.get(url).then(function (response) {
        $.each(response.data.data,function(key,value){
            var PRECIO_CON_IVA = 0;
+           var PRECIO_PROMOCIONAL = value.PRECIO_PROMOCIONAL_PRO==null?0:value.PRECIO_PROMOCIONAL_PRO;
            if(value.APLICA_IVA_PRO==1)
            {
-            PRECIO_CON_IVA = value.PRECIO_PROMOCIONAL_PRO +(value.PRECIO_PROMOCIONAL_PRO*iva)
+            PRECIO_CON_IVA = PRECIO_PROMOCIONAL +(PRECIO_PROMOCIONAL*iva)
            }
            else{
-            PRECIO_CON_IVA = value.PRECIO_PROMOCIONAL_PRO;
+            PRECIO_CON_IVA = PRECIO_PROMOCIONAL;
            }
         tablaListaPrecios.row.add({
             "ID": value.ID_PRO,
             "PRODUCTO": value.NOMBRE_PRO,
             "DESCRIPCION": value.DESCRIPCION_PRO,
-            "EXISTENCIA": value.STOCK_PRO,
-            "PRECIO": '$ ' + (value.PRECIO_PROMOCIONAL_PRO).toFixed(2)
+            "EXISTENCIA": value.STOCK_PRO==null?0:value.STOCK_PRO,
+            "PRECIO": '$ ' + (PRECIO_PROMOCIONAL).toFixed(2)
         }).draw();
-        console.log(value.ID_PRO+" "+value.NOMBRE_PRO+" "+
-        value.STOCK_PRO+" "+value.PRECIO_PROMOCIONAL_PRO);
+        // console.log(value.ID_PRO+" "+value.NOMBRE_PRO+" "+
+        // value.STOCK_PRO+" "+value.PRECIO_PROMOCIONAL_PRO);
        });
     })
         .catch(function (error) {

@@ -10,11 +10,11 @@
  {
      var error = 0;
      var errorMostrarMsj = [];
-     if(!$('#NOMBRE_CAT').val().trim()) errorMostrarMsj.push("El nombre de la categoria no puede estar vacío");
+     if(!$('#NOMBRE_CAT').val().trim()) errorMostrarMsj.push("El nombre de la categoría no puede estar vacío");
      /*if(!$('#DESCRIPCION_ROL').val().trim()) errorMostrarMsj.push("La descripción de rol no puede estar vacío");*/
      if(opcion==2) //opcion para editar
      {
-         if(!$('#id').val().trim()) errorMostrarMsj.push("Escoja una categoria existente de la lista");
+         if(!$('#id').val().trim()) errorMostrarMsj.push("Escoja una categoría existente de la lista");
      }
      if(errorMostrarMsj.length){
          $('#lstErrores').empty();
@@ -101,7 +101,7 @@
      })
  
      swalWithBootstrapButtons({
-     title: 'Esta seguro de desactivar esta caegoria?',
+     title: 'Está seguro de desactivar esta categoría?',
      type: 'warning',
      showCancelButton: true,
      confirmButtonText: 'Aceptar!',

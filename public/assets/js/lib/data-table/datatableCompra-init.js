@@ -1306,9 +1306,4 @@ $('#tablaPedido tbody').on('click', 'td.details-control', function () {
 });
 $('.table').attr('style','width:100%');
 
-$('#infoFacturaCompra').popover({title:"Saludo",content:"Hola mundo",trigger:"hover"});
-
-$('#infoFacturaCompra').popover({title: "¿Cómo aplicar descuentos? ", content: "sasa",html:true, trigger: "hover"}); 
-//title="Número de factura proporcionado por proveedor"
-
 $('#FECHA_CADUCIDAD').datepicker("setDate", new Date());

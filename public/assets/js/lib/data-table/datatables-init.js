@@ -206,6 +206,7 @@ function validarDatosUsuario(opcion)
     if(!$('#NOMBRE_USU').val().trim()) errorMostrarMsj.push("El nombre de usuario no puede estar vacío");
     if(!$('#APELLIDO_USU').val().trim()) errorMostrarMsj.push("El apellido de usuario no puede estar vacío");
     if(!$('#ALIAS_USU').val().trim()) errorMostrarMsj.push("El alias de usuario no puede estar vacío");
+    if(!$('#CORREO_USU').val().trim()) errorMostrarMsj.push("El correo de usuario no puede estar vacío");
     if(opcion==1) //opcion para registrar
     {
         if(!$('#CLAVE_USU').val().trim()) errorMostrarMsj.push("La contraseña de usuario no puede estar vacío");
@@ -218,7 +219,7 @@ function validarDatosUsuario(opcion)
     //console.log(this.contarRoles());
     if(contarRoles()==0)
     {
-         errorMostrarMsj.push("Escoja al menos un rol");
+         errorMostrarMsj.push("Escoja un rol");
     }
     if(errorMostrarMsj.length){
         $('#lstErrores').empty();
@@ -304,7 +305,7 @@ function listarRolesCrearUsuario()
             texto = response.data[key]['text'];
             //console.log("datos: "+response.data[key]['text']);
             html+= '<div class="checkbox"><label class="form-check-label ">'+
-            '<input type="checkbox" name="rolesR" id="rol'+valor+'" value="'+valor+'" class="form-check-input">'+
+            '<input type="radio" name="rolesR" id="rol'+valor+'" value="'+valor+'" class="form-check-input">'+
             texto+'</label></div>';                                
         }
         $('#divchecks').append(html);                    

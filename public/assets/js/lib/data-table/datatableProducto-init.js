@@ -42,8 +42,8 @@ function getRegistroById(idRegistro,opcion){
                 precioPromocionalConIVA = (response.data[0].PRECIO_PROMOCIONAL_PRO*iva)+response.data[0].PRECIO_PROMOCIONAL_PRO;
             }
             else{
-                precioConIVA = response.data[0].PRECIO_VENTA_PRO;
-                precioPromocionalConIVA = response.data[0].PRECIO_PROMOCIONAL_PRO;
+                precioConIVA = response.data[0].PRECIO_VENTA_PRO==null?0:response.data[0].PRECIO_VENTA_PRO;
+                precioPromocionalConIVA = response.data[0].PRECIO_PROMOCIONAL_PRO==null?0:response.data[0].PRECIO_PROMOCIONAL_PRO;
             } 
             $('#lblNOMBRE_PRO').text(response.data[0].NOMBRE_PRO);
             $('#lblDESCRIPCION_PRO').text(response.data[0].DESCRIPCION_PRO);
@@ -54,7 +54,7 @@ function getRegistroById(idRegistro,opcion){
             $('#lblUBICACION_PRO').text(response.data[0].UBICACION_PRO);
             $('#limgIMAGEN_PRO').prop('src',response.data[0].IMAGEN_PRO);
             $('#lblLOTE_PRO').text(response.data[0].LOTE_PRO);
-            $('#lblCOSTO_PRO').text('$ '+response.data[0].COSTO_PRO);
+            $('#lblCOSTO_PRO').text('$ '+(response.data[0].COSTO_PRO==null?0:response.data[0].COSTO_PRO));
             $('#lblGANANCIA_PRO').text(response.data[0].GANANCIA_PRO);
             $('#lblPRECIO_VENTA_PRO').text('$ '+precioConIVA.toFixed(2));
             $('#lblEXISTENCIA_MIN_PRO').text(response.data[0].EXISTENCIA_MIN_PRO);
@@ -69,7 +69,7 @@ function getRegistroById(idRegistro,opcion){
                 $('#lblAPLICA_IVA_PRO').attr('class','fa fa-check');
                 $('#lblAPLICA_IVA_PRO').attr('style','color:#17a2b8;font-size: 23px');
             } 
-            $('#lblSTOCK_PRO').text(response.data[0].STOCK_PRO);
+            $('#lblSTOCK_PRO').text(response.data[0].STOCK_PRO==null?0:response.data[0].STOCK_PRO);
             $('#lblLABORATORIO_PRO').text(response.data[0].LABORATORIO_PRO);
             if(response.data[0].ESTADO_PRO==0) 
             {
@@ -83,7 +83,7 @@ function getRegistroById(idRegistro,opcion){
             } 
             $('#lblFECHA_REGISTRO_PRO').text(response.data[0].FECHA_REGISTRO_PRO);
             $('#lblTIPO_PRO').text(response.data[0].TIPO_PRO);
-            $('#lblPRECIO_PROMOCIONAL_PRO').text('$ '+precioPromocionalConIVA.toFixed(2));
+            $('#lblPRECIO_PROMOCIONAL_PRO').text('$ '+(precioPromocionalConIVA.toFixed(2)));
             if(response.data[0].VENTA_CON_RECETA==0)
             {
                 $('#lblVENTA_CON_RECETA').attr('class','fa fa-times');
@@ -460,7 +460,7 @@ function addEjemplar()
               }
               axios.post('/ejemplares/registrar',datos).then(function (response){
                 tabla.ajax.reload();
-                $('#formAddEjemplar')[0].reset();
+                $('#COD_BARRAS_EJM').val("")
                 toastr.success('Ejemplar agregado correctamente!')
                 })
                 .catch(function (error) {
@@ -541,6 +541,7 @@ $('#btnCancelarActualizar').click(function(){
 });
 $('#btnAgregarEjemplar').click(function(){
     addEjemplar();
+    //  jQuery('#addEjemplarModal').modal('toggle');
 })
     
 getDataDropDownList();
@@ -669,3 +670,23 @@ var tabla =   $('#bootstrap-data-table').DataTable(
         }
 });
 $('.table').attr('style','width:100%');
+
+$('#FECHA_CADUCIDAD_EJM').datepicker({
+    closeText: 'Cerrar',
+        prevText: '<Ant',
+        nextText: 'Sig>',
+        currentText: 'Hoy',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+    format: 'yyyy-mm-dd',
+    locale: 'es',
+    weekStart: 1,
+    daysOfWeekHighlighted: "6,0",
+    autoclose: true,
+    todayHighlight: true
+    
+});
+$('#FECHA_CADUCIDAD_EJM').datepicker("setDate", new Date());

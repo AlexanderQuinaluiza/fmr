@@ -19,9 +19,9 @@ function getInventarioById(idRegistro) {
             TIPO_ITEM = response.data.data[i].TIPO_ITEM;
             switch (TIPO_ITEM) {
                 case 'compra':
-                CANTIDAD_PRO_COMPRA = response.data.data[i].CANTIDAD_PRO;
-                VALOR_UNITARIO_COMPRA = response.data.data[i].VALOR;
-                VALOR_TOTAL_COMPRA = response.data.data[i].TOTAL;
+                CANTIDAD_PRO_COMPRA = response.data.data[i].CANTIDAD_PRO==null?0:response.data.data[i].CANTIDAD_PRO;
+                VALOR_UNITARIO_COMPRA = response.data.data[i].VALOR==null?0:response.data.data[i].VALOR;
+                VALOR_TOTAL_COMPRA = response.data.data[i].TOTAL==null?0:response.data.data[i].TOTAL;
                 CANTIDAD_PRO_VENTA = '';
                 VALOR_UNITARIO_VENTA = '';
                 VALOR_TOTAL_VENTA = '';
@@ -30,23 +30,23 @@ function getInventarioById(idRegistro) {
                 CANTIDAD_PRO_COMPRA = '';
                 VALOR_UNITARIO_COMPRA = '';
                 VALOR_TOTAL_COMPRA = '';
-                CANTIDAD_PRO_VENTA = response.data.data[i].CANTIDAD_PRO;
-                VALOR_UNITARIO_VENTA = response.data.data[i].VALOR;
-                VALOR_TOTAL_VENTA = response.data.data[i].TOTAL;
+                CANTIDAD_PRO_VENTA = response.data.data[i].CANTIDAD_PRO==null?0:response.data.data[i].CANTIDAD_PRO;
+                VALOR_UNITARIO_VENTA = response.data.data[i].VALOR==null?0:response.data.data[i].VALOR;
+                VALOR_TOTAL_VENTA = response.data.data[i].TOTAL==null?0:response.data.data[i].TOTAL;
                     break;
                 case 'venta':
                 CANTIDAD_PRO_COMPRA = '';
                 VALOR_UNITARIO_COMPRA = '';
                 VALOR_TOTAL_COMPRA = '';
-                CANTIDAD_PRO_VENTA = response.data.data[i].CANTIDAD_PRO;
-                VALOR_UNITARIO_VENTA = response.data.data[i].VALOR;
-                VALOR_TOTAL_VENTA = response.data.data[i].TOTAL;
+                CANTIDAD_PRO_VENTA = response.data.data[i].CANTIDAD_PRO==null?0:response.data.data[i].CANTIDAD_PRO;
+                VALOR_UNITARIO_VENTA = response.data.data[i].VALOR==null?0:response.data.data[i].VALOR;
+                VALOR_TOTAL_VENTA = response.data.data[i].TOTAL==null?0:response.data.data[i].TOTAL;
 
                     break;
                 case 'devolucion-venta':
-                CANTIDAD_PRO_COMPRA = response.data.data[i].CANTIDAD_PRO;
-                VALOR_UNITARIO_COMPRA = response.data.data[i].VALOR;
-                VALOR_TOTAL_COMPRA = response.data.data[i].TOTAL;
+                CANTIDAD_PRO_COMPRA = response.data.data[i].CANTIDAD_PRO==null?0:response.data.data[i].CANTIDAD_PRO;
+                VALOR_UNITARIO_COMPRA = response.data.data[i].VALOR==null?0:response.data.data[i].VALOR;
+                VALOR_TOTAL_COMPRA = response.data.data[i].TOTAL==null?0:response.data.data[i].TOTAL;
                 CANTIDAD_PRO_VENTA = '';
                 VALOR_UNITARIO_VENTA = '';
                 VALOR_TOTAL_VENTA = '';
@@ -64,9 +64,9 @@ function getInventarioById(idRegistro) {
                 "CANTIDAD_SALIDA": CANTIDAD_PRO_VENTA,
                 "VU_SALIDA": VALOR_UNITARIO_VENTA,
                 "VT_SALIDA": VALOR_TOTAL_VENTA,
-                "CANTIDAD_TOTAL": response.data.data[i].CANTIDAD_EXIST,
-                "VU_TOTAL": response.data.data[i].VALOR_EXIST,
-                "VT_TOTAL": response.data.data[i].TOTAL_EXIST
+                "CANTIDAD_TOTAL": response.data.data[i].CANTIDAD_EXIST==null?0:response.data.data[i].CANTIDAD_EXIST,
+                "VU_TOTAL": response.data.data[i].VALOR_EXIST==null?0:response.data.data[i].VALOR_EXIST,
+                "VT_TOTAL": response.data.data[i].TOTAL_EXIST==null?0:response.data.data[i].TOTAL_EXIST
             }).draw();
         }
         console.log(response.data.data);
@@ -171,13 +171,13 @@ var tabla = $('#bootstrap-data-table').DataTable(
                     var ID_PRO = json.data[i].ID_PRO;
                     var datos = "'1" + "'," + "'" + ID_PRO + "','"  + json.data[i].NOMBRE_PRO + "'";        
                     buttons = '<div class="btn-group btn-group-sm">' +
-                        '<button class="btn btn-info" onclick="cambiarTab(' + datos + ');"><span class="fa fa-info-circle"></span> Detalles</button>' + btn + '</div>';
+                        '<button class="btn btn-info" onclick="cambiarTab(' + datos + ');"><span class="fa fa-info-circle"></span> Kardex</button>' + btn + '</div>';
                     return_data.push({
                         'ID_PRO': json.data[i].ID_PRO,
                         'NOMBRE_PRO': json.data[i].NOMBRE_PRO,
                         'DESCRIPCION_PRO': json.data[i].DESCRIPCION_PRO,
-                        'STOCK_PRO': json.data[i].STOCK_PRO,
-                        'COSTO_PRO': '$ ' + json.data[i].COSTO_PRO,
+                        'STOCK_PRO': json.data[i].STOCK_PRO==null?0:json.data[i].STOCK_PRO,
+                        'COSTO_PRO': '$ ' + (json.data[i].COSTO_PRO==null?0:json.data[i].COSTO_PRO),
                         'LABORATORIO_PRO': json.data[i].LABORATORIO_PRO,
                         'ACCIONES_PRO': buttons
                     })

@@ -17,8 +17,11 @@ class InventarioController extends Controller
         $ID_PRO = $_GET['ID_PRO'];
         $inventarios = DB::table('INVENTARIOS')
         ->select('ID','ID_PRO','ID_TIPO','DOC_REFERENCIA','DESCRIPCION',
-        DB::raw('DATE(FECHA_COM) as FECHA_COM'),'CANTIDAD_PRO','VALOR','TOTAL','TIPO_ITEM','CANTIDAD_EXIST',
-        'VALOR_EXIST','TOTAL_EXIST')
+        DB::raw('DATE(FECHA_COM) as FECHA_COM'),'CANTIDAD_PRO','VALOR','TOTAL','TIPO_ITEM',
+        DB::raw(' IFNULL( CANTIDAD_EXIST, 0 ) AS CANTIDAD_EXIST'),
+        DB::raw(' IFNULL( VALOR_EXIST, 0 ) AS VALOR_EXIST'),
+        DB::raw(' IFNULL( TOTAL_EXIST, 0 ) AS TOTAL_EXIST')
+        )
         ->where('ID_PRO','=',$ID_PRO)
         ->orderBy('ID','ASC')
         ->get();

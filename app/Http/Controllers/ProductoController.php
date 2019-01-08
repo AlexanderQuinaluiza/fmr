@@ -124,7 +124,7 @@ public function productoEjemplar()
         ->join('CATEGORIAS as c','p.ID_CAT','=','c.ID_CAT')
         ->join('USUARIOS as u','p.USU_REGISTRO','=','u.ID_USU')
         ->join('DETALLES_DESCUENTOS as dd', 'dd.ID_PRO','=','p.ID_PRO')
-        ->where('dd.ID_DESC', '=', 14)
+        ->where('dd.ID_DESC', '=', $id)
         ->get();
          return response()->json(['data'=>$producto],200);
     }

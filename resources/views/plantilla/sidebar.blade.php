@@ -45,7 +45,7 @@
                         </ul>
                     </li>
                    
-                    <h3 class="menu-title"></h3><!-- /.menu-title -->
+                    <h3 class="menu-title">Egresos</h3><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cart-plus custom-icon"></i>Compras</a>
                         <ul class="sub-menu children dropdown-menu">
@@ -58,7 +58,7 @@
                     
                         </ul>
                        </li>
-
+                       <h3 class="menu-title">Ingresos</h3>
                        <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-calculator custom-icon"></i>Ventas</a>
                         <ul class="sub-menu children dropdown-menu">
@@ -72,7 +72,7 @@
                       
                         </ul>
                       </li>    
-                        <h3 class="menu-title"></h3><!-- /.menu-title -->
+                        <h3 class="menu-title"> Contabilidad</h3><!-- /.menu-title -->
                         <li class="menu-item-has-children dropdown">
                         <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-money custom-icon"></i>Contabilidad</a>
                         <ul class="sub-menu children dropdown-menu">
@@ -111,18 +111,7 @@
                            </li>  
                         </ul>
                        </li>
-                    <!-- <h3 class="menu-title">Otros</h3>
-                    <li class="menu-item-has-children dropdown">
-                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Configuración</a>
-                        <ul class="sub-menu children dropdown-menu">
-                        <li v-if="item.SECCION=='Otros'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
-                            
-                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
-                               <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
-                             
-                           </li>
-                        </ul>
-                       </li> -->
+                   
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

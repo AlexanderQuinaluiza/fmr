@@ -40978,6 +40978,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -46958,6 +46959,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -46990,6 +46992,11 @@ var render = function() {
           _c("div", {
             staticStyle: { display: "none" },
             attrs: { id: "ridenc" }
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticStyle: { display: "none" },
+            attrs: { id: "idcaja" }
           }),
           _vm._v(" "),
           _vm._m(1),

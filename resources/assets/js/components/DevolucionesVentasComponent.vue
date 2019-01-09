@@ -9,6 +9,7 @@
         </div>
         <div class="card-body">
           <div id="ridenc" style="display:none;"></div>
+          <div id="idcaja" style="display:none;"></div>
           <!--Inicio modal detalle producto -->
           <div
             class="modal fade"

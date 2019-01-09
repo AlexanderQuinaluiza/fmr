@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 class DetallesDevController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
    
     public function getMenu(){
        // $rol=  $_GET['ROL'];

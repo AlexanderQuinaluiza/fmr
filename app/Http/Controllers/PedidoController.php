@@ -13,6 +13,11 @@ use PDF;
 use App\Agencias;
 class PedidoController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
+    
     public $rutaAdjunto='';
     /**
      * Display a listing of the resource.

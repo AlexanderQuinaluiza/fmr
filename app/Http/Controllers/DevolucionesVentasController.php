@@ -5,14 +5,20 @@ namespace App\Http\Controllers;
 use App\DevolucionesVentas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class DevolucionesVentasController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //
@@ -90,9 +96,9 @@ class DevolucionesVentasController extends Controller
 //ID_DEV_VEN, ID_VEN, ID_USU, TOTAL_DEV, IVA_DEV, SUBT_IVA, SUBT_CERO, OBSERVACION_DEV, FECHA_DEV
             $data = json_decode($request->detalles, true);
             $devoventas = new DevolucionesVentas;
-
             $devoventas->ID_VEN = $request->ID_VEN;
-            $devoventas->ID_USU = $request->ID_USU;
+            $devoventas->ID_CAJA= $request->ID_CAJA;
+            $devoventas->ID_USU = Auth::user()->ID_USU;
             $devoventas->TOTAL_DEV=$request->TOTAL_DEV;
             $devoventas->IVA_DEV=$request->IVA_DEV;
             $devoventas->SUBT_IVA=$request->SUBT_IVA;

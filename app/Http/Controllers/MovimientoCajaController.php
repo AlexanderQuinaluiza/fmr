@@ -10,6 +10,10 @@ use App\Usuarios;
 use Auth;
 class MovimientoCajaController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     public function getMovimientosCaja()
     {
         $movimientos = DB::table('MOVIMIENTO as m')

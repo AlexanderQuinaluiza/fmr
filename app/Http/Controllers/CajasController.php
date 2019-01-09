@@ -9,6 +9,10 @@ use App\Usuarios;
 use Auth;
 class CajasController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *

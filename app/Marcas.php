@@ -11,3 +11,4 @@ class Marcas extends Model
   public $timestamps = false;
   protected $fillable = ['NOMBRE_MAR','ESTADO_MAR'];
 }
+

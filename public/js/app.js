@@ -1443,7 +1443,7 @@ Vue.component('reportedevventas_comp', __webpack_require__(188));
 var app = new Vue({
     el: '#app',
     data: {
-        menu: 16,
+        menu: 1,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu: []
     },
@@ -43671,6 +43671,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -44132,7 +44133,11 @@ var staticRenderFns = [
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: { type: "button", id: "btnAgregarProveedor" }
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      id: "btnAgregarProveedor"
+                    }
                   },
                   [
                     _c("span", { staticClass: "fa fa-floppy-o" }),
@@ -44446,6 +44451,97 @@ var staticRenderFns = [
                       _vm._v(" "),
                       _c("label", { attrs: { id: "ultimoPrecioedit" } })
                     ])
+                  ]),
+                  _vm._v(" "),
+                  _c("h6", { staticClass: "lineas" }, [
+                    _c("span", { staticClass: "lineas-contenido" }, [
+                      _vm._v("EJEMPLARES")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-row" }, [
+                    _c("div", { staticClass: "form-group col-md-4" }, [
+                      _c("label", [_vm._v("Código de Barra")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "CODIGO_BARRA",
+                          required: "",
+                          placeholder: "Código de barra",
+                          maxlength: "100"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group col-md-4" }, [
+                      _c("label", [_vm._v("Fecha caducidad")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          "data-date-format": "yyyy/mm/dd",
+                          id: "FECHA_CADUCIDAD",
+                          placeholder: "yyyy/mm/dd",
+                          maxlength: "12"
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("label", [_vm._v(" ")]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          attrs: { type: "button", id: "btnAddCodigoBarra" }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-barcode" }),
+                          _vm._v(" Añadir Código Barra")
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      {
+                        staticClass:
+                          "table table-bordered table-striped table-hover dataTable js-exportable",
+                        attrs: { id: "tabla-codigo-barras" }
+                      },
+                      [
+                        _c(
+                          "thead",
+                          {
+                            staticStyle: {
+                              color: "#fff",
+                              background: "#546e7a"
+                            }
+                          },
+                          [
+                            _c("tr", [
+                              _c("th", [_vm._v("#")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Código Barras")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Caducidad")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Acciones")])
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("tbody")
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row clearfix div-error" }, [
@@ -52008,10 +52104,84 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-   data: function data() {},
-   mounted: function mounted() {}
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {
+
+        var datatable = document.createElement('script');
+        datatable.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js');
+        document.head.appendChild(datatable);
+    }
 });
 
 /***/ }),
@@ -52022,9 +52192,175 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" })
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "carousel slide",
+        attrs: { id: "demo", "data-ride": "carousel" }
+      },
+      [
+        _c("div", { staticClass: "col-sm-5" }, [
+          _c("div", { staticClass: "card text-white bg-flat-color-1" }, [
+            _c("div", { staticClass: "card-body pb-0" }, [
+              _c("h4", { staticClass: "mb-0" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "count",
+                    staticStyle: { "font-size": "25px" }
+                  },
+                  [_c("strong", [_vm._v("Misión")])]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  staticClass: "text-light",
+                  staticStyle: { "text-align": "justify", "font-size": "18px" }
+                },
+                [
+                  _vm._v(
+                    "\n                        Subvencionar al bienestar de los ciudadanos de esta manera \n                        ofrecemos el mejor servicio farmacéutico con productos de \n                        alta calidad para el cuidado de la salud de nuestros clientes.\n\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
+            _c("div", { staticClass: "card-body pb-0" }, [
+              _c("h4", { staticClass: "mb-0" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "count",
+                    staticStyle: { "font-size": "25px" }
+                  },
+                  [_c("strong", [_vm._v("Visión")])]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  staticClass: "text-light",
+                  staticStyle: { "text-align": "justify", "font-size": "18px" }
+                },
+                [
+                  _vm._v(
+                    "\n                            Ser una farmacia líder, reconocida y distinguida \n                            en el mundo farmacéutico de toda la provincia de \n                            Pastaza, por la calidad y el compromiso con nuestros \n                            clientes, logrando así una mejor posición del mercado y \n                            poder enfrentar mercados nacionales e internacionales.\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "carousel slide",
+            attrs: { id: "carouselExampleIndicators", "data-ride": "carousel" }
+          },
+          [
+            _c("ol", { staticClass: "carousel-indicators" }, [
+              _c("li", {
+                staticClass: "active",
+                attrs: {
+                  "data-target": "#carouselExampleIndicators",
+                  "data-slide-to": "0"
+                }
+              }),
+              _vm._v(" "),
+              _c("li", {
+                attrs: {
+                  "data-target": "#carouselExampleIndicators",
+                  "data-slide-to": "1"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "carousel-inner" }, [
+              _c("div", { staticClass: "carousel-item active" }, [
+                _c("img", {
+                  staticClass: "d-block w-100",
+                  attrs: {
+                    src: "images/img2.png",
+                    alt: "First slide",
+                    width: "1000",
+                    height: "400"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "carousel-item" }, [
+                _c("img", {
+                  staticClass: "d-block w-100",
+                  attrs: {
+                    src: "images/img1.jpg",
+                    alt: "Second slide",
+                    width: "1000",
+                    height: "400"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "carousel-control-prev",
+                attrs: {
+                  href: "#carouselExampleIndicators",
+                  role: "button",
+                  "data-slide": "prev"
+                }
+              },
+              [
+                _c("span", {
+                  staticClass: "carousel-control-prev-icon",
+                  attrs: { "aria-hidden": "true" }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "carousel-control-next",
+                attrs: {
+                  href: "#carouselExampleIndicators",
+                  role: "button",
+                  "data-slide": "next"
+                }
+              },
+              [
+                _c("span", {
+                  staticClass: "carousel-control-next-icon",
+                  attrs: { "aria-hidden": "true" }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
+              ]
+            )
+          ]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

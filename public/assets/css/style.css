@@ -318,7 +318,7 @@ body.open .navbar .navbar-brand.hidden {
         top: 0; }
         .open aside.left-panel .navbar .navbar-nav li.menu-item-has-children .sub-menu li a {
           display: block;
-          font-size: 14px;
+          font-size: 20px;
           max-width: inherit;
           padding: 2px 15px 2px 25px;
           width: 100%; }

@@ -775,6 +775,7 @@ a, button {
   text-decoration: none;
   outline: none !important;
   color: #878787;
+  font-size: 19px;
   -webkit-transition: all 0.25s ease;
   -moz-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
@@ -896,7 +897,10 @@ aside.left-panel {
         color: #c8c9ce !important;
         display: inline-block;
         font-family: 'Open Sans';
-        font-size: 14px;
+        font-size: 16px;
+        /**font-size: 14px;**/
+        font-weight: bold;
+        /***/
         line-height: 30px;
         padding: 10px 0;
         position: relative;
@@ -1409,6 +1413,7 @@ header .form-inline {
 .custom-tab .nav-tabs > a.active, .custom-tab .nav-tabs > .active > a:focus, .custom-tab .nav-tabs > li.active > a:hover {
   border-color: transparent transparent;
   color: #ff2e44;
+  font-size: 19px;
   position: relative; }
 
 .custom-tab .nav-tabs > a.active > a:after, .custom-tab .nav-tabs > li.active > a:focus:after, .custom-tab .nav-tabs > li.active > a:hover:after {
@@ -2226,7 +2231,9 @@ header .form-inline {
         padding: 0 10px; }
       .right-panel .content .nav-tabs .nav-link,
       .right-panel .content .nav-pills .nav-link {
-        padding: .5rem; }
+        padding: .5rem;
+    
+      }
       .right-panel .content .tab-content.pl-3 {
         padding-left: 0 !important; }
       .right-panel .content #bootstrap-data-table_wrapper {

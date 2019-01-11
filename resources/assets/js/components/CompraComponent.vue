@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>                               
-                                    <button type="button" class="btn btn-primary" id="btnAgregarProveedor" ><span class="fa fa-floppy-o"></span> Guardar</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAgregarProveedor" ><span class="fa fa-floppy-o"></span> Guardar</button>
                                 </div>
                             </div>
                         </div>
@@ -217,7 +217,8 @@
                                                 <label id="ultimoPrecioedit"></label>                                                       
                                             </div> 
                                         </div>
-                                    <!-- <h6 class="lineas"><span class="lineas-contenido">EJEMPLARES</span></h6>
+                                        
+                                    <h6 class="lineas"><span class="lineas-contenido">EJEMPLARES</span></h6>
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label>Código de Barra</label>
@@ -249,7 +250,7 @@
                                                 <tbody>                                                
                                                 </tbody>
                                             </table>                                
-                                        </div> -->
+                                        </div>
                                                                          
                                         <div class="row clearfix div-error">
                                                 <ul id="lstErroresEditItem"></ul>

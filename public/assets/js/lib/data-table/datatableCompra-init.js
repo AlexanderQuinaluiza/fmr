@@ -60,6 +60,10 @@ function deleteItem(key) {
  * @param {int} idFila --representa el identificador de la fila seleccionada de la tabla detalle compras
  */
 function editar(idFila) {
+
+    // localStorage.setItem("barCodeCompras", JSON.stringify({}));
+    // localStorage.removeItem(key);
+
     $('#lstErroresEditItem').empty();
     indiceSeleccionado = idFila;
     var dataItems = JSON.parse(localStorage.getItem("localStore"));
@@ -73,9 +77,10 @@ function editar(idFila) {
             $('#ultimoPrecioedit').text('$ '+value.ULTIMO_PRECIO_COMPRA);
             $('#precioSinIVAedit').text(value.PRECIO_SIN_IVA);
             $('#precioConIVAedit').text(value.PRECIO_CON_IVA);
-            var EJEMPLARES = value.EJEMPLARES;
-            console.log("EJEMPLARES");
-            console.log(EJEMPLARES);
+            // localStorage.setItem("barCodeCompras", JSON.stringify(value.EJEMPLARES));
+            // var EJEMPLARES = value.EJEMPLARES;
+            // console.log("EJEMPLARES");
+            // console.log(EJEMPLARES);
 
             // jsonBarCodeItems[MyindiceBarCode] = EJEMPLARES;
             // localStorage.setItem("barCodeCompras", JSON.stringify(jsonBarCodeItems));
@@ -85,6 +90,7 @@ function editar(idFila) {
             
         }
     });
+    reloadTablaCodigoBarras();
 }
 
 /**
@@ -113,16 +119,21 @@ function verificarPreciosCalculados() {
 function reloadTablaCodigoBarras() {
     var btnEliminar = '<button type="button" class="btn btn-danger btn-sm delete"><span class="fa fa-trash"></span> Eliminar</button>';
     tablaCodigoBarras.clear();
-    var datos = JSON.parse(localStorage.getItem("barCodeCompras"));
-    $.each(datos, function (key, value) {
-       var buttons = '<div class="btn-group btn-group-sm">' +btnEliminar + '</div>';
-        tablaCodigoBarras.row.add({
-            "ID": key,
-            "CODIGO_BARRA": value.CODIGO_BARRA,
-            "CADUCIDAD" : value.FECHA_CADUCIDAD,
-            "ACCIONES": buttons
-        }).draw();
-    })
+    try {
+        var datos = JSON.parse(localStorage.getItem("barCodeCompras"));
+        $.each(datos, function (key, value) {
+        var buttons = '<div class="btn-group btn-group-sm">' +btnEliminar + '</div>';
+            tablaCodigoBarras.row.add({
+                "ID": key,
+                "CODIGO_BARRA": value.CODIGO_BARRA,
+                "CADUCIDAD" : value.FECHA_CADUCIDAD,
+                "ACCIONES": buttons
+            }).draw();
+        }) 
+    } catch (error) {
+        console.log("barCodeCompras (vacío)");
+    }
+   
 }
 
 /**
@@ -158,7 +169,7 @@ function reloadTablaDetalleCompras() {
             "ID": key,
             "NOMBRE_PRODUCTO": value.NOMBRE_PRO,
             "PRECIO": '$ ' + value.PRECIO_CON_IVA,
-            "CANTIDAD": value.CANTIDAD_PRO,
+            "CANTIDAD": value.CANTIDAD_PRO+" "+JSON.stringify(value.EJEMPLARES),
             "SUBTOTAL": '$ ' + (precioXcantidad).toFixed(2),
             "ACCIONES": buttons
         }).draw();
@@ -196,20 +207,30 @@ function guardarCambiosEditItem() {
                     value.PRECIO_CON_IVA = parseFloat($('#precioConIVAedit').text());
                     value.APLICA_IVA =  $('#ivaedit').is(':checked')?1:0;            
                     value.EJEMPLARES = JSON.parse(localStorage.getItem("barCodeCompras"));
-                       
+                    // console.log("--from guardarCambiosEditItem Ejemplares---");
+                    // console.log(value.EJEMPLARES);   
                     
                     toastr.success('Item modificado correctamente!');
                 }
             });
             localStorage.setItem("localStore", JSON.stringify(dataItems));
+
+            // var d = JSON.parse(localStorage.getItem("localStore"));
+            // $.each(d, function (key, value) {
+            //     console.log(value);
+            // });
+
             reloadTablaDetalleCompras();
         } catch (error) {
             toastr.error('Error al modificar el item!' + " " + error);
         }
+
+        console.log(jsonBarCodeItems);
 }
 
 $('#btnModificarItem').click(function () {
     guardarCambiosEditItem();
+    tablaCodigoBarras.clear().draw();
 });
 
 /**
@@ -253,13 +274,18 @@ function addCodigoBarra() {
         {
             toastr.warning('El código de barra <strong>'+CODIGO_BARRA+'</strong> ya existe en la lista','Registros duplicados');
         }
-        reloadTablaCodigoBarras();
+        //reloadTablaCodigoBarras();
        $('#CODIGO_BARRA').val("");
     }
     else
     {
         toastr.warning('El número de código de barras debe ser igual a la cantidad','Registros completos');
     }
+
+    var items = JSON.parse(localStorage.getItem("barCodeCompras"));
+    $.each(items,function(clave,valor){
+        console.log(valor);
+    });
 }
 
 
@@ -297,6 +323,7 @@ function addItemTabla() {
                 if (value.ID_PRO == ID_PRO) {
                     value.CANTIDAD_PRO = parseInt(value.CANTIDAD_PRO) + parseInt(CANTIDAD_PRO);
                     value.PRECIO_CON_IVA = parseFloat(PRECIO_CON_IVA);
+                    //value.EJEMPLARES = JSON.parse(localStorage.getItem("barCodeCompras"));
                     return false;
                 }
             });

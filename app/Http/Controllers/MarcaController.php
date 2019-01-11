@@ -72,7 +72,6 @@ class MarcaController extends Controller
      $marca = Marcas::findOrFail($request->ID_MAR);
      $marca->ESTADO_MAR = 0;
      $marca->save();
-     //Presentaciones::find($request->ID_PRS)->delete();
     }
     public function activar(Request $request)
     {

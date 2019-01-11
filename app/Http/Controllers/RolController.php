@@ -8,6 +8,10 @@ use App\OpcionRoles;
 use Illuminate\Support\Facades\DB;
 class RolController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *

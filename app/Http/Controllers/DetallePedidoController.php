@@ -7,6 +7,10 @@ use App\DetallePedidos;
 use Illuminate\Support\Facades\DB;
 class DetallePedidoController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     public function index($idPedido)
     {
        // $ID_PED = $_GET['ID_PED'];

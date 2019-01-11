@@ -7,6 +7,10 @@ use App\DetalleDevoluciones;
 use Illuminate\Support\Facades\DB;
 class DetalleDevolucionController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *

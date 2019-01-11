@@ -7,6 +7,11 @@ use App\DetalleCompras;
 use Illuminate\Support\Facades\DB;
 class DetalleCompraController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
+    
     public function getDetalleById()
     {
       $ID_COMP = (int)$_GET['ID_COMP'];  

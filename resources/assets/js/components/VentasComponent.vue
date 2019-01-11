@@ -7,8 +7,9 @@
                 </div>
                 <div class="card-body">
                    <div id="ridefac" style="display:none">
-                       
+                     
                    </div>
+                  <!--  <div id="idcaja" style="display:none"> </div> -->
                           <!--Inicio modal productos seleccionados para descuentos-->
                     <div   class="modal fade" id="modalnewCl" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-primary" role="document">
@@ -22,7 +23,7 @@
                                 <div class="modal-body">
 
 
-                                           <form name="formcl"> 
+                                <form name="formcl"> 
                                 <input type="hidden" id="id" value="">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">

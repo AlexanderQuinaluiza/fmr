@@ -7,6 +7,10 @@ use App\DenominacionDinero;
 use DB;
 class DenominacionDineroController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *

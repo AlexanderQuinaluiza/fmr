@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Presentaciones;
 class PresentacionController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *

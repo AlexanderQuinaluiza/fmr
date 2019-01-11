@@ -2,11 +2,34 @@
  * FUNCIONES PARA LA GESTIÓN DE devoluciones ventas
  */
 
+/** datos factura */
+function datosFac() {
+    var parametros = {
+        ID_USER: 1
+    };
+    axios.get('/ventas/cabecera', { params: parametros }).then(function (response) {
+        //  console.log(response.data); 
+       // $('#imglogofac').attr('src', response.data[0].LOGO_AGE);
+       // $('#rucfac').html('R.U.C ' + response.data[0].RUC_AGE);
+        //$('#numfac').html('001-00' + response.data[0].ID_AGE + '-00000###');
+        //$('#direccionfac').html('Dirección: ' + response.data[0].DIRECCION_AGE);
+        //$('#cajadesc').html(response.data[0].DESCRIPCION_CAJA);
+        $('#idcaja').html(response.data[0].ID_CAJA);
+        
+
+    })
+        .catch(function (error) {
+            toastr.error('Error en el servidor: ' + error, 'Error!');
+        });
+}
+
+datosFac();
 
 /** funcion carga los datos de una factura, segun el numero de comprobante */
 function cargarDatosFactura() {
     var num_venta = document.getElementById("NUM_FAC").value;
     getDatosFactura(num_venta);
+   
 }
 /** obtiene los datos de la factura, tantos cabecera como detalles*/
 function getDatosFactura(num_venta) {
@@ -38,6 +61,8 @@ function noexisteVenta() {
 }
 /**funcion qu carga los datos de la factura */
 function crearFicha(datos, detalles) {
+  
+   
     var ficha = ' <h2>Factura: ' + datos[0].NUMERO_COM + '</h2>' +
         '<div class="col-md-6">' +
         '<div style="color: #000;">' +
@@ -81,8 +106,29 @@ function crearFicha(datos, detalles) {
 
     addRow(detalles);
     desactivarControles();
+    //var subtotal=(datos[0].SUBT_IVA * 1);
+   // calPorcentajeIva(subtotal,datos[0].IVA_VEN);
 }
+var iva=0;
 
+/**funcion obtener el valor del iva actual */
+function getSetting(key) {
+    $.ajax({
+        async: false,
+        cache: false,
+        dataType: "html",
+        type: 'GET',
+        url: "/settings",
+        data: { setting: key },
+        success: function (respuesta) {
+            iva =  parseFloat(respuesta.trim());
+           //document.getElementById("etiva").innerHTML="Tarifa "+toFixedTrunc( iva*100,0)+"%";
+        },
+        beforeSend: function () { },
+        error: function (objXMLHttpRequest) { }
+    });
+}
+getSetting('iva');
 function addRow(datos) {
     // var arraycodigos = new Array();
     // var existe=0;
@@ -321,16 +367,22 @@ function calcularTotales() {
                 subtotalcero += cantidad_dev * precioneto;
                 table.rows[i].cells[10].innerHTML =toFixedTrunc(cantidad_dev * precioneto,2);
             }
-            document.getElementById("tarcero").innerHTML = toFixedTrunc(subtotalcero,2);
+           /* document.getElementById("tarcero").innerHTML = toFixedTrunc(subtotalcero,2);
             document.getElementById("tariva").innerHTML = toFixedTrunc(subtotaliva,2);
             document.getElementById("iva_dev").innerHTML = toFixedTrunc(subtotaliva * 0.12,2);
             document.getElementById("total_dev").innerHTML =toFixedTrunc( subtotaliva * 1.12 + subtotalcero * 1,2);
+            */
+
+           document.getElementById("tarcero").innerHTML = toFixedTrunc(subtotalcero,2);
+           document.getElementById("tariva").innerHTML = toFixedTrunc(subtotaliva,2);
+           document.getElementById("iva_dev").innerHTML = toFixedTrunc(subtotaliva * iva,2);
+           document.getElementById("total_dev").innerHTML =toFixedTrunc( subtotaliva * (iva+1) + subtotalcero * 1,2);
         } else {
            // console.log("entro al check false");
            document.getElementById("tarcero").innerHTML = toFixedTrunc(subtotalcero,2);
            document.getElementById("tariva").innerHTML = toFixedTrunc(subtotaliva,2);
-            document.getElementById("iva_dev").innerHTML = toFixedTrunc(subtotaliva * 0.12,2);
-            document.getElementById("total_dev").innerHTML =toFixedTrunc(subtotaliva * 1.12 + subtotalcero* 1,2);
+            document.getElementById("iva_dev").innerHTML = toFixedTrunc(subtotaliva * iva,2);
+            document.getElementById("total_dev").innerHTML =toFixedTrunc(subtotaliva * (iva+1) + subtotalcero* 1,2);
         }
 
     }
@@ -351,7 +403,7 @@ function registrar() {
     var data = new FormData();
        
         data.append('detalles',JSON.stringify(productosDevolver()));
-        data.append('ID_USU',1);
+        data.append('ID_CAJA', $('#idcaja').html());
         data.append('ID_VEN',$('#NUM_FAC').val());
         data.append('TOTAL_DEV',$('#total_dev').html());
         data.append('IVA_DEV',$('#iva_dev').html());
@@ -415,7 +467,7 @@ function crearNotaCredito(cabecera,midev,misdetalles){
     var contenido= '<div class="card" style="width: 20rem;">'+
     '<div class="card-body">'+          
     '<div><center> <b> FARMACIA COMUNITARIA PUYO </b></center> </div>'+    
-        ' <center><div>R.U.C:'+ cabecera[0].RUC_AGE+' </div>  </center>'+
+        ' <center><div>'+ cabecera[0].RUC_AGE+' </div>  </center>'+
         ' <center><div>'+ cabecera[0].DIRECCION_AGE+' </div>  </center>'+
           '<div id="numfac">Nota de Crédito: 0000'+midev[0].NUMERO_COM+'</div>'+ 
           '<div id="numfac">Factura Modificada: 000'+midev[0].NUM_FAC+'</div>'+ 
@@ -452,7 +504,7 @@ function crearNotaCredito(cabecera,midev,misdetalles){
                 '</tr>'+
                  '<tr>'+
                     
-                    '<td class="datosv">Tarifa iva</td>'+
+                    '<td class="datosv">Tarifa iva </td>'+
                     '<td class="datosv">'+document.getElementById("tariva").innerHTML+'</td>'+
                 '</tr>'+
                 '<tr>'+
@@ -467,7 +519,7 @@ function crearNotaCredito(cabecera,midev,misdetalles){
                 '</tr>'+
        ' </table>'+
        ' <hr>'+
-        '<div class="datosv" style="font-size: smaller;">Atendido por:'+'UsuarioLogin'+' </div>'+
+        '<div class="datosv" style="font-size: smaller;">Atendido por:'+ document.getElementById("h6UserName").innerHTML+' </div>'+
        ' <div class="datosv" style="font-size: smaller;">'+cabecera[0].DESCRIPCION_CAJA+'</div>'+
        '</div>'+
     '</div>';

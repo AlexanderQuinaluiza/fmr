@@ -51,7 +51,7 @@
                         <ul class="sub-menu children dropdown-menu">
                         <li v-if="item.SECCION=='Compras'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
-                            <i   v-bind:class="[item.ICONO_MOD]" ></i>
+                            <i   v-bind:clas     Categoríass="[item.ICONO_MOD]" ></i>
                                <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
                              
                            </li>

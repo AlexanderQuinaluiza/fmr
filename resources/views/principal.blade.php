@@ -453,7 +453,7 @@ tr.shown td.details-control:before {
     <!-- Right Panel -->
   </div>
   </div>
-  <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
 
     
   <!-- -->

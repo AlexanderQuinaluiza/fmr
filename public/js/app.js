@@ -1443,7 +1443,7 @@ Vue.component('reportedevventas_comp', __webpack_require__(188));
 var app = new Vue({
     el: '#app',
     data: {
-        menu: 1,
+        menu: 0,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu: []
     },
@@ -43608,71 +43608,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43820,7 +43755,7 @@ var render = function() {
                                 [
                                   _c("th"),
                                   _vm._v(
-                                    ">\n                                                "
+                                    ">\n                                            "
                                   ),
                                   _vm._l(_vm.cabeceras, function(cabecera) {
                                     return _c("th", { key: cabecera }, [
@@ -44454,97 +44389,6 @@ var staticRenderFns = [
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("h6", { staticClass: "lineas" }, [
-                    _c("span", { staticClass: "lineas-contenido" }, [
-                      _vm._v("EJEMPLARES")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-row" }, [
-                    _c("div", { staticClass: "form-group col-md-4" }, [
-                      _c("label", [_vm._v("Código de Barra")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "CODIGO_BARRA",
-                          required: "",
-                          placeholder: "Código de barra",
-                          maxlength: "100"
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group col-md-4" }, [
-                      _c("label", [_vm._v("Fecha caducidad")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          "data-date-format": "yyyy/mm/dd",
-                          id: "FECHA_CADUCIDAD",
-                          placeholder: "yyyy/mm/dd",
-                          maxlength: "12"
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c("label", [_vm._v(" ")]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          attrs: { type: "button", id: "btnAddCodigoBarra" }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-barcode" }),
-                          _vm._v(" Añadir Código Barra")
-                        ]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      {
-                        staticClass:
-                          "table table-bordered table-striped table-hover dataTable js-exportable",
-                        attrs: { id: "tabla-codigo-barras" }
-                      },
-                      [
-                        _c(
-                          "thead",
-                          {
-                            staticStyle: {
-                              color: "#fff",
-                              background: "#546e7a"
-                            }
-                          },
-                          [
-                            _c("tr", [
-                              _c("th", [_vm._v("#")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Código Barras")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Caducidad")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Acciones")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("tbody")
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
                   _c("div", { staticClass: "row clearfix div-error" }, [
                     _c("ul", { attrs: { id: "lstErroresEditItem" } })
                   ])
@@ -44565,7 +44409,11 @@ var staticRenderFns = [
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: { type: "button", id: "btnModificarItem" }
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      id: "btnModificarItem"
+                    }
                   },
                   [
                     _c("span", { staticClass: "fa fa-floppy-o" }),
@@ -45042,7 +44890,7 @@ var staticRenderFns = [
             },
             [
               _c("i", { staticClass: "fa fa-floppy-o fa-lg" }),
-              _vm._v(" \n                                              "),
+              _vm._v(" \n                                          "),
               _c("span", [_vm._v("Finalizar Compra")])
             ]
           )
@@ -45403,6 +45251,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var agencia = document.createElement("script");
     agencia.setAttribute("src", "assets/js/lib/data-table/agencia.js");
     document.head.appendChild(agencia);
+
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -46446,6 +46298,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var datatable = document.createElement("script");
     datatable.setAttribute("src", "assets/js/lib/data-table/cierreCaja.js");
     document.head.appendChild(datatable);
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -46640,7 +46495,11 @@ var staticRenderFns = [
                           "button",
                           {
                             staticClass: "btn btn-primary",
-                            attrs: { type: "button", id: "btnOK" }
+                            attrs: {
+                              type: "button",
+                              "data-dismiss": "modal",
+                              id: "btnOK"
+                            }
                           },
                           [
                             _c("span", { staticClass: "fa fa-check" }),
@@ -47844,6 +47703,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var datatable = document.createElement("script");
     datatable.setAttribute("src", "assets/js/lib/data-table/datatableCierresCaja-init.js");
     document.head.appendChild(datatable);
+
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -48110,7 +47973,11 @@ var staticRenderFns = [
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: { type: "button", id: "btnOK" }
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      id: "btnOK"
+                    }
                   },
                   [
                     _c("span", { staticClass: "fa fa-check" }),
@@ -51711,6 +51578,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -51722,6 +51595,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var datatable = document.createElement("script");
     datatable.setAttribute("src", "assets/js/lib/data-table/datatableMovimientoCaja-init.js");
     document.head.appendChild(datatable);
+
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -51924,6 +51801,13 @@ var staticRenderFns = [
                   maxlength: "255"
                 }
               })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group col-md-3" }, [
+              _c("label", [_vm._v("Seleccione la caja:")]),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { attrs: { id: "divCajas" } })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group col-md-2 text-center" }, [
@@ -52183,12 +52067,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {};
     },
-    mounted: function mounted() {
-
-        var datatable = document.createElement('script');
-        datatable.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js');
-        document.head.appendChild(datatable);
-    }
+    mounted: function mounted() {}
 });
 
 /***/ }),

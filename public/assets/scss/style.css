@@ -1053,7 +1053,7 @@ body.open .navbar .navbar-brand.hidden {
           display: block;
           font-size: 14px;
           max-width: inherit;
-          padding: 2px 15px 2px 25px;
+          /*padding: 2px 15px 2px 25px;*/
           width: 100%; }
           .open aside.left-panel .navbar .navbar-nav li.menu-item-has-children .sub-menu li a .menu-icon {
             text-align: center; }
@@ -1212,15 +1212,15 @@ header .form-inline {
     background: transparent;
     border: none;
     color: #272c33;
-    font-size: 16px; }
+    font-size: 25px; }
     .header-left .dropdown .dropdown-toggle:after {
       display: none; }
     .header-left .dropdown .dropdown-toggle .count {
       border-radius: 50%;
       color: #fff;
-      font-size: 11px;
-      height: 15px;
-      width: 15px;
+      font-size: 15px;
+      height: 20px;
+      width: 20px;
       line-height: 15px;
       right: 0;
       top: 0;

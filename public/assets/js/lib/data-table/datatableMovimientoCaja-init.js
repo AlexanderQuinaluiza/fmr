@@ -2,6 +2,37 @@
  * FUNCIONES PARA LA GESTIÓN DE MOVIMIENTOS DE CAJA
  */
 
+ /**
+ * Permite mostrar las cajas disponibles en controles tipo radiobuttom
+ */
+function getCajas()
+{
+    var url = '/cajas';
+    var ESTADO_CAJA = 0;
+    var itemsRadioCajas = '';
+    var numeroRadios = 0;
+    axios.get(url).then(function (response) {
+        $.each(response.data.data,function(key,value){
+            ESTADO_CAJA = value.ESTADO;
+            if(ESTADO_CAJA>0)
+            {
+                var DESCRIPCION_CAJA = value.DESCRIPCION_CAJA;
+                var ID_CAJA = value.ID_CAJA;
+                var itemRadio='<div class="form-check"><label class="toggle"><input hidden type="radio" name="radioCaja" value="'+ID_CAJA+'" class="radioBtnCaja"> <span class="label-text">'+DESCRIPCION_CAJA+'</span></label></div>';
+                itemsRadioCajas+=itemRadio;
+                numeroRadios++;
+            }
+        });
+        $('#divCajas').append(itemsRadioCajas);
+        //si existe una única caja marque por defecto
+        if(numeroRadios==1)
+        $('.radioBtnCaja').prop('checked',true);
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 /**
  * Permite el registro de un movimiento de caja
  */
@@ -13,10 +44,12 @@ function registrar() {
     var VALOR_MOV = $('#VALOR_MOV').val().trim();
     var DESCRIPCION_MOV = $('#DESCRIPCION_MOV').val().trim();
     var TIPO_MOV = $('input[name=radioMovCaja]:checked', '#formulario').val();
+    var ID_CAJA = $('input[name=radioCaja]:checked', '#formulario').val();
     axios.post('/movimientos/registrar', {
         'VALOR_MOV':VALOR_MOV,
         'DESCRIPCION_MOV':DESCRIPCION_MOV,
-        'TIPO_MOV':TIPO_MOV
+        'TIPO_MOV':TIPO_MOV,
+        'ID_CAJA':ID_CAJA
         }).then(function (response) {
         if (response.data>0) {
             toastr.success('Registrado correctamente!');
@@ -96,9 +129,12 @@ function validarDatos() {
     var VALOR_MOV = $('#VALOR_MOV').val().trim();
     var DESCRIPCION_MOV = $('#DESCRIPCION_MOV').val().trim();
     var TIPO_MOV = $('input[name=radioMovCaja]:checked', '#formulario').val();
+    var ID_CAJA = $('input[name=radioCaja]:checked', '#formulario').val();
     if (!VALOR_MOV || VALOR_MOV == 0) errorMostrarMsj.push("Ingrese valor para movimiento de caja");
     if (!DESCRIPCION_MOV) errorMostrarMsj.push("Ingrese descripción para movimiento de caja");
+    if (!ID_CAJA || ID_CAJA==0) errorMostrarMsj.push("Seleccione una caja");
     if (!TIPO_MOV || TIPO_MOV==0) errorMostrarMsj.push("Seleccione un tipo de movimiento de caja");
+    
     if (errorMostrarMsj.length) {
         $('#lstErrores').empty();
         error = 1;
@@ -118,6 +154,7 @@ function validarDatos() {
 //----------------------------------INICIALIZACIÓN DE MÉTODOS-------------------------
 //tab activo por defecto
 cambiarTab(0, 0, 0, 0);
+getCajas();
 $('#btnGuardarMov').click(function () {
     registrar();
 });

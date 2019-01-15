@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Categorias;
+use App\Http\Requests; 
 use Illuminate\Http\Request;
 
 class CategoriasController extends Controller
@@ -13,8 +14,15 @@ class CategoriasController extends Controller
     }
     public function index()
     {  
-        $categorias=Categorias::All();
-        return response()->json(['data'=>$categorias],200);
+        if(Request::ajax()){
+            return "AJAX";
+        }
+        return "HTTP";
+
+      
+
+        // $categorias=Categorias::All();
+        // return response()->json(['data'=>$categorias],200);
     }
 
     public function categoriasActivas()
@@ -22,7 +30,6 @@ class CategoriasController extends Controller
         $categorias=Categorias::All()->where('ESTADO_CAT','=',1);
         return response()->json(['data'=>$categorias],200);
     }
-
 
     public function categoriaById()
     {

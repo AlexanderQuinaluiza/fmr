@@ -81,9 +81,7 @@
             mounted() {          
             
 
-              let datatable = document.createElement('script')
-            datatable.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js')
-            document.head.appendChild(datatable)
+           
 
            
             }

@@ -1443,7 +1443,7 @@ Vue.component('reportedevventas_comp', __webpack_require__(188));
 var app = new Vue({
     el: '#app',
     data: {
-        menu: 16,
+        menu: 0,
         id_usuario: parseInt($('#idUsuario').val()),
         mi_menu: []
     },
@@ -43608,70 +43608,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43819,7 +43755,7 @@ var render = function() {
                                 [
                                   _c("th"),
                                   _vm._v(
-                                    ">\n                                                "
+                                    ">\n                                            "
                                   ),
                                   _vm._l(_vm.cabeceras, function(cabecera) {
                                     return _c("th", { key: cabecera }, [
@@ -44133,7 +44069,11 @@ var staticRenderFns = [
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: { type: "button", id: "btnAgregarProveedor" }
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      id: "btnAgregarProveedor"
+                    }
                   },
                   [
                     _c("span", { staticClass: "fa fa-floppy-o" }),
@@ -44469,7 +44409,11 @@ var staticRenderFns = [
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: { type: "button", id: "btnModificarItem" }
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      id: "btnModificarItem"
+                    }
                   },
                   [
                     _c("span", { staticClass: "fa fa-floppy-o" }),
@@ -44946,7 +44890,7 @@ var staticRenderFns = [
             },
             [
               _c("i", { staticClass: "fa fa-floppy-o fa-lg" }),
-              _vm._v(" \n                                              "),
+              _vm._v(" \n                                          "),
               _c("span", [_vm._v("Finalizar Compra")])
             ]
           )
@@ -45307,6 +45251,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var agencia = document.createElement("script");
     agencia.setAttribute("src", "assets/js/lib/data-table/agencia.js");
     document.head.appendChild(agencia);
+
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -46350,6 +46298,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var datatable = document.createElement("script");
     datatable.setAttribute("src", "assets/js/lib/data-table/cierreCaja.js");
     document.head.appendChild(datatable);
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -46544,7 +46495,11 @@ var staticRenderFns = [
                           "button",
                           {
                             staticClass: "btn btn-primary",
-                            attrs: { type: "button", id: "btnOK" }
+                            attrs: {
+                              type: "button",
+                              "data-dismiss": "modal",
+                              id: "btnOK"
+                            }
                           },
                           [
                             _c("span", { staticClass: "fa fa-check" }),
@@ -47748,6 +47703,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var datatable = document.createElement("script");
     datatable.setAttribute("src", "assets/js/lib/data-table/datatableCierresCaja-init.js");
     document.head.appendChild(datatable);
+
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -48014,7 +47973,11 @@ var staticRenderFns = [
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: { type: "button", id: "btnOK" }
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      id: "btnOK"
+                    }
                   },
                   [
                     _c("span", { staticClass: "fa fa-check" }),
@@ -51615,6 +51578,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -51626,6 +51595,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var datatable = document.createElement("script");
     datatable.setAttribute("src", "assets/js/lib/data-table/datatableMovimientoCaja-init.js");
     document.head.appendChild(datatable);
+
+    var validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 });
 
@@ -51830,6 +51803,13 @@ var staticRenderFns = [
               })
             ]),
             _vm._v(" "),
+            _c("div", { staticClass: "form-group col-md-3" }, [
+              _c("label", [_vm._v("Seleccione la caja:")]),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", { attrs: { id: "divCajas" } })
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "form-group col-md-2 text-center" }, [
               _c("label", [_vm._v("Tipo")]),
               _vm._v(" "),
@@ -52015,10 +51995,79 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-   data: function data() {},
-   mounted: function mounted() {}
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {}
 });
 
 /***/ }),
@@ -52029,9 +52078,175 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" })
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "carousel slide",
+        attrs: { id: "demo", "data-ride": "carousel" }
+      },
+      [
+        _c("div", { staticClass: "col-sm-5" }, [
+          _c("div", { staticClass: "card text-white bg-flat-color-1" }, [
+            _c("div", { staticClass: "card-body pb-0" }, [
+              _c("h4", { staticClass: "mb-0" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "count",
+                    staticStyle: { "font-size": "25px" }
+                  },
+                  [_c("strong", [_vm._v("Misión")])]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  staticClass: "text-light",
+                  staticStyle: { "text-align": "justify", "font-size": "18px" }
+                },
+                [
+                  _vm._v(
+                    "\n                        Subvencionar al bienestar de los ciudadanos de esta manera \n                        ofrecemos el mejor servicio farmacéutico con productos de \n                        alta calidad para el cuidado de la salud de nuestros clientes.\n\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
+            _c("div", { staticClass: "card-body pb-0" }, [
+              _c("h4", { staticClass: "mb-0" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "count",
+                    staticStyle: { "font-size": "25px" }
+                  },
+                  [_c("strong", [_vm._v("Visión")])]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  staticClass: "text-light",
+                  staticStyle: { "text-align": "justify", "font-size": "18px" }
+                },
+                [
+                  _vm._v(
+                    "\n                            Ser una farmacia líder, reconocida y distinguida \n                            en el mundo farmacéutico de toda la provincia de \n                            Pastaza, por la calidad y el compromiso con nuestros \n                            clientes, logrando así una mejor posición del mercado y \n                            poder enfrentar mercados nacionales e internacionales.\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "carousel slide",
+            attrs: { id: "carouselExampleIndicators", "data-ride": "carousel" }
+          },
+          [
+            _c("ol", { staticClass: "carousel-indicators" }, [
+              _c("li", {
+                staticClass: "active",
+                attrs: {
+                  "data-target": "#carouselExampleIndicators",
+                  "data-slide-to": "0"
+                }
+              }),
+              _vm._v(" "),
+              _c("li", {
+                attrs: {
+                  "data-target": "#carouselExampleIndicators",
+                  "data-slide-to": "1"
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "carousel-inner" }, [
+              _c("div", { staticClass: "carousel-item active" }, [
+                _c("img", {
+                  staticClass: "d-block w-100",
+                  attrs: {
+                    src: "images/img2.png",
+                    alt: "First slide",
+                    width: "1000",
+                    height: "400"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "carousel-item" }, [
+                _c("img", {
+                  staticClass: "d-block w-100",
+                  attrs: {
+                    src: "images/img1.jpg",
+                    alt: "Second slide",
+                    width: "1000",
+                    height: "400"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "carousel-control-prev",
+                attrs: {
+                  href: "#carouselExampleIndicators",
+                  role: "button",
+                  "data-slide": "prev"
+                }
+              },
+              [
+                _c("span", {
+                  staticClass: "carousel-control-prev-icon",
+                  attrs: { "aria-hidden": "true" }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "carousel-control-next",
+                attrs: {
+                  href: "#carouselExampleIndicators",
+                  role: "button",
+                  "data-slide": "next"
+                }
+              },
+              [
+                _c("span", {
+                  staticClass: "carousel-control-next-icon",
+                  attrs: { "aria-hidden": "true" }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
+              ]
+            )
+          ]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

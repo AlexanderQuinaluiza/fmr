@@ -3,7 +3,9 @@
   <!-- <template v-if="menu==0">
         <h3>Contenido dashboard, summary</h3>
        </template> -->
-       
+       <template v-if="menu==0">       
+            <escritorio_comp></escritorio_comp> 
+      </template>
           <template v-if="menu==1"> 
             
         <categoria_comp></categoria_comp> 
@@ -75,13 +77,10 @@
         <reporteventas_comp></reporteventas_comp>
         </template>
         <template v-if="menu==21">
-        <!-- <reporte_compras_comp></reporte_compras_comp> -->
         <estadistica_compras_comp></estadistica_compras_comp>
         </template>
 
-         <!-- <template v-if="menu==22">
-        <estadistica_compras_comp></estadistica_compras_comp>
-        </template> -->
+       
         </template> 
          <template v-if="menu==23">
          <configuracion_comp></configuracion_comp>

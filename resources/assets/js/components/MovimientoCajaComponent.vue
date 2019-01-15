@@ -41,6 +41,12 @@
                                                 <label>Descripción</label>
                                                 <input type="text" id="DESCRIPCION_MOV" required class="form-control" placeholder="Descripción movimiento" maxlength="255">
                                             </div>
+
+                                              <div class="form-group col-md-3">                                          
+                                                <label>Seleccione la caja:</label><br>
+                                                <div id="divCajas"></div>   
+                                             </div>
+
                                             <div class="form-group col-md-2 text-center">
                                                 <label>Tipo</label>
                                                 <i class="fa fa-question-circle" data-toggle="tooltip" title="Tipo de movimiento entrada o salida de dinero" style="color:#007bff"></i>
@@ -99,6 +105,10 @@ export default {
       "assets/js/lib/data-table/datatableMovimientoCaja-init.js"
     );
     document.head.appendChild(datatable);
+
+      let validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
 
   }
 };

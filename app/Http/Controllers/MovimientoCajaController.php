@@ -36,8 +36,8 @@ class MovimientoCajaController extends Controller
         $movimientoCaja->COMENTARIO = $request->DESCRIPCION_MOV;
         $movimientoCaja->TIPO = $request->TIPO_MOV;
         $movimientoCaja->ESTADO = 1;
-        $usuario = Usuarios::findOrFail(Auth::user()->ID_USU);
-        $movimientoCaja->CAJ_ID = $usuario->ID_CAJA;
+        //$usuario = Usuarios::findOrFail(Auth::user()->ID_USU);
+        $movimientoCaja->CAJ_ID = $request->ID_CAJA;
         $movimientoCaja->save();
 
         $cajas = Cajas::findOrFail($movimientoCaja->CAJ_ID);

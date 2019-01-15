@@ -89,46 +89,13 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>                               
-                                    <button type="button" class="btn btn-primary" id="btnAgregarProveedor" ><span class="fa fa-floppy-o"></span> Guardar</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAgregarProveedor" ><span class="fa fa-floppy-o"></span> Guardar</button>
                                 </div>
                             </div>
                         </div>
                     </div><!--fin modal agregar proveedor -->
 
-                    <!--inicio modal finalizar compra 
-                    <div class="modal fade" id="finCompraModal" tabindex="-1" role="dialog" aria-labelledby="finCompraModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-primary" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header modal-header-primary">
-                                    <h5 class="modal-title" id="finCompraModalLabel">PAGO COMPRA</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    	<form id="formFinCompra">
-				<div id="divCajasCompra">
-                <label>Seleccione la caja desde donde se va a realizar el pago:</label>
-
-                    
-				</div>
-                <br>
-                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Total pago compra:</label>
-                        <label style="font-weight:bold" id="TOTAL_PAGO_COMPRA"/>
-                    </div>
-                </div>			
-			</form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>                               
-                                    <button type="button" class="btn btn-primary" id="btnFinCompra" >
-                                        <span class="fa fa-money"></span> Finalizar Compra</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>fin modal finalizar compra -->
+                   
 
                     <!--inicio modal buscar pedidos -->
                     <div class="modal fade" id="buscarPedidosModal" tabindex="-1" role="dialog" aria-labelledby="buscarPedidosModalLabel" aria-hidden="true">
@@ -217,39 +184,8 @@
                                                 <label id="ultimoPrecioedit"></label>                                                       
                                             </div> 
                                         </div>
-                                    <!-- <h6 class="lineas"><span class="lineas-contenido">EJEMPLARES</span></h6>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-4">
-                                                <label>Código de Barra</label>
-                                                <input type="text" id="CODIGO_BARRA" required class="form-control" placeholder="Código de barra" maxlength="100">
-                                            
-                                            </div>
-                        
-
-                                           <div class="form-group col-md-4">
-                                                <label>Fecha caducidad</label>
-                                                 <input type="text" data-date-format="yyyy/mm/dd" id="FECHA_CADUCIDAD" class="form-control" placeholder="yyyy/mm/dd" maxlength="12">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>&nbsp;</label>  <br>                                            
-                                                <button type="button" id="btnAddCodigoBarra" class="btn btn-success"><i class="fa fa-barcode"></i> Añadir Código Barra</button>
-                                            </div>
-                                        </div>
-
-                                        <div class="table-responsive">
-                                            <table id="tabla-codigo-barras" class="table table-bordered table-striped table-hover dataTable js-exportable">
-                                                <thead style="color:#fff;background:#546e7a">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Código Barras</th>
-                                                        <th>Caducidad</th>
-                                                        <th>Acciones</th>                               
-                                                    </tr>
-                                                </thead>
-                                                <tbody>                                                
-                                                </tbody>
-                                            </table>                                
-                                        </div> -->
+                                        
+                                   
                                                                          
                                         <div class="row clearfix div-error">
                                                 <ul id="lstErroresEditItem"></ul>
@@ -259,7 +195,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>                                                                 
-                                     <button type="button" class="btn btn-primary" id="btnModificarItem" ><span class="fa fa-floppy-o"></span> Guardar</button>
+                                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnModificarItem" ><span class="fa fa-floppy-o"></span> Guardar</button>
                                 </div>
                             </div>
                         </div>

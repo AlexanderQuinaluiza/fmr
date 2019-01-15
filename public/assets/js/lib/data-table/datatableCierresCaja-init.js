@@ -234,7 +234,7 @@ $('#ddlCaja').change(function () {
         ID_CAJA=TOTAL=0;
         try {
             ID_CAJA = parseInt(items[0]);
-            TOTAL = parseInt(items[items.length-1]);
+            TOTAL = parseFloat(items[items.length-1]);
         } catch (error) {
             console.log('Error al leer datos para cierre de caja');
         }    

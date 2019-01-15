@@ -22,7 +22,7 @@
                             <li v-if="item.SECCION=='Almacén'" v-for="item in mi_menu" :key="mi_menu.ID_MOD">
                             
                              <i   v-bind:class="[item.ICONO_MOD]" ></i>
-                                <a  href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
+                                <a href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
                               
                             </li>
                            
@@ -145,14 +145,15 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
  
   
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.13.0/pivot.min.js"></script>
+<script type="text/javascript" src="assets/js/pivot.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.13.0/pivot.es.min.js"></script>
-<script type="text/javascript" src="https://pivottable.js.org/dist/c3_renderers.js"></script>
-<script type="text/javascript" src="https://pivottable.js.org/dist/export_renderers.js"></script>
+<script type="text/javascript" src="assets/js/c3_renderers.js"></script>
+<script type="text/javascript" src="assets/js/export_renderers.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 
 <script src="assets/js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
 <script src="assets/js/lib/bootstrap/es.js"></script>
+
 
 
 

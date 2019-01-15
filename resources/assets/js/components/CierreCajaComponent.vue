@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-info" data-dismiss="modal"><span class="fa fa-times"></span> Cerrar</button>
-                                     <button type="button" id="btnOK" class="btn btn-primary" ><span class="fa fa-check"></span> Aceptar</button>
+                                     <button type="button" data-dismiss="modal" id="btnOK" class="btn btn-primary" ><span class="fa fa-check"></span> Aceptar</button>
                                 </div>
                             </div>
                         </div>
@@ -127,6 +127,9 @@ export default {
     let datatable = document.createElement("script");
     datatable.setAttribute("src", "assets/js/lib/data-table/cierreCaja.js");
     document.head.appendChild(datatable);
+      let validacion = document.createElement("script");
+    validacion.setAttribute("src", "assets/js/lib/data-table/validaciones.js");
+    document.head.appendChild(validacion);
   }
 };
 </script>

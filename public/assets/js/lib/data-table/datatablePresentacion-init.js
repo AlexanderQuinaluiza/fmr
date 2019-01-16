@@ -51,7 +51,8 @@ function registrar()
         return;
     }
     axios.post('/presentaciones/registrar',{
-        'NOMBRE_PRS': $('#NOMBRE_PRS').val().trim()
+        'NOMBRE_PRS': $('#NOMBRE_PRS').val().trim(),
+        'CANT_EDIT':$('select[name=selector]').val().trim()
     }).then(function (response){
     tabla.ajax.reload();
     limpiarDatos();
@@ -73,7 +74,8 @@ function actualizar()
    }                   
    axios.post('/presentaciones/actualizar',{
        'ID_PRS': $('#id').val().trim(),
-       'NOMBRE_PRS':$('#NOMBRE_PRS').val().trim()
+       'NOMBRE_PRS':$('#NOMBRE_PRS').val().trim(),
+       'CANT_EDIT':$('select[name=selector]').val().trim()
    }).then(function (response){
    tabla.ajax.reload();
    toastr.info('Actualizado correctamente!')
@@ -143,6 +145,12 @@ function getRegistroById(idRegistro){
     axios.get(url, { params: { ID_PRS: idRegistro } }).then(function (response){
         $('#id').val(response.data.ID_PRS);
         $('#NOMBRE_PRS').val(response.data.NOMBRE_PRS);
+        $('#selector option').each(function(){
+            // alert('opcion '+$(this).text()+' valor '+ $(this).attr('value'))
+             if(response.data.CANT_EDIT==$(this).attr('value')){
+                 $('#selector').val(response.data.CANT_EDIT);
+             }
+          });
         $('#btnCancelarActualizar').show();                                                                                                                      
     })
     .catch(function (error) {
@@ -225,6 +233,7 @@ var tabla =   $('#bootstrap-data-table').DataTable(
           var buttons = '';       
           var btn = '';
           var labelEstado = '';
+          var labelCantidad='';
          for(var i=0;i< json.data.length; i++){
           var ID_PRS = json.data[i].ID_PRS;
            if(json.data[i].ESTADO_PRS>0)
@@ -235,12 +244,18 @@ var tabla =   $('#bootstrap-data-table').DataTable(
            else {
              btn = '<button type="button" onclick="activar('+ID_PRS+')" class="btn btn-success"><span class="fa fa-check"></span> Activar</button>';
              labelEstado = '<span  class="badge badge-danger">Inactivo</span>';
+           }
+           if(json.data[i].CANT_EDIT>0){
+             labelCantidad='<span  class="badge badge-warning">Manipulable</span>';
+           }else{
+            labelCantidad='<span  class="badge badge-info">Constante</span>';
            }          
            buttons = '<div class="btn-group btn-group-sm">'+
            '<button class="btn btn-primary" onclick="cambiarTab(1,'+ID_PRS+');"><span class="fa fa-pencil-square-o"></span> Editar</button>'+btn+'</div>';
            return_data.push({
              'ID_PRS': json.data[i].ID_PRS,
              'NOMBRE_PRS'  : json.data[i].NOMBRE_PRS,
+             'CANT_EDIT' : labelCantidad,
              'ESTADO_PRS' : labelEstado,
              'ACCIONES_PRS' : buttons
            })
@@ -251,6 +266,7 @@ var tabla =   $('#bootstrap-data-table').DataTable(
      "columns"    : [
        {'data': 'ID_PRS'},
        {'data': 'NOMBRE_PRS'},
+       {'data': 'CANT_EDIT'},
        {'data': 'ESTADO_PRS'},
        {'data': 'ACCIONES_PRS'}
      ],

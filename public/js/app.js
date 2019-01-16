@@ -35268,11 +35268,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            cabeceras: ["Id", "Nombre", "Estado", "Acciones"]
+            cabeceras: ["Id", "Nombre", "Cantidad", "Estado", "Acciones"]
         };
     },
     mounted: function mounted() {
@@ -35457,6 +35464,42 @@ var staticRenderFns = [
                   maxlength: "140"
                 }
               })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group col-md-6" }, [
+              _c("label", [_vm._v("Cantidad")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  staticClass: "form-control",
+                  attrs: { name: "selector", id: "selector", required: "" }
+                },
+                [
+                  _c(
+                    "option",
+                    {
+                      attrs: {
+                        value: "0",
+                        title:
+                          "No se puede manipular la cantidad al facturar el producto"
+                      }
+                    },
+                    [_vm._v("Constante")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: {
+                        value: "1",
+                        title: "Cantidad manipulable al facturar el producto"
+                      }
+                    },
+                    [_vm._v("Manipulable")]
+                  )
+                ]
+              )
             ])
           ]),
           _vm._v(" "),
@@ -52092,66 +52135,6 @@ var staticRenderFns = [
         attrs: { id: "demo", "data-ride": "carousel" }
       },
       [
-        _c("div", { staticClass: "col-sm-5" }, [
-          _c("div", { staticClass: "card text-white bg-flat-color-1" }, [
-            _c("div", { staticClass: "card-body pb-0" }, [
-              _c("h4", { staticClass: "mb-0" }, [
-                _c(
-                  "span",
-                  {
-                    staticClass: "count",
-                    staticStyle: { "font-size": "25px" }
-                  },
-                  [_c("strong", [_vm._v("Misión")])]
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "p",
-                {
-                  staticClass: "text-light",
-                  staticStyle: { "text-align": "justify", "font-size": "18px" }
-                },
-                [
-                  _vm._v(
-                    "\n                        Subvencionar al bienestar de los ciudadanos de esta manera \n                        ofrecemos el mejor servicio farmacéutico con productos de \n                        alta calidad para el cuidado de la salud de nuestros clientes.\n\n                        "
-                  )
-                ]
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-7" }, [
-          _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
-            _c("div", { staticClass: "card-body pb-0" }, [
-              _c("h4", { staticClass: "mb-0" }, [
-                _c(
-                  "span",
-                  {
-                    staticClass: "count",
-                    staticStyle: { "font-size": "25px" }
-                  },
-                  [_c("strong", [_vm._v("Visión")])]
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "p",
-                {
-                  staticClass: "text-light",
-                  staticStyle: { "text-align": "justify", "font-size": "18px" }
-                },
-                [
-                  _vm._v(
-                    "\n                            Ser una farmacia líder, reconocida y distinguida \n                            en el mundo farmacéutico de toda la provincia de \n                            Pastaza, por la calidad y el compromiso con nuestros \n                            clientes, logrando así una mejor posición del mercado y \n                            poder enfrentar mercados nacionales e internacionales.\n                        "
-                  )
-                ]
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
         _c(
           "div",
           {
@@ -52242,7 +52225,69 @@ var staticRenderFns = [
               ]
             )
           ]
-        )
+        ),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-5" }, [
+          _c("div", { staticClass: "card text-white bg-flat-color-1" }, [
+            _c("div", { staticClass: "card-body pb-0" }, [
+              _c("h4", { staticClass: "mb-0" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "count",
+                    staticStyle: { "font-size": "25px" }
+                  },
+                  [_c("strong", [_vm._v("Misión")])]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  staticClass: "text-light",
+                  staticStyle: { "text-align": "justify", "font-size": "18px" }
+                },
+                [
+                  _vm._v(
+                    "\n                        Subvencionar al bienestar de los ciudadanos de esta manera \n                        ofrecemos el mejor servicio farmacéutico con productos de \n                        alta calidad para el cuidado de la salud de nuestros clientes.\n\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-7" }, [
+          _c("div", { staticClass: "card text-white bg-flat-color-2" }, [
+            _c("div", { staticClass: "card-body pb-0" }, [
+              _c("h4", { staticClass: "mb-0" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "count",
+                    staticStyle: { "font-size": "25px" }
+                  },
+                  [_c("strong", [_vm._v("Visión")])]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  staticClass: "text-light",
+                  staticStyle: { "text-align": "justify", "font-size": "18px" }
+                },
+                [
+                  _vm._v(
+                    "\n                            Ser una farmacia líder, reconocida y distinguida \n                            en el mundo farmacéutico de toda la provincia de \n                            Pastaza, por la calidad y el compromiso con nuestros \n                            clientes, logrando así una mejor posición del mercado y \n                            poder enfrentar mercados nacionales e internacionales.\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
       ]
     )
   }

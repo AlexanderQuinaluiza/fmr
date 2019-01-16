@@ -46,6 +46,7 @@ class PresentacionController extends Controller
         $presentacion = new Presentaciones;
         $presentacion->NOMBRE_PRS = $request->NOMBRE_PRS;
         $presentacion->ESTADO_PRS = 1;
+        $presentacion->CANT_EDIT= $request->CANT_EDIT;
         $presentacion->save();
         return $presentacion;
     }
@@ -62,6 +63,7 @@ class PresentacionController extends Controller
     {
       $presentacion = Presentaciones::findOrFail($request->ID_PRS);
       $presentacion->NOMBRE_PRS = $request->NOMBRE_PRS;
+      $presentacion->CANT_EDIT= $request->CANT_EDIT;
       $presentacion->save();
     }
 

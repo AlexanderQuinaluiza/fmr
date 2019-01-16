@@ -9,5 +9,5 @@ class Presentaciones extends Model
   protected $table = 'PRESENTACIONES';
   protected  $primaryKey = 'ID_PRS';
   public $timestamps = false;
-  protected $fillable = ['NOMBRE_PRS','ESTADO_PRS'];
+  protected $fillable = ['NOMBRE_PRS','ESTADO_PRS','CANT_EDIT'];
 }

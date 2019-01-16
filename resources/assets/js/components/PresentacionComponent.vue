@@ -38,6 +38,13 @@
                                             <label>Nombre</label>
                                             <input type="text" id="NOMBRE_PRS" required class="form-control" placeholder="Nombre de presentación" maxlength="140">
                                         </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Cantidad</label>
+                                            <select name="selector" class="form-control" id="selector" required> 
+                                                 <option value="0" title="No se puede manipular la cantidad al facturar el producto">Constante</option>
+                                                 <option value="1" title="Cantidad manipulable al facturar el producto">Manipulable</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="row clearfix div-error">
                                             <ul id="lstErrores"></ul>
@@ -58,7 +65,7 @@
         export default {
             data(){
                 return{
-                   cabeceras : ["Id","Nombre","Estado","Acciones"]
+                   cabeceras : ["Id","Nombre","Cantidad","Estado","Acciones"]
                 }
             },
             mounted() {              

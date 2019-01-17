@@ -12,14 +12,15 @@ function getInventarioById(idRegistro) {
         var longitud = Object.keys(response.data.data).length;
         var CANTIDAD_PRO_COMPRA,VALOR_UNITARIO_COMPRA,VALOR_TOTAL_COMPRA ;
         var CANTIDAD_PRO_VENTA,VALOR_UNITARIO_VENTA, VALOR_TOTAL_VENTA ;
-
+        var mas='<span  class="badge badge-success">+</span>';
+        var menos='<span  class="badge badge-danger">-</span>';  
         var TIPO_ITEM = '';
         $('#tabla-inventario').dataTable().fnClearTable();
         for (var i = 0; i < longitud; i++) {
             TIPO_ITEM = response.data.data[i].TIPO_ITEM;
             switch (TIPO_ITEM) {
                 case 'compra':
-                CANTIDAD_PRO_COMPRA = response.data.data[i].CANTIDAD_PRO==null?0:response.data.data[i].CANTIDAD_PRO;
+                CANTIDAD_PRO_COMPRA = response.data.data[i].CANTIDAD_PRO==null?0:mas+' '+response.data.data[i].CANTIDAD_PRO;
                 VALOR_UNITARIO_COMPRA = response.data.data[i].VALOR==null?0:response.data.data[i].VALOR;
                 VALOR_TOTAL_COMPRA = response.data.data[i].TOTAL==null?0:response.data.data[i].TOTAL;
                 CANTIDAD_PRO_VENTA = '';
@@ -30,21 +31,21 @@ function getInventarioById(idRegistro) {
                 CANTIDAD_PRO_COMPRA = '';
                 VALOR_UNITARIO_COMPRA = '';
                 VALOR_TOTAL_COMPRA = '';
-                CANTIDAD_PRO_VENTA = response.data.data[i].CANTIDAD_PRO==null?0:response.data.data[i].CANTIDAD_PRO;
+                CANTIDAD_PRO_VENTA = response.data.data[i].CANTIDAD_PRO==null?0:menos+' '+response.data.data[i].CANTIDAD_PRO;
                 VALOR_UNITARIO_VENTA = response.data.data[i].VALOR==null?0:response.data.data[i].VALOR;
                 VALOR_TOTAL_VENTA = response.data.data[i].TOTAL==null?0:response.data.data[i].TOTAL;
                     break;
-                case 'venta':
+                case 'VENTA':
                 CANTIDAD_PRO_COMPRA = '';
                 VALOR_UNITARIO_COMPRA = '';
                 VALOR_TOTAL_COMPRA = '';
-                CANTIDAD_PRO_VENTA = response.data.data[i].CANTIDAD_PRO==null?0:response.data.data[i].CANTIDAD_PRO;
+                CANTIDAD_PRO_VENTA = response.data.data[i].CANTIDAD_PRO==null?0:menos+' '+ response.data.data[i].CANTIDAD_PRO;
                 VALOR_UNITARIO_VENTA = response.data.data[i].VALOR==null?0:response.data.data[i].VALOR;
                 VALOR_TOTAL_VENTA = response.data.data[i].TOTAL==null?0:response.data.data[i].TOTAL;
 
                     break;
-                case 'devolucion-venta':
-                CANTIDAD_PRO_COMPRA = response.data.data[i].CANTIDAD_PRO==null?0:response.data.data[i].CANTIDAD_PRO;
+                case 'Devolución venta':
+                CANTIDAD_PRO_COMPRA = response.data.data[i].CANTIDAD_PRO==null?0:mas+' '+response.data.data[i].CANTIDAD_PRO;
                 VALOR_UNITARIO_COMPRA = response.data.data[i].VALOR==null?0:response.data.data[i].VALOR;
                 VALOR_TOTAL_COMPRA = response.data.data[i].TOTAL==null?0:response.data.data[i].TOTAL;
                 CANTIDAD_PRO_VENTA = '';

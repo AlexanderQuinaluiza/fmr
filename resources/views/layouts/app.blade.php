@@ -13,7 +13,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
-    
+    <!-- google recaptcha -->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
     <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">

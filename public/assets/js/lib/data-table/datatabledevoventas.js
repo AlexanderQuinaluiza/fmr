@@ -769,4 +769,140 @@ var tabla = $('#table_devoventas').DataTable(
             }
         }
     });
+
+
+    function llenarDetallesDev(id){
+        // alert(id);
+        // $('#tabladescuentos_productos').html='';
+        
+          $('#tablaDevVentas').DataTable(
+             { 
+                 destroy: true,    
+                 
+                   'ajax': {
+                    "type"   : "GET",
+                    "data": { 
+                     "ID_DEV_VEN": id
+                     },
+                     "url"    : "devoventas/detalles",
+                     "dataSrc": function (json) {
+                      var return_data = new Array();
+                      // alert(json.data);
+                      var labelIva= '';
+                      for(var i=0;i< json.data.length; i++){
+
+                        if (json.data[i].APLICA_IVA_PRO>0) {
+                            labelIva='<span  class="badge badge-success">Si</span>';
+                        }else{
+                            labelIva='<span  class="badge badge-danger">No</span>';
+
+                        }
+                       // "Id dev.","Descripción","Cantidad dev","P. unitario","A. Iva","Subtotal"
+                       // ID_DET_DEV_VEN, PRODUCTO, CANTIDAD, PRECIO_VEN, SUBTOTAL, DESCRIPCION_PRO, APLICA_IVA_PRO, OBS
+                         return_data.push({
+                          'ID_DET_DEV_VEN': json.data[i].ID_DET_DEV_VEN,
+                          'DESCRIPCION_PRO'  : json.data[i].DESCRIPCION_PRO,
+                          'CANTIDAD'  : json.data[i].CANTIDAD,
+                          'PRECIO_VEN'  : json.data[i].PRECIO_VEN,
+                          'APLICA_IVA_PRO'  : labelIva,
+                          'SUBTOTAL': json.data[i].SUBTOTAL,
+                          //'ESTADO_PRO' : labelEstado,
+                          //'ACCIONES_PRO' : btnVerDetalles,
+                          //'SELECCIONAR': checkbox
+                        })
+                      }
+                      return return_data;
+                    }
+                  },
+                  "columns"    : [
+                   // {'data':'SELECCIONAR'},
+                    {'data': 'ID_DET_DEV_VEN'},
+                    {'data': 'DESCRIPCION_PRO'},
+                    {'data': 'CANTIDAD' },
+                    {'data': 'PRECIO_VEN'},
+                    {'data': 'APLICA_IVA_PRO'},
+                    {'data': 'SUBTOTAL'},
+                    
+                   
+                    //{'data': 'ACCIONES_PRO'}
+                  ],
+                     dom: 'lBfrtip',
+                     lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "Todo"]],
+                     buttons: [
+                       {
+                             extend:    'copyHtml5',
+                             text:      '<i class="fa fa-files-o"></i> Copiar',
+                             titleAttr: 'Copiar',
+                             exportOptions: {
+                               columns: 'th:not(:last-child)'
+                           }
+                         },
+                         {
+                             extend:    'excelHtml5',
+                             text:      '<i class="fa fa-file-excel-o"></i> Excel',
+                             titleAttr: 'Excel',
+                             exportOptions: {
+                               columns: 'th:not(:last-child)'
+                           }
+                         },
+                         {
+                             extend:    'csvHtml5',
+                             text:      '<i class="fa fa-file-text-o"></i> CSV',
+                             titleAttr: 'CSV',
+                             exportOptions: {
+                               columns: 'th:not(:last-child)'
+                           }
+                         },
+                         {
+                             extend:    'pdfHtml5',
+                             text:      '<i class="fa fa-file-pdf-o"></i> PDF',
+                             titleAttr: 'PDF',
+                             title: 'Listado de'+$('#titulo').text(),
+                             exportOptions: {
+                               columns: 'th:not(:last-child)'
+                           }
+                         },
+                         {
+                             extend:    'print',
+                             text:      '<i class="fa fa-print"></i> Imprimir',
+                             titleAttr: 'Imprimir',
+                             title: 'Listado de'+$('#titulo').text(),
+                             className: 'btn btn-info btn-xs',
+                             exportOptions: {
+                               columns: 'th:not(:last-child)'
+                           }
+                         }
+                     ],
+                     "language": {
+                         
+                         "sProcessing":    "Procesando...",
+                         "sLengthMenu":    "Mostrar _MENU_ registros",
+                         "sZeroRecords":   "No se encontraron resultados",
+                         "sEmptyTable":    "Ningún dato disponible en esta tabla",
+                         "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                         "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                         "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+                         "sInfoPostFix":   "",
+                         "sSearch":        "Buscar:",
+                         "sUrl":           "",
+                         "sInfoThousands":  ",",
+                         "sLoadingRecords": "Cargando...",
+                         "oPaginate": {
+                             "sFirst":    "Primero",
+                             "sLast":    "Último",
+                             "sNext":    "Siguiente",
+                             "sPrevious": "Anterior"
+                         },
+                         "oAria": {
+                             "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                         }
+                     }
+             });
+             
+     }
+   function detalles(id){
+    document.getElementById("mediumModalLabel").innerHTML = "Detalles de la devolución con ID: ["+id+"]"; 
+    llenarDetallesDev(id);
+   }
 $('.table').attr('style', 'width:100%');

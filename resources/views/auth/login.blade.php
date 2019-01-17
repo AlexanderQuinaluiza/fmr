@@ -23,9 +23,10 @@
                                     </span>
                             @endif
                         </div>
+                        <div class="g-recaptcha" data-sitekey="6LddqIoUAAAAANvtJ2-aIoxRKwmASIEaB4N4tzxm"></div>
                         <div class="checkbox">
-                            <label class="pull-right">
-                                <a href="reset">Olvidó su contraseña?</a>
+                            <label class="pull-right" >
+                                <a href="reset" style="color:#0366d6;">¿Olvidó su contraseña?</a>
                             </label>
 
                         </div>

@@ -771,12 +771,12 @@ function registrar() {
         limpiarDatos();
         //$('#btncerrar').click();
         toastr.success('Registrado correctamente!, continue facturando');
-       
+        //$('#btnGuardar').attr("data-dismiss","modal");
         //$('#btnGuardar').modal('hide');
         //jQuery('#modalnewCl').modal('toggle');
         //$('.close').click(); 
         //$('#modalnewCl').hide();
-       //  $('#modalnewCl').attr("aria-hidden","true");
+       // $('#modalnewCl').attr("aria-hidden","true");
         //$('.modal-backdrop').hide();
        
     })
@@ -785,6 +785,7 @@ function registrar() {
            // $('#btnGuardar').attr("data-dismiss","");
             toastr.error('No se ha podido guardar el registro.', 'Error!')
         });
+        
 }
 
 /** funcion enable controles, finalizar venta */
@@ -1058,8 +1059,8 @@ function addRow(datos) {
             case 4:
 
                 // cell.innerHTML=toFixedTrunc(1,2);
-                if (datos.data[0].ID_PRS == 1 || datos.data[0].ID_PRS == 3 || datos.data[0].ID_PRS == 4 || datos.data[0].ID_PRS == 5 || datos.data[0].ID_PRS == 6)
-                    cell.innerHTML = '<input class="form-control form-control-sm" required type="number" placeholder="" min="1.00" max="' + datos.data[0].STOCK_PRO + '" step="1.00" value="1.00" onchange="recalcularFila(' + datos.data[0].ID_PRO + ');"></input>';
+                if (datos.data[0].CANT_EDIT>0)
+                    cell.innerHTML = '<input class="form-control form-control-sm" required type="number" placeholder="" min="1.00" max="' + datos.data[0].STOCK_PRO + '" step="1.00" value="1.00" onchange="recalcularFila(' + datos.data[0].ID_PRO + ');" pattern="^[0-9]+"></input>';
                 else
                     //cell.name="simpecant"; 
                     cell.innerHTML = 1;
@@ -1124,7 +1125,7 @@ function VerificarProdExiste(datos) {
             var id_prod = table.rows[i].cells[1].innerHTML;
             if (datos.data[0].ID_PRO == id_prod) {
                 cont = cont + 1;
-                if (datos.data[0].ID_PRS == 1 || datos.data[0].ID_PRS == 3 || datos.data[0].ID_PRS == 4 || datos.data[0].ID_PRS == 5 || datos.data[0].ID_PRS == 6) {
+                if (datos.data[0].CANT_EDIT > 0 ) {
                     var cantidad = table.rows[i].cells[4].getElementsByTagName("input")[0].value;
                     cantidad = toFixedTrunc(cantidad, 2);
                     document.getElementById("table_detalles").rows[i].cells[4].getElementsByTagName("input")[0].value = toFixedTrunc(cantidad * 1 + 1, 2);
@@ -1312,4 +1313,4 @@ function getSetting(key) {
     });
 }
 getSetting('iva');
-//$('#table').attr('style','width:auto');
+$('.table').attr('style','width:100%');

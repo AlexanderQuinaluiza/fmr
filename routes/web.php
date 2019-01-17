@@ -199,6 +199,8 @@ Route::get('denominacionDinero', 'DenominacionDineroController@index');
 Route::get('devoventas', 'DevolucionesVentasController@index');
 Route::get('devoventas/datosfac', 'DevolucionesVentasController@datosComprobante');
 Route::post('devoventas/registrar', 'DevolucionesVentasController@store');
+Route::get('devoventas/detalles', 'DevolucionesVentasController@detallesDevVentas');
+
 Route::get('send/email', 'PedidoController@mail');
 Route::post('enviarCorreoPedidoNoGuardado', 'PedidoController@enviarCorreoPedidoNoGuardado');
 Route::post('enviarCorreoPedidoGuardado', 'PedidoController@enviarCorreoPedidoGuardado');

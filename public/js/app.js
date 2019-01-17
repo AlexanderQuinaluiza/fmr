@@ -34011,6 +34011,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -34062,37 +34064,39 @@ var render = function() {
                   [
                     _c("br"),
                     _vm._v(" "),
-                    _c(
-                      "table",
-                      {
-                        staticClass:
-                          "table table-bordered table-striped table-hover dataTable js-exportable",
-                        attrs: { id: "bootstrap-data-table" }
-                      },
-                      [
-                        _c(
-                          "thead",
-                          {
-                            staticStyle: {
-                              color: "#fff",
-                              background: "#546e7a"
-                            }
-                          },
-                          [
-                            _c(
-                              "tr",
-                              _vm._l(_vm.cabeceras, function(cabecera) {
-                                return _c("th", { key: cabecera }, [
-                                  _vm._v(_vm._s(cabecera))
-                                ])
-                              })
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("tbody")
-                      ]
-                    )
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c(
+                        "table",
+                        {
+                          staticClass:
+                            "table table-bordered table-striped table-hover dataTable js-exportable",
+                          attrs: { id: "bootstrap-data-table" }
+                        },
+                        [
+                          _c(
+                            "thead",
+                            {
+                              staticStyle: {
+                                color: "#fff",
+                                background: "#546e7a"
+                              }
+                            },
+                            [
+                              _c(
+                                "tr",
+                                _vm._l(_vm.cabeceras, function(cabecera) {
+                                  return _c("th", { key: cabecera }, [
+                                    _vm._v(_vm._s(cabecera))
+                                  ])
+                                })
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("tbody")
+                        ]
+                      )
+                    ])
                   ]
                 ),
                 _vm._v(" "),
@@ -41020,8 +41024,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -41353,134 +41355,149 @@ var staticRenderFns = [
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("form", { attrs: { name: "formcl" } }, [
-                  _c("input", {
-                    attrs: { type: "hidden", id: "id", value: "" }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-row" }, [
-                    _c("div", { staticClass: "form-group col-md-6" }, [
-                      _c("label", [_vm._v("Cédula/RUC")]),
+                _c(
+                  "form",
+                  { attrs: { name: "formcl", onsubmit: "return false;" } },
+                  [
+                    _c("input", {
+                      attrs: { type: "hidden", id: "id", value: "" }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-row" }, [
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", [_vm._v("Cédula/RUC")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "RUC/CED",
+                              id: "CED_RUC_CLI",
+                              onkeyup: "onlyvalidarcedula();",
+                              maxlength: "13",
+                              autofocus: "",
+                              autocomplete: "true",
+                              onfocus: "this.select()",
+                              pattern: "[0-9]+",
+                              title: "Solo se permiten numeros"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", {
+                            staticClass: "input-group-append",
+                            attrs: { id: "indruc" }
+                          })
+                        ])
+                      ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "input-group mb-3" }, [
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", [_vm._v("Nombre")]),
+                        _vm._v(" "),
                         _c("input", {
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            placeholder: "RUC/CED",
-                            id: "CED_RUC_CLI",
-                            onkeyup: "onlyvalidarcedula();",
-                            maxlength: "13",
-                            autofocus: "",
-                            autocomplete: "true",
-                            onfocus: "this.select()"
+                            id: "NOMBRE_CLI",
+                            maxlength: "90",
+                            placeholder: "Nombre",
+                            required: "",
+                            title: "Es necesario llenar el campo Nombre"
                           }
-                        }),
-                        _vm._v(" "),
-                        _c("div", {
-                          staticClass: "input-group-append",
-                          attrs: { id: "indruc" }
                         })
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group col-md-6" }, [
-                      _c("label", [_vm._v("Nombre")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "NOMBRE_CLI",
-                          maxlength: "90",
-                          placeholder: "Nombre"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-row" }, [
-                    _c("div", { staticClass: "form-group col-md-6" }, [
-                      _c("label", { attrs: { for: "inputPassword4" } }, [
-                        _vm._v("Apellido")
+                    _c("div", { staticClass: "form-row" }, [
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", { attrs: { for: "inputPassword4" } }, [
+                          _vm._v("Apellido")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "APELLIDO_CLI",
+                            maxlength: "90",
+                            placeholder: "Apellido",
+                            required: "",
+                            title: "Es necesario llenar el campo Apellidos"
+                          }
+                        })
                       ]),
                       _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "APELLIDO_CLI",
-                          maxlength: "90",
-                          placeholder: "Apellido"
-                        }
-                      })
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", [_vm._v("Teléfono")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "tel",
+                            id: "TELEFONO_CLI",
+                            maxlength: "10",
+                            pattern: "\\([0-9]{3}\\) [0-9]{3}[ -][0-9]{4}",
+                            placeholder: "Teléfono",
+                            required: "",
+                            title: "El teléfono no es valido"
+                          }
+                        })
+                      ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group col-md-6" }, [
-                      _c("label", [_vm._v("Teléfono")]),
+                    _c("div", { staticClass: "form-row" }, [
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", [_vm._v("Dirección")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "DIRECCION_CLI",
+                            maxlength: "140",
+                            placeholder: "Dirección",
+                            required: ""
+                          }
+                        })
+                      ]),
                       _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "TELEFONO_CLI",
-                          maxlength: "10",
-                          placeholder: "Teléfono"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-row" }, [
-                    _c("div", { staticClass: "form-group col-md-6" }, [
-                      _c("label", [_vm._v("Dirección")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "DIRECCION_CLI",
-                          maxlength: "140",
-                          placeholder: "Dirección"
-                        }
-                      })
+                      _c("div", { staticClass: "form-group col-md-6" }, [
+                        _c("label", [_vm._v("Correo electrónico")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "email",
+                            id: "CORREO_CLI",
+                            maxlength: "100",
+                            placeholder: "Correo electrónico",
+                            pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
+                          }
+                        })
+                      ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group col-md-6" }, [
-                      _c("label", [_vm._v("Correo electrónico")]),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "form-control",
+                    _c("div", { staticClass: "row clearfix div-error" }, [
+                      _c("ul", { attrs: { id: "lstErrores" } })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
                         attrs: {
-                          type: "text",
-                          id: "CORREO_CLI",
-                          maxlength: "100",
-                          placeholder: "Correo electrónico"
+                          type: "submit",
+                          id: "btnGuardar",
+                          onclick: "registrar();"
                         }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row clearfix div-error" }, [
-                    _c("ul", { attrs: { id: "lstErrores" } })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: {
-                        type: "button",
-                        id: "btnGuardar",
-                        onclick: "registrar();"
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "fa fa-floppy-o" }),
-                      _vm._v(" Guardar")
-                    ]
-                  )
-                ])
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-floppy-o" }),
+                        _vm._v(" Guardar")
+                      ]
+                    )
+                  ]
+                )
               ])
             ])
           ]
@@ -41555,14 +41572,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-row" }, [
       _c("div", { staticClass: "form-group col-md-4" }, [
-        _c("label", [_vm._v("RUC/CED")]),
+        _c("label", [_vm._v("RUC/CED/PASAPORTE")]),
         _vm._v(" "),
         _c("div", { staticClass: "input-group mb-3" }, [
           _c("input", {
             staticClass: "form-control",
             attrs: {
               type: "text",
-              placeholder: "RUC/CED",
+              placeholder: "RUC/CED/PASAPORTE",
               id: "RUC",
               onkeyup: "validarcedula();",
               maxlength: "13",
@@ -46773,7 +46790,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.div-error {\n  display: flex;\n  justify-content: center;\n}\n", ""]);
+exports.push([module.i, "\n.div-error{\ndisplay: flex;\njustify-content: center;\n}\n.lblProducto{\n    font-weight:bold;\n    margin-bottom:0px;\n}\n.datoProducto{\n   margin-bottom:0px;\n}\n.modal-header-primary {\n\tcolor:#fff;\n    padding:9px 15px;\n    border-bottom:1px solid #eee;\n    background-color: #17a2b8;\n    -webkit-border-top-left-radius: 5px;\n    -webkit-border-top-right-radius: 5px;\n    -moz-border-radius-topleft: 5px;\n    -moz-border-radius-topright: 5px;\n     border-top-left-radius: 5px;\n     border-top-right-radius: 5px;\n}\n", ""]);
 
 // exports
 
@@ -46962,12 +46979,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       //ID_DEV_VEN, ID_VEN, ID_USU, TOTAL_DEV, IVA_DEV, SUBT_IVA, SUBT_CERO, OBSERVACION_DEV, FECHA_DEV
-      cabeceras: ["Id", "#Factura", "Fecha Venta", "Motivo", "Valor Devuelto", "Fecha Dev.", "#N.C.", "Acciones"]
+      cabeceras: ["Id", "#Factura", "Fecha Venta", "Motivo", "Valor Devuelto", "Fecha Dev.", "#N.C.", "Acciones"],
+      cabeceras_dev_ventas: ["Id dev.", "Descripción", "Cantidad dev", "P. unitario", "A. Iva", "Subtotal"]
     };
   },
   mounted: function mounted() {
@@ -47001,10 +47024,76 @@ var render = function() {
             attrs: { id: "idcaja" }
           }),
           _vm._v(" "),
-          _vm._m(1),
+          _c(
+            "div",
+            {
+              staticClass: "modal fade",
+              attrs: {
+                id: "mediumModal",
+                tabindex: "-1",
+                role: "dialog",
+                "aria-labelledby": "mediumModalLabel",
+                "aria-hidden": "true"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog modal-lg modal-primary",
+                  attrs: { role: "document" }
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body" }, [
+                      _c("div", { staticClass: "table-responsive" }, [
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-bordered table-striped table-hover dataTable js-exportable",
+                            attrs: { id: "tablaDevVentas" }
+                          },
+                          [
+                            _c(
+                              "thead",
+                              {
+                                staticStyle: {
+                                  color: "#fff",
+                                  background: "#546e7a"
+                                }
+                              },
+                              [
+                                _c(
+                                  "tr",
+                                  _vm._l(_vm.cabeceras_dev_ventas, function(
+                                    cabecera
+                                  ) {
+                                    return _c("th", { key: cabecera }, [
+                                      _vm._v(_vm._s(cabecera))
+                                    ])
+                                  })
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("tbody")
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ])
+                ]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c("div", { staticClass: "custom-tab" }, [
-            _vm._m(2),
+            _vm._m(3),
             _vm._v(" "),
             _c(
               "div",
@@ -47062,7 +47151,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _vm._m(3)
+                _vm._m(4)
               ]
             )
           ])
@@ -47090,80 +47179,40 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "mediumModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "mediumModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "modal-dialog modal-lg modal-primary",
-            attrs: { role: "document" }
-          },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header modal-header-primary" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "mediumModalLabel" }
-                  },
-                  [_vm._v("DETALLE ROL")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("div", { staticClass: "form-row" }, [
-                  _c("div", { staticClass: "form-group col-md-12" }, [
-                    _c("label", { attrs: { id: "lblNombreRol" } }),
-                    _vm._v(" "),
-                    _c("ul", { attrs: { id: "lstModulos" } })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Cerrar")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "modal-header modal-header-primary" }, [
+      _c("h5", {
+        staticClass: "modal-title",
+        attrs: { id: "mediumModalLabel" }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-info",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Cerrar")]
+      )
+    ])
   },
   function() {
     var _vm = this

@@ -14,15 +14,15 @@ class CategoriasController extends Controller
     }
     public function index()
     {  
-        if(Request::ajax()){
-            return "AJAX";
-        }
-        return "HTTP";
+       // if(Request::ajax()){
+          //  return "AJAX";
+      //  }
+       // return "HTTP";
 
       
 
-        // $categorias=Categorias::All();
-        // return response()->json(['data'=>$categorias],200);
+        $categorias=Categorias::All();
+         return response()->json(['data'=>$categorias],200);
     }
 
     public function categoriasActivas()

@@ -50,6 +50,17 @@
 
  <!-- fin external libs from cdnjs for pivotjtable -->
 <style>
+    .user-area .user-menu {
+        background: #ece3e3;
+    }
+    .open aside.left-panel .navbar .navbar-nav li.menu-item-has-children .sub-menu li a {
+    display: block;
+    font-size: 14px;
+    max-width: inherit;
+    /*padding: 2px 15px 2px 25px;*/
+    width: 100%;
+    padding-left: 21px;
+}
 .container .details-row td {
   padding: 0;
   margin: 0;
@@ -381,7 +392,8 @@ tr.shown td.details-control:before {
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="images/img1.jpg" alt="Usuario actual">
                         </a>
-                        
+                       <!-- <h6 id="h6UserName" class="float-left" style="padding-top: 12px;padding-right: 10px;"> 
+                            <input id="idUsuario" value="{{ Auth::user()->ID_USU }}" type="hidden" > {{ Auth::user()->NOMBRE_USU }} {{ Auth::user()->APELLIDO_USU }} <span class="badge badge-success" id="spanRol"></span> </h6> -->
                         <div class="user-menu dropdown-menu">
                                 <!-- <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
@@ -389,8 +401,9 @@ tr.shown td.details-control:before {
 
                                 <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a> -->
 
-                                <a class="nav-link" href="{{ route('logout') }}"><i class="fa fa-power -off"></i>Cerrar sesión</a>
+                                <a class="nav-link" href="{{ route('logout') }}"><i class="fa fa-sign-out"></i>  Cerrar sesión</a>
                         </div>
+                       
                     </div>
 
                     <!-- <div class="language-select dropdown" id="language-select">

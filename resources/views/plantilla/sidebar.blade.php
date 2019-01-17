@@ -25,10 +25,6 @@
                                 <a href="javascript: void(0)" @click="menu=item.URL_MOD" v-text="item.NOMBRE_MOD"></a>
                               
                             </li>
-                            <li>
-                            <i  class="fa fa-question-circle" ></i>
-                            <a href="javascript: void(0)" @click="menu=0" >  Acerca de</a>
-                            </li>
                         </ul>
                     </li>
                   

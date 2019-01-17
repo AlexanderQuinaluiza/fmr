@@ -22,17 +22,22 @@
             <div class="modal-dialog modal-lg modal-primary" role="document">
               <div class="modal-content">
                 <div class="modal-header modal-header-primary">
-                  <h5 class="modal-title" id="mediumModalLabel">DETALLE ROL</h5>
+                  <h5 class="modal-title" id="mediumModalLabel"></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <div class="form-row">
-                    <div class="form-group col-md-12">
-                      <label id="lblNombreRol"></label>
-                      <ul id="lstModulos"></ul>
-                    </div>
+                  <div class="table-responsive">
+                    <table id="tablaDevVentas" class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <thead style="color:#fff;background:#546e7a">
+                                    <tr>
+                                        <th v-for="cabecera in cabeceras_dev_ventas" :key="cabecera">{{ cabecera }}</th>                                      
+                                    </tr>
+                                </thead>
+                                <tbody>                                                
+                                </tbody>
+                             </table>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -190,7 +195,8 @@ export default {
         "Fecha Dev.",
         "#N.C.",
         "Acciones"
-      ]
+      ],
+      cabeceras_dev_ventas:["Id dev.","Descripción","Cantidad dev","P. unitario","A. Iva","Subtotal"]
     };
   },
   mounted() {
@@ -204,9 +210,30 @@ export default {
 };
 </script>
 <style>
-.div-error {
-  display: flex;
-  justify-content: center;
+.div-error{
+display: flex;
+justify-content: center;
+}
+.lblProducto{
+    font-weight:bold;
+    margin-bottom:0px;
+}
+.datoProducto{
+   margin-bottom:0px;
+}
+.modal-header-primary {
+	color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #17a2b8;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
 }
 </style>
+
+
 

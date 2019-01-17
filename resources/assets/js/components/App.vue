@@ -18,8 +18,8 @@
                             <input type="password" class="form-control" placeholder="Password">
                         </div>
                         <div class="checkbox">
-                            <label class="pull-right">
-                                <a href="#">Olvidó su contraseña?</a>
+                            <label class="pull-right" style="color:#0366d6;">
+                                <a href="#" >¿Olvidó su contraseña?</a>
                             </label>
 
                         </div>

@@ -17,7 +17,8 @@
                         </nav>
                         <div class="tab-content pl-3 pt-2" id="nav-tabContent">
                             <div class="tab-pane fade" id="listado" role="tabpanel" aria-labelledby="listado-tab">
-                                <br>                          
+                                <br>   
+                                <div class="table-responsive">                       
                                 <table id="bootstrap-data-table" class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead style="color:#fff;background:#546e7a">
                                         <tr>
@@ -26,7 +27,8 @@
                                     </thead>
                                     <tbody>                                                              
                                     </tbody>
-                                </table>                          
+                                </table> 
+                                </div>                         
                             </div>                       
                             <div class="tab-pane fade" id="editar" role="tabpanel" aria-labelledby="editar-tab">
                                 <br>

@@ -53,6 +53,14 @@ class DevolucionesVentasController extends Controller
        return $cabecera;
 
     }
+    public function detallesDevVentas(){
+        $id= (int) $_GET['ID_DEV_VEN'];
+        $valores =DB::select(' call spSelectDetallesDevVentas("'.$id.'")');
+        // return $apertura;
+        return response()->json(['data'=>$valores],200);
+      // return $valores;
+       
+    }
     public function datosCabeceraNC($id_dev){
         
         $valores =DB::select('call spSelectDevolucionValores("'.$id_dev.'")');

@@ -94,7 +94,7 @@ public function productoEjemplar()
         'p.LOTE_PRO','p.LABORATORIO_PRO','p.ESTADO_PRO','p.FECHA_REGISTRO_PRO',
         'p.TIPO_PRO','p.PRECIO_PROMOCIONAL_PRO','p.VENTA_CON_RECETA',
         'u.NOMBRE_USU','u.APELLIDO_USU','m.NOMBRE_MAR as MARCA_PRO','pr.NOMBRE_PRS as PRESENTACION_PRO',
-        'c.NOMBRE_CAT as CATEGORIA_PRO','e.COD_BARRAS_EJM')
+        'c.NOMBRE_CAT as CATEGORIA_PRO','e.COD_BARRAS_EJM','pr.CANT_EDIT')
         ->join('MARCAS as m','p.ID_MAR','=','m.ID_MAR')
         ->join('PRESENTACIONES as pr','p.ID_PRS','=','pr.ID_PRS')
         ->join('CATEGORIAS as c','p.ID_CAT','=','c.ID_CAT')
@@ -109,6 +109,7 @@ public function productoEjemplar()
     }
        return response()->json(['data'=>$producto],200);
 }
+
 /** metodo que se usa en el modulo  de descuentos */
     public function productoDescuentos()
     {

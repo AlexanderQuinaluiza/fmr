@@ -95,7 +95,7 @@ class HomeController extends Controller
 
     if($estado==0)
     {
-        Session::flash('mensaje-error', 'No ha sido posible enviar el correo electrónico con la nueva contraseña a la siguiente dirección: '.$CORREO);
+        Session::flash('mensaje-error', 'No ha sido posible enviar el correo electrónico con la nueva contraseña a la siguiente dirección: '.$CORREO.' Recuerde que solo se podra enviar el código al correo que fue ingresado en el sistema.');
         return redirect("reset");
     }
     else

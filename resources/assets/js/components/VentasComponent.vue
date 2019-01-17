@@ -21,15 +21,13 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-
-
-                                <form name="formcl"> 
+                                <form name="formcl" onsubmit="return false;"> 
                                 <input type="hidden" id="id" value="">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Cédula/RUC</label>
                                         <div class="input-group mb-3">
-                  <input  type="text" class="form-control" placeholder="RUC/CED" id="CED_RUC_CLI" onkeyup="onlyvalidarcedula();" maxlength="13"  autofocus autocomplete="true" onfocus="this.select()">
+                  <input  type="text" class="form-control" placeholder="RUC/CED" id="CED_RUC_CLI" onkeyup="onlyvalidarcedula();" maxlength="13"  autofocus autocomplete="true" onfocus="this.select()" pattern="[0-9]+" title="Solo se permiten numeros">
                   <div class="input-group-append" id="indruc">
     
                   </div>
@@ -38,35 +36,35 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Nombre</label>
-                                        <input type="text" id="NOMBRE_CLI" maxlength="90" class="form-control" placeholder="Nombre">
+                                        <input type="text" id="NOMBRE_CLI" maxlength="90" class="form-control" placeholder="Nombre"  required title="Es necesario llenar el campo Nombre">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputPassword4">Apellido</label>
-                                        <input type="text" id="APELLIDO_CLI" maxlength="90" class="form-control" placeholder="Apellido">
+                                        <input type="text" id="APELLIDO_CLI" maxlength="90" class="form-control" placeholder="Apellido" required title="Es necesario llenar el campo Apellidos">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Teléfono</label>
-                                        <input type="text" id="TELEFONO_CLI" maxlength="10" class="form-control" placeholder="Teléfono">
+                                        <input type="tel" id="TELEFONO_CLI" maxlength="10" pattern="\([0-9]{3}\) [0-9]{3}[ -][0-9]{4}" class="form-control" placeholder="Teléfono" required title="El teléfono no es valido">
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Dirección</label>
-                                        <input type="text" id="DIRECCION_CLI" maxlength="140" class="form-control" placeholder="Dirección">
+                                        <input type="text" id="DIRECCION_CLI" maxlength="140" class="form-control" placeholder="Dirección" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Correo electrónico</label>
-                                        <input type="text" id="CORREO_CLI" maxlength="100" class="form-control"  placeholder="Correo electrónico">
+                                        <input type="email" id="CORREO_CLI" maxlength="100" class="form-control"  placeholder="Correo electrónico" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
                                     </div>
                                 </div>
   
                                     <div class="row clearfix div-error">
                                             <ul id="lstErrores"></ul>
                                     </div>                                                             
-                                    <button type="button" id="btnGuardar"  class="btn btn-primary" onclick="registrar();" ><i class="fa fa-floppy-o"></i> Guardar</button>
+                                    <button type="submit" id="btnGuardar"  class="btn btn-primary" onclick="registrar();" ><i class="fa fa-floppy-o"></i> Guardar</button>
                                    
                                     <!--<button type="button" id="btnCancelarActualizar" class="btn btn-warning"><i class="fa fa-times"></i> Cancelar</button>-->
                                 </form>             
@@ -145,14 +143,14 @@
   <div class="card-body">
    <div class="form-row">
                                         <div class="form-group col-md-4">
-                                             <label>RUC/CED</label>
+                                             <label>RUC/CED/PASAPORTE</label>
                                             
                                             
                                            <!-- <input type="text" id="RUC_AGE" required class="form-control" placeholder="RUC" maxlength="13"  @change="validarcedula()" width="auto"><span class="fa fa-check"></span>-->
                                             
 
  <div class="input-group mb-3">
-  <input  type="text" class="form-control" placeholder="RUC/CED" id="RUC" onkeyup="validarcedula();" maxlength="13" value="9999999999999" autofocus autocomplete="true" onfocus="this.select()">
+  <input  type="text" class="form-control" placeholder="RUC/CED/PASAPORTE" id="RUC" onkeyup="validarcedula();" maxlength="13" value="9999999999999" autofocus autocomplete="true" onfocus="this.select()">
   <div class="input-group-append" id="rucced">
     
   </div>
